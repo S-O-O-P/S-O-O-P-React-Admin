@@ -9,7 +9,6 @@
 .member-table-container {
   margin: 20px auto;
   width: calc(100% - 85px) !important;
-  max-width: 1400px;
 }
 
 .header-container {
