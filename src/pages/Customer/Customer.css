@@ -1,0 +1,48 @@
+.member-table-container {
+  margin: 20px;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  justify-content: space-between;
+}
+
+.table-title {
+  margin-right: 20px;
+  padding-right: 20px;
+  background-color: white;
+  color: black;
+  width: 201px;
+  height: 32px;
+  
+}
+
+.table-content {
+  background-color: #FFB755;
+}
+
+.search-field {
+  width: 302px;
+  height: 40px;
+  top: -10px;
+  border-color: #FFB755;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+  font-weight: bold;
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}

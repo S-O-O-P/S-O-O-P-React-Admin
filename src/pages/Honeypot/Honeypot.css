@@ -1,0 +1,40 @@
+.honeypot-main {
+    flex-grow: 1;
+    background-color: var(--background-default);
+    padding: 24px;
+  }
+  
+  .honeypot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .honeypot-search {
+    display: flex;
+    align-items: center;
+  }
+  
+  .honeypot-search-input {
+    margin-right: 16px;
+  }
+  
+  .honeypot-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  
+  .status-cell {
+    display: inline-block;
+    padding: 10px 25px;
+    border: 2px solid #FFB755;
+    border-radius: 15px;
+    color: #FFB755;
+    font-weight: bold;
+    text-align: center;
+   
+
+  }
+  

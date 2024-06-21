@@ -1,0 +1,122 @@
+.container {
+  display: flex;
+  height: 100%;
+}
+
+.sidebar {
+  position: relative;
+  top: 0;
+  left: -8px;
+  width: 140px; /* Adjust width as needed */
+  height: 100%;
+  background-color: #FFF; /* Adjust background color as needed */
+  /* Allow sidebar to scroll if content overflows */
+}
+
+.sidebar-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.sidebar-logo {
+  width: 60px;
+  height: 60px; /* Adjust logo size as needed */
+  margin-bottom: 38px;
+}
+
+.sidebar-role-user {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.sidebar-role {
+  background-color: #FFB755;
+  color: white;
+  padding: 1px 3px;
+  border-radius: 16px; /* Adjust to make it rounder */
+  margin-right: 8px;
+  width: 50px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center the text both horizontally and vertically */
+  font-size: 0.7rem; /* Adjusted font size */
+}
+
+.sidebar-user {
+  padding-left: 5px;
+  font-size: 0.7rem; /* Adjusted font size */
+}
+
+.sidebar-logout-container {
+  color: white;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  background-color: #FFB755;
+  border-radius: 16px; /* Adjust to make it rounder */
+  padding: 4px 8px;
+  width: 100px;
+  height: 30px;
+  justify-content: center;
+}
+
+.sidebar-logout {
+  color: white; /* Set text color to white */
+  text-transform: none; /* Keep text capitalization as is */
+  border: none; /* Remove default button border */
+  background: none; /* Remove default button background */
+  font-size: 0.875rem; /* Adjust font size */
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+}
+
+.sidebar-logout img {
+  width: 16px; /* Adjust icon size as needed */
+  margin-left: 8px; /* Add space between text and image */
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar-menu .MuiListItem-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 13px;
+  width: 100%;
+  color: black;
+}
+
+.sidebar-menu .MuiListItem-root img {
+  margin-bottom: 8px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.vertical-line {
+  position: fixed;
+  top: 0;
+  left: 140px;
+  width: 4px; /* Adjust width as needed */
+  height: 100vh; /* Full height */
+  background-color: #FFB755; /* Adjust color as needed */
+}
+
+.content {
+  margin-left: 144px; /* Adjust based on sidebar width and vertical line */
+  width: calc(100% - 144px); /* Adjust width to accommodate sidebar */
+  height: 100%;
+  overflow-y: auto; /* Allow content area to scroll */
+  padding: 16px; /* Adjust padding as needed */
+}

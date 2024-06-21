@@ -1,0 +1,67 @@
+
+.customer-detail-container {
+    margin-top: 180px; /* Adjust the value to shift the component down as needed */
+  }
+
+.customer-detail-grid {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.detail-group {
+    margin-bottom: 30px; /* 카테고리별 간격 추가 */
+}
+
+.detail-label {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.detail-value {
+    margin-bottom: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc; /* 밑줄 추가 */
+}
+
+
+.profile-content {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    padding-right: 220px
+}
+
+.profile-picture {
+    width: 300px;
+    height: 300px;
+    border: 1px dashed #FFB755;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+   
+    
+}
+
+
+.button-container {
+    display: flex; 
+    justify-content: flex-end;
+    margin-top: 20px !important; 
+    margin-left: 15px !important;
+}
+
+.cancel-button {
+    border-color: #FFB755 !important;
+    color: #FFB755 !important;
+}
+
+.confirm-button {
+    border-color: #FFB755 !important;
+    color: white !important;
+    margin-left: 15px !important;
+    background-color: #FFB755 !important;
+}
+
+
+ 

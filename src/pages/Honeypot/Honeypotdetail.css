@@ -1,0 +1,102 @@
+.honeypot-detail-container {
+  padding-top: 24px;
+  flex-grow: 1;
+  width: 100%;
+  background-color: var(--background-default);
+}
+
+.honeypot-detail-info {
+  margin-bottom: 40px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+   border-bottom: 1px solid #FFB755;
+   margin-top: 40px;
+   align-items: center;
+}
+
+.detail-item .MuiTypography-body2 {
+  margin-left: 10px;
+}
+
+
+
+.honeypot-detail-divider {
+  border-bottom: 1px solid #FFB755;
+  margin: 50px 0 !important;
+ 
+}
+
+.honeypot-detail-description {
+  margin: 50px 0 !important;
+}
+
+
+
+
+.honeypot-detail-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 300px !important;
+  border-top: 1px solid #FFB755;
+  padding-top: 20px; /* Adjust this value to increase/decrease the gap */
+}
+
+.honeypot-right-buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.honeypot-action-button-outline {
+  color: #FFB755 !important;
+  border-color: #FFB755 !important;
+}
+
+.honeypot-action-button-contained {
+  background-color: #FFB755 !important;
+  color: white !important;
+  margin-left: 15px !important;
+  border-color: #FFB755 !important;
+}
+
+.honeypot-action-button-contained:hover {
+  background-color: #FFA726 !important; /* Slightly darker shade for hover */
+}
+
+
+
+/* Custom dialog styles */
+.custom-dialog-content {
+text-align: center !important; 
+}
+
+.dialog-icon {
+width: 40px !important;
+height: 40px !important;
+margin-bottom: 10px !important;
+}
+
+.dialog-text {
+margin-bottom: 20px !important;
+color: black !important;
+}
+
+.custom-dialog-actions {
+justify-content: center !important;
+}
+
+.custom-cancel-button {
+border: 1px solid #FFB755 !important;
+color: #FFB755 !important;
+margin-right: 10px !important;
+}
+
+.custom-confirm-button {
+background-color: #FFB755 !important;
+color: #fff !important;
+}
