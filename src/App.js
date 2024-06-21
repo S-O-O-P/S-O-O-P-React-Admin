@@ -11,27 +11,24 @@ import '../src/pages/Customer/Customerdetail.css';
 import '../src/pages/Honeypot/Honeypot.css';
 import '../src/pages/Honeypot/Honeypotdetail.css';
 import { GlobalStyles } from '@mui/material';
-import Sidebar from './components/commons/Sidebar';
-export default function App() {
+import Layout from './layouts/Layout'; // Layout 경로 추가
 
+export default function App() {
     return (
-   <>      
-    <GlobalStyles/>
-      <BrowserRouter>
-         <div style={{ display: 'flex' }}>
-        <Sidebar />
-        <div style={{ flex: 1, padding: '16px', overflowY: 'auto',height:'100%' }}>
-          <Routes>
-            <Route index element={<Dashboard />} />
-            <Route path="/home" element={<Dashboard />} />
-            <Route path="/customer" element={<Customer />} />
-            <Route path="/customer/:id" element={<CustomerDetail />} />
-            <Route path='/honeypot' element={<Honeypot />} />
-            <Route path="/honeypot/:no" element={<HoneypotDetail />} />
-          </Routes>
-        </div>
-      </div>
-      </BrowserRouter>
-     </>
+      <>      
+        <GlobalStyles/>
+        <BrowserRouter>
+          <Layout>
+            <Routes>
+              <Route index element={<Dashboard />} />
+              <Route path="/home" element={<Dashboard />} />
+              <Route path="/customer" element={<Customer />} />
+              <Route path="/customer/:id" element={<CustomerDetail />} />
+              <Route path='/honeypot' element={<Honeypot />} />
+              <Route path="/honeypot/:no" element={<HoneypotDetail />} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </>
     );
 }

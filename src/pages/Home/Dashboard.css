@@ -1,27 +1,33 @@
-/* Cell colors */
-.MuiTableCell-head {
-  background-color: #FFB755;
-  color: white;
-  font-weight: bold;
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: calc(100% - 85px) !important;
+  height: 100%;
+  padding: 16px;
+  overflow: hidden;
 }
 
-/* Today’s honeypot color */
 .dashboard-header {
   margin-bottom: 16px;
   display: flex;
   background-color: #FFB755;
   align-items: center;
   color: white;
-  width: 780px;
+  width: 594px;
   height: 40px;
   border-radius: 15px;
   justify-content: space-between;
-  width: 48.2%;
   padding-left: 10px;
   padding-right: 10px;
 }
 
-/* Chart colors */
+.MuiTableCell-head {
+  background-color: #FFB755;
+  color: white;
+  font-weight: bold;
+}
+
 .chart-title {
   background-color: #FFB755;
   color: white;
@@ -33,7 +39,6 @@
   align-items: center;
 }
 
-/* Matching counts and others */
 .info-title {
   background-color: #FFB755;
   color: white;
@@ -53,51 +58,52 @@
 
 .dashboard-info-container {
   display: flex;
-  gap: 23px; /* Space between .dashboard-info elements */
+  gap: 23px;
+  flex-grow: 1;
 }
 
 .dashboard-info {
-  width: 624px;
-  height: 267px;
+  flex-grow: 1;
   border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .info-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 55%;
+  width: 100%;
 }
 
 .horizontal-line {
   width: 100%;
   height: 1px;
   background-color: black;
-  margin: 8px;
+  margin: 8px 0;
 }
 
-/* Report reception details and others */
 .table-title-container {
   background-color: #FFB755;
   padding: 8px;
-  border-top-left-radius: 15px; /* Adjust the radius value as needed */
+  border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 }
 
-/* Report reception details and others in white */
 .table-title {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;/* Ensure the pseudo-element is positioned relative to this container */
+  position: relative;
 }
 
 .table-title::after {
   content: '';
   position: absolute;
   bottom: -8px;
-  left: -800px; /* Adjust this value to extend the border to the left */
-  right: -800px; /* Adjust this value to extend the border to the right */
+  left: -800px;
+  right: -800px;
   border-bottom: 1px solid white;
 }

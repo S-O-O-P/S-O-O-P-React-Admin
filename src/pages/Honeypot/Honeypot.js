@@ -2,29 +2,10 @@ import React, { useState, useEffect } from 'react';
 import HoneypotTable from '../../components/admin/HoneypotTable';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Honeypot.css';
-import { Box, Typography, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination, Checkbox, Button } from '@mui/material';
+import { Box, Typography, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination, Button } from '@mui/material';
 
 const initialRows = [
-  { no: 37, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 3, status: '활성화' },
-  { no: 36, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 35, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 34, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 33, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 32, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 31, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 30, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 29, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 28, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 27, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 26, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 25, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 24, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 23, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 22, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 21, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 20, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 19, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
-  { no: 18, title: 'XX 같이 볼사람 1', date: '2024-06-03', report: 0, status: '활성화' },
+  // Your initial rows data here
 ];
 
 function Honeypot() {
@@ -36,8 +17,6 @@ function Honeypot() {
     const savedRows = localStorage.getItem('rows');
     return savedRows ? JSON.parse(savedRows) : initialRows;
   });
-
-  const [selectedRows, setSelectedRows] = useState([]);
 
   // Get the current page number from the URL query parameters
   const query = new URLSearchParams(location.search);
@@ -75,28 +54,6 @@ function Honeypot() {
     navigate(`/honeypot/${no}`, { state: { from: location.pathname + location.search, status } });
   };
 
-  const handleSelectRow = (no) => {
-    setSelectedRows(prevSelectedRows =>
-      prevSelectedRows.includes(no)
-        ? prevSelectedRows.filter(selectedNo => selectedNo !== no)
-        : [...prevSelectedRows, no]
-    );
-  };
-
-  const handleToggleSelected = () => {
-    const newStatus = rows.find(row => selectedRows.includes(row.no) && row.status === '활성화')
-      ? '비활성화'
-      : '활성화';
-    setRows(prevRows =>
-      prevRows.map(row =>
-        selectedRows.includes(row.no)
-          ? { ...row, status: newStatus }
-          : row
-      )
-    );
-    setSelectedRows([]);
-  };
-
   const displayedRows = rows.slice((page - 1) * rowsPerPage, page * rowsPerPage);
 
   return (
@@ -119,28 +76,10 @@ function Honeypot() {
           />
         </Box>
       </Box>
-      <Button onClick={handleToggleSelected} disabled={selectedRows.length === 0}>
-        {selectedRows.length > 0 && rows.find(row => selectedRows.includes(row.no) && row.status === '활성화')
-          ? '비활성화로 변경'
-          : '활성화로 변경'}
-      </Button>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} align="center">
-                <Checkbox
-                  checked={selectedRows.length === displayedRows.length}
-                  indeterminate={selectedRows.length > 0 && selectedRows.length < displayedRows.length}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedRows(displayedRows.map(row => row.no));
-                    } else {
-                      setSelectedRows([]);
-                    }
-                  }}
-                />
-              </TableCell>
               <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} align="center">no</TableCell>
               <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} align="center">제목</TableCell>
               <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} align="center">등록일자</TableCell>
@@ -153,8 +92,6 @@ function Honeypot() {
               <HoneypotTable
                 key={row.no}
                 row={row}
-                selectedRows={selectedRows}
-                handleSelectRow={handleSelectRow}
                 handleRowClick={handleRowClick}
               />
             ))}

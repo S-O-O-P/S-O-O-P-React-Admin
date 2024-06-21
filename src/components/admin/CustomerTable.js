@@ -10,7 +10,7 @@ function CustomerTable({ members, page, rowsPerPage, handlePageChange }) {
   return (
     <Box className="member-table-container">
       <Box className="header-container">
-        <Typography variant="h6" className="table-title">회원 전체 조회</Typography>
+        <Typography variant="h5" className="table-title">회원 전체 조회</Typography>
         <TextField 
           variant="outlined"
           placeholder="회원 코드 검색"
