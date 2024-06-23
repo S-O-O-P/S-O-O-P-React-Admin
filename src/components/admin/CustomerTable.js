@@ -1,7 +1,7 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TextField, Box, Pagination } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box, Pagination } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
-import '../../pages/Customer/Customer.css'
+import '../../pages/Customer/Customer.css';
 
 function CustomerTable({ members, page, rowsPerPage, handlePageChange }) {
   const location = useLocation();
@@ -9,36 +9,22 @@ function CustomerTable({ members, page, rowsPerPage, handlePageChange }) {
 
   return (
     <Box className="member-table-container">
-      <Box className="header-container">
-        <Typography variant="h5" className="table-title">회원 전체 조회</Typography>
-        <TextField 
-          variant="outlined"
-          placeholder="회원 코드 검색"
-          className="search-field"
-          InputProps={{
-            endAdornment: (
-              <img src="images/admin/icon_search.png" alt="search" />
-            ),
-            style: { borderRadius: 20, border: '1px solid #FFB755' }
-          }}
-        />
-      </Box>
       <TableContainer component={Paper}>
         <Table className='table'>
           <TableHead className='table-content'>
-            <TableRow>
-              <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>회원코드</TableCell>
-              <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>닉네임</TableCell>
-              <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>성별</TableCell>
-              <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>이메일</TableCell>
-              <TableCell align="center">가입일자</TableCell>
+            <TableRow >
+              <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }}>회원코드</TableCell>
+              <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }}>닉네임</TableCell>
+              <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }}>성별</TableCell>
+              <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }}>이메일</TableCell>
+              <TableCell align="center" sx={{ color:'white' }}>가입일자</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {paginatedMembers.map((member, index) => (
-              <TableRow key={index}>
+              <TableRow key={index} className='customer-table-row'>
                 <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>
-                  <Link to={`/customer/${member.id}`} state={{ from: location.pathname + location.search }} className="link">
+                  <Link to={`/customer/${member.id}`} state={{ from: location.pathname + location.search, searchTerm: location.state?.searchTerm }} className="link">
                     {member.id}
                   </Link>
                 </TableCell>

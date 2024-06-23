@@ -1,9 +1,5 @@
 .customer-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  padding: 16px;
+  padding-top: 16px;
 }
 
 .member-table-container {
@@ -11,25 +7,30 @@
   width: calc(100% - 85px) !important;
 }
 
+
 .header-container {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
   justify-content: space-between;
+  
 }
 
+.table-title {
+  padding-top: 10px;
+  padding-left: 40px;
+}
 
 .search-field {
   width: 302px;
   height: 40px;
   top: -10px;
   border-color: #FFB755;
+  padding-right: 40px !important;
 }
 
 .link {
   text-decoration: none;
   color: inherit;
-  font-weight: bold;
 }
 
 .search-icon {
@@ -41,4 +42,8 @@
   margin-top: 20px;
   display: flex;
   justify-content: center;
+}
+
+.customer-table-row:hover {
+  background-color: rgba(255, 183, 85, 0.1);
 }

@@ -3,8 +3,6 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Box, Typography, TextField, Button, Grid } from '@mui/material';
 import './Customerdetail.css';
 
-
-
 function CustomerDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -20,12 +18,12 @@ function CustomerDetail() {
   const member = members.find(member => member.id === id);
 
   if (!member) {
-    return <Typography>회원 정보를 찾을 수 없습니다.</Typography>;
+    return <Typography variant="h4" color="#FFB755" className='customer-error'>회원 정보를 찾을 수 없습니다.</Typography>;
   }
 
   const handleConfirmClick = () => {
     const from = location.state?.from || '/customer'; // 기본값을 '/customer'로 설정
-    navigate(from);
+    navigate(from, { state: { searchTerm: location.state?.searchTerm } });
   };
 
   return (

@@ -64,4 +64,13 @@
     margin-left: 15px !important;
     background-color: #FFB755 !important;
   }
+
+  .customer-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full height of the viewport */
+    margin: 0; /* Remove default margin */
+    text-align: center; /* Center text inside the element */
+ }
   

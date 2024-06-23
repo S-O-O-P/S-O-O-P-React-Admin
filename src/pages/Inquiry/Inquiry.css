@@ -1,0 +1,92 @@
+/* Inquiry.css */
+.inquiry-container {
+   padding-top: 20px;
+  }
+  
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .table-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .search-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  .search-field {
+    width: 300px;
+    margin-left: auto;
+  }
+  
+  .search-field .MuiInputBase-root {
+    border-radius: 20px;
+    border: 1px solid #FFB755;
+    background-color: #fff;
+  }
+  
+  .search-field .MuiInputBase-root input {
+    padding: 10px 15px;
+  }
+  
+  .search-field .MuiInputAdornment-root {
+    margin-left: 10px;
+  }
+  
+  .search-button img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    
+  }
+  
+  .inquiry-table-container {
+    margin: 20px auto;
+    width: calc(100% - 85px) !important;
+  }
+  
+  .inquiry-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .inquiry-table-head {
+    background-color: #FFB755;
+  }
+  
+  .inquiry-table-row:hover {
+    background-color: rgba(255, 183, 85, 0.1);
+  }
+  
+  .inquiry-table-cell {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .inquiry-table-cell button {
+    color: #FFB755;
+    border-color: #FFB755;
+  }
+  
+  .pagination .MuiPaginationItem-root {
+    color: #FFB755 !important;
+  }
+  
+  .pagination .Mui-selected {
+    background-color: #FFB755 !important;
+    color: #fff !important;
+  }

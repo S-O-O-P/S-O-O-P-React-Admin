@@ -34,8 +34,9 @@
 }
 
 .honeypot-detail-description {
-  margin: 50px 0 !important;
+  line-height: 2 !important;
 }
+
 
 .honeypot-detail-buttons {
   display: flex;

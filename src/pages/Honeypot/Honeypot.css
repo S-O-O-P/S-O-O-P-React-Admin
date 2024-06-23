@@ -19,8 +19,11 @@
 }
 
 .honeypot-search {
-  display: flex;
-  align-items: center;
+  width: 302px;
+  height: 40px;
+  top: -10px;
+  border-color: #FFB755;
+  padding-left: 40px !important;
 }
 
 .honeypot-search-input {
@@ -41,4 +44,18 @@
   color: #FFB755;
   font-weight: bold;
   text-align: center;
+  min-width: 57px; 
+  height: 20px; 
+  line-height: 20px; 
+ 
+
+}
+
+.inactive-status {
+  color: #DCE5D7;
+}
+
+
+.honeypot-table-row:hover {
+  background-color: rgba(255, 183, 85, 0.1);
 }
