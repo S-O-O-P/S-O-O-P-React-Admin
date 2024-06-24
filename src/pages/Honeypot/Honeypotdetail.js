@@ -1,27 +1,32 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Box, Typography, Button, Grid, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
-import './Honeypotdetail.css';
+import './Honeypotdetail.css'; // CSS 파일 임포트
 
+// HoneypotDetail 컴포넌트
 function HoneypotDetail() {
-  const { no } = useParams();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [open, setOpen] = useState(false);
+  const { no } = useParams(); // URL 파라미터에서 no 가져오기
+  const navigate = useNavigate(); // 페이지 이동을 위한 네비게이트 함수
+  const location = useLocation(); // 현재 위치 정보
+  const [open, setOpen] = useState(false); // Dialog 상태 관리
 
+  // 뒤로 가기 버튼 클릭 핸들러
   const handleBackClick = () => {
     const from = location.state?.from || '/honeypot'; // 기본값을 '/honeypot'로 설정
     navigate(from, { state: { searchTerm: location.state?.searchTerm } });
   };
 
+  // Dialog 열기 핸들러
   const handleClickOpen = () => {
     setOpen(true);
   };
 
+  // Dialog 닫기 핸들러
   const handleClose = () => {
     setOpen(false);
   };
 
+  // 상태 토글 핸들러
   const handleToggleStatus = () => {
     setOpen(false);
     const from = location.state?.from || '/honeypot'; // 기본값을 '/honeypot'로 설정
@@ -30,6 +35,7 @@ function HoneypotDetail() {
     navigate(from, { state: { toggleStatus: { no: parseInt(no, 10), newStatus }, searchTerm: location.state?.searchTerm } });
   };
 
+  // 행 데이터
   const rows = [
     { no, title: 'XX 같이 볼 20대 친구 구합니다😁남녀 상관없음~!', 모집상태: '모집중', 모집인원: '1/2', 신고횟수: '3', 생성일자: '2024-06-03', 장르: '뮤지컬', status: location.state?.status }
   ];

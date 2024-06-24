@@ -23,10 +23,34 @@ ChartJS.register(
 );
 
 function DashboardChart({ title, chartData }) {
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false
+      },
+      title: {
+        display: true,
+        text: '생성 건수',
+      },
+    },
+    scales: {
+      x: {
+        stacked: true,
+        categoryPercentage: 1.0,
+        barPercentage: 1.0,
+      },
+      y: {
+        stacked: true,
+      },
+    },
+  };
+
+
   return (
     <Paper className="dashboard-chart" sx={{ borderRadius: '20px', border: '1px solid #FFB755'}}>
       <Typography className="chart-title">{title}</Typography>
-      <Bar data={chartData} />
+      <Bar data={chartData} options={options} />
     </Paper>
   );
 }

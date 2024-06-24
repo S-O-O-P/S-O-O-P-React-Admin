@@ -1,4 +1,3 @@
-// pages/Dashboard.js
 import React from 'react';
 import { Box, Grid, Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import DashboardChart from '../../components/admin/DashboardChart';
@@ -21,7 +20,13 @@ const dailyChartData = {
     {
       label: '생성 건수',
       data: [35, 40, 55, 60, 50],
-      backgroundColor: 'rgba(153, 102, 255, 0.6)',
+      backgroundColor: [
+        '#FFB755', // Vibrant Orange
+        '#DFE0DF', // Olive Green
+        '#14DFA4', // Steel Blue
+        '#00E1C8', // Chocolate
+        '#FFBA94', // Blue Violet
+      ],
     },
   ],
 };
@@ -50,17 +55,16 @@ const notices = [
   { id: 28, title: '[이벤트] 얼리벗 신규 오픈 이벤트', date: '2024-06-01' },
 ];
 
-
 function Dashboard() {
   return (
-    <Box className="dashboard-container" sx={{ maxWidth: '1600px', width: '100%', margin: '0 auto', padding: '16px' }}>
+    <Box className="dashboard-container">
       <Box className="dashboard-header">
-        <Typography variant="h6">오늘의 허니팟</Typography>
+        <Typography variant="h6" sx={{ color: 'white' }}>오늘의 허니팟</Typography>
         <Box className="dashboard-title">
           <Typography variant="h7" className="dashboard-summary">20개</Typography>
         </Box>
       </Box>
-  <Grid container spacing={2}>
+      <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <DashboardChart title="월별 허니팟" chartData={monthlyChartData} />
         </Grid>
@@ -114,27 +118,27 @@ function Dashboard() {
       </Box>
       <Grid container spacing={2} sx={{ mt: 2 }}>
         <Grid item xs={12} md={6}>
-          <Paper className="dashboard-table" sx={{ borderRadius: '20px', border: '1px solid #FFB755'}}>
+          <Paper className="dashboard-table" sx={{ borderRadius: '20px', border: '1px solid #FFB755' }}>
             <Box className="table-title-container">
-              <Typography className="table-title" sx={{backgroundColor:'#FFB755', color:'white', margin:'auto'}}>신고 접수 내역</Typography>
+              <Typography className="table-title" sx={{ backgroundColor: '#FFB755', color: 'white', margin: 'auto' }}>신고 접수 내역</Typography>
             </Box>
             <TableContainer>
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }} align="center">no</TableCell>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }} align="center">제목</TableCell>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }} align="center">등록일자</TableCell>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }} align="center">신고조회</TableCell>
+                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">no</TableCell>
+                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">제목</TableCell>
+                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">등록일자</TableCell>
+                    <TableCell sx={{ color: 'white' }} align="center">신고조회</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {reportData.map((row) => (
+                  {reportData.map((row, index) => (
                     <TableRow key={row.id}>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.id}</TableCell>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.title}</TableCell>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.date}</TableCell>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.queries}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.id}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.title}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.date}</TableCell>
+                      <TableCell sx={{ borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.queries}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -143,27 +147,27 @@ function Dashboard() {
           </Paper>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Paper className="dashboard-table" sx={{ borderRadius: '20px', border: '1px solid #FFB755'}}>
+          <Paper className="dashboard-table" sx={{ borderRadius: '20px', border: '1px solid #FFB755' }}>
             <Box className="table-title-container">
-              <Typography className="table-title" sx={{backgroundColor:'#FFB755', color:'white', margin:'auto'}}>1:1문의 내역</Typography>
+              <Typography className="table-title" sx={{ backgroundColor: '#FFB755', color: 'white', margin: 'auto' }}>1:1문의 내역</Typography>
             </Box>
             <TableContainer>
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }} align="center">no</TableCell>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }} align="center">제목</TableCell>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }} align="center">구분</TableCell>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }} align="center">관리</TableCell>
+                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">no</TableCell>
+                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">제목</TableCell>
+                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">구분</TableCell>
+                    <TableCell sx={{ color: 'white' }} align="center">관리</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {inquiryData.map((row) => (
+                  {inquiryData.map((row, index) => (
                     <TableRow key={row.id}>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.id}</TableCell>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.title}</TableCell>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.type}</TableCell>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.status}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.id}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.title}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.type}</TableCell>
+                      <TableCell sx={{ borderBottom: index === inquiryData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.status}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -174,25 +178,25 @@ function Dashboard() {
       </Grid>
       <Grid container spacing={2} sx={{ mt: 2 }}>
         <Grid item xs={12}>
-          <Paper className="dashboard-table" sx={{ borderRadius: '20px', border: '1px solid #FFB755'}}>
+          <Paper className="dashboard-table" sx={{ borderRadius: '20px', border: '1px solid #FFB755' }}>
             <Box className="table-title-container">
-              <Typography className="table-title" sx={{backgroundColor:'#FFB755', color:'white', margin:'auto'}}>최신 공지 사항</Typography>
+              <Typography className="table-title" sx={{ backgroundColor: '#FFB755', color: 'white', margin: 'auto' }}>최신 공지 사항</Typography>
             </Box>
             <TableContainer>
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }} align="center">no</TableCell>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }} align="center">제목</TableCell>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }} align="center">등록일자</TableCell>
+                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">no</TableCell>
+                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">제목</TableCell>
+                    <TableCell sx={{ color: 'white' }} align="center">등록일자</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {notices.map((notice) => (
+                  {notices.map((notice, index) => (
                     <TableRow key={notice.id}>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.id}</TableCell>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.title}</TableCell>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.date}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === notices.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.id}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === notices.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.title}</TableCell>
+                      <TableCell sx={{ borderBottom: index === notices.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.date}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -205,4 +209,3 @@ function Dashboard() {
   );
 }
 export default Dashboard;
-
