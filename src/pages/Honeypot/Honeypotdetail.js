@@ -11,7 +11,7 @@ function HoneypotDetail() {
 
   const handleBackClick = () => {
     const from = location.state?.from || '/honeypot'; // 기본값을 '/honeypot'로 설정
-    navigate(from);
+    navigate(from, { state: { searchTerm: location.state?.searchTerm } });
   };
 
   const handleClickOpen = () => {
@@ -27,11 +27,11 @@ function HoneypotDetail() {
     const from = location.state?.from || '/honeypot'; // 기본값을 '/honeypot'로 설정
     const currentStatus = location.state?.status;
     const newStatus = currentStatus === '활성화' ? '비활성화' : '활성화';
-    navigate(from, { state: { toggleStatus: { no: parseInt(no, 10), newStatus } } });
+    navigate(from, { state: { toggleStatus: { no: parseInt(no, 10), newStatus }, searchTerm: location.state?.searchTerm } });
   };
 
   const rows = [
-    { no, title: 'XX 같이 볼 20대 친구 구합니다😁 남녀 상관없음~!', 모집상태: '모집중', 모집인원: '1/2', 신고횟수: '3', 생성일자: '2024-06-03', 장르: '뮤지컬', status: location.state?.status }
+    { no, title: 'XX 같이 볼 20대 친구 구합니다😁남녀 상관없음~!', 모집상태: '모집중', 모집인원: '1/2', 신고횟수: '3', 생성일자: '2024-06-03', 장르: '뮤지컬', status: location.state?.status }
   ];
 
   return (
@@ -77,7 +77,7 @@ function HoneypotDetail() {
         </Typography>
       </Box>
       <Typography variant="body1" className="honeypot-detail-description">
-        {rows[0].title}
+        {rows[0].title.split('😁')[0]}😁<br />{rows[0].title.split('😁')[1]}
       </Typography>
       <Box className="honeypot-detail-buttons">
         <Button variant="outlined" className="honeypot-action-button-outline" onClick={handleBackClick}>
@@ -95,7 +95,7 @@ function HoneypotDetail() {
 
       <Dialog open={open} onClose={handleClose}>
         <DialogContent className="custom-dialog-content">
-        <img src="/images/commons/icon_alert.png" alt="icon" className="dialog-icon" />
+          <img src="/images/commons/icon_alert.png" alt="icon" className="dialog-icon" />
           <DialogContentText className="dialog-text">
             해당 게시물을 {rows[0].status === '활성화' ? '비활성화' : '재활성화'} 하시겠습니까?
           </DialogContentText>

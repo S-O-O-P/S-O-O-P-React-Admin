@@ -1,0 +1,101 @@
+/* Notice.css */
+.notice-container {
+    padding-top: 20px;
+  }
+  
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .table-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .actions-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adjust the space between register button and search field */
+  }
+  
+  .register-button {
+    background-color: #FFB755 !important;
+    color: white !important;
+    border-radius: 20px;
+    padding: 10px 20px;
+    border-color: #FFB755 !important;
+    bottom: 7px !important;
+  }
+  
+  .search-field {
+    width: 250px;
+  }
+  
+  .search-field .MuiInputBase-root {
+    border-radius: 20px;
+    border: 1px solid #FFB755;
+    background-color: #fff;
+  }
+  
+  .search-field .MuiInputBase-root input {
+    padding: 10px 15px;
+  }
+  
+  .search-field .MuiInputAdornment-root {
+    margin-left: 10px;
+  }
+  
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .notice-table-container {
+    margin: 20px auto;
+    width: calc(100% - 85px) !important;
+  }
+  
+  .notice-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .notice-table-head {
+    background-color: #FFB755;
+  }
+  
+  .notice-table-row:hover {
+    background-color: rgba(255, 183, 85, 0.1);
+  }
+
+  
+  
+  .notice-table-cell {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .notice-table-cell button {
+    color: #FFB755;
+    border-color: #FFB755;
+  }
+  
+  .pagination .MuiPaginationItem-root {
+    color: #FFB755 !important;
+  }
+  
+  .pagination .Mui-selected {
+    background-color: #FFB755 !important;
+    color: #fff !important;
+  }
+
+  .manage {
+    color: #FFB755 !important;
+    border-color: #FFB755 !important;
+  }

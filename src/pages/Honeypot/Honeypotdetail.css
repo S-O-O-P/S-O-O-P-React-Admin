@@ -1,8 +1,14 @@
 .honeypot-detail-container {
   padding-top: 24px;
   flex-grow: 1;
-  width: 100%;
+  width: calc(100% - 85px);
+  margin: 0 auto;
   background-color: var(--background-default);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
 }
 
 .honeypot-detail-info {
@@ -13,28 +19,23 @@
   display: flex;
   justify-content: space-between;
   width: 50%;
-   border-bottom: 1px solid #FFB755;
-   margin-top: 40px;
-   align-items: center;
+  border-bottom: 1px solid #FFB755;
+  margin-top: 40px;
+  align-items: center;
 }
 
 .detail-item .MuiTypography-body2 {
   margin-left: 10px;
 }
 
-
-
 .honeypot-detail-divider {
   border-bottom: 1px solid #FFB755;
   margin: 50px 0 !important;
- 
 }
 
 .honeypot-detail-description {
-  margin: 50px 0 !important;
+  line-height: 2 !important;
 }
-
-
 
 
 .honeypot-detail-buttons {
@@ -43,7 +44,7 @@
   align-items: center;
   margin-top: 300px !important;
   border-top: 1px solid #FFB755;
-  padding-top: 20px; /* Adjust this value to increase/decrease the gap */
+  padding-top: 20px;
 }
 
 .honeypot-right-buttons {
@@ -65,38 +66,35 @@
 }
 
 .honeypot-action-button-contained:hover {
-  background-color: #FFA726 !important; /* Slightly darker shade for hover */
+  background-color: #FFA726 !important;
 }
 
-
-
-/* Custom dialog styles */
 .custom-dialog-content {
-text-align: center !important; 
+  text-align: center !important;
 }
 
 .dialog-icon {
-width: 40px !important;
-height: 40px !important;
-margin-bottom: 10px !important;
+  width: 40px !important;
+  height: 40px !important;
+  margin-bottom: 10px !important;
 }
 
 .dialog-text {
-margin-bottom: 20px !important;
-color: black !important;
+  margin-bottom: 20px !important;
+  color: black !important;
 }
 
 .custom-dialog-actions {
-justify-content: center !important;
+  justify-content: center !important;
 }
 
 .custom-cancel-button {
-border: 1px solid #FFB755 !important;
-color: #FFB755 !important;
-margin-right: 10px !important;
+  border: 1px solid #FFB755 !important;
+  color: #FFB755 !important;
+  margin-right: 10px !important;
 }
 
 .custom-confirm-button {
-background-color: #FFB755 !important;
-color: #fff !important;
+  background-color: #FFB755 !important;
+  color: #fff !important;
 }
