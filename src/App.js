@@ -5,7 +5,7 @@ import Customer from './pages/Customer/Customer';
 import CustomerDetail from './pages/Customer/Customerdetail';
 import Honeypot from './pages/Honeypot/Honeypot';
 import HoneypotDetail from './pages/Honeypot/Honeypotdetail';
-import Inquiry from './pages/Customer/Inquiry';
+import InquiryAnswer from './pages/Customer/InquiryAnswer';
 import '../src/pages/Home/Dashboard.css';
 import '../src/pages/Customer/Customer.css';
 import '../src/pages/Customer/Customerdetail.css';
@@ -29,7 +29,7 @@ export default function App() {
               <Route path="/customer/:id" element={<CustomerDetail />} />
               <Route path='/honeypot' element={<Honeypot />} />
               <Route path="/honeypot/:no" element={<HoneypotDetail />} />
-              <Route path='/inquiryanswer' element={<Inquiry />} />
+              <Route path='/inquiryanswer' element={<InquiryAnswer />} />
             </Routes>
           </div>
         </div>
