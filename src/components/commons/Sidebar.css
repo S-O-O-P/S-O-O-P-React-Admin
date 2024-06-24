@@ -29,6 +29,7 @@
   width: 60px;
   height: 60px; /* Adjust logo size as needed */
   margin-bottom: 38px;
+  margin-top: 15px;
 }
 
 .sidebar-role-user {
@@ -64,7 +65,7 @@
   background-color: #FFB755;
   border-radius: 16px; /* Adjust to make it rounder */
   padding: 4px 8px;
-  width: 100px;
+  width: 111px;
   height: 30px;
   justify-content: center;
 }
