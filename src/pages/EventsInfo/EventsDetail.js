@@ -1,7 +1,10 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import './EventsDetail.css';
+import EventInfo from '../../components/admin/EventInfo';
+import EventForm from '../../components/admin/EventForm';
+import EventEdit from '../../components/admin/EventEdit';
 
 const initialEvents = [
   { id: 1, category: '뮤지컬', title: '뮤지컬 (디어 에반 헨슨) - 부산 (Dear Evan Hansen)', ticketOpenDate: '2024.08.20(화) 12:00', createdAt: '2024-04-12', manage: '수정' },
@@ -9,24 +12,39 @@ const initialEvents = [
   // Add more events as needed
 ];
 
+
 function EventsDetail() {
-  const { id } = useParams();
+  const { type, id } = useParams();
   const event = initialEvents.find(event => event.id === parseInt(id));
 
   if (!event) {
-    return (
+    if(id == 0) {
+
+    } else {
+      return (
       <Box className="error-container">
         <Typography variant="h4" color="#FFB755">해당 공연/전시 정보를 찾을 수 없습니다.</Typography>
       </Box>
-    );
+      );
+    }    
   }
 
   return (
     <Box className="event-detail-container">
-      <Typography variant="h4" className="event-title">{event.title}</Typography>
-      <Typography variant="h6" className="event-category">구분: {event.category}</Typography>
-      <Typography variant="body1" className="event-ticketOpenDate">티켓 오픈 일시: {event.ticketOpenDate}</Typography>
-      <Typography variant="body1" className="event-createdAt">작성일: {event.createdAt}</Typography>
+      <div className="wrapper">
+        {/* 전시 / 공연 정보 조회 */}
+        <div className="contents_cont">
+          <div className="event_sec_box">
+            <div className="event_sec">
+              <p className="sec_tit">공연/전시 정보 {type == "detail" ? null : type == "edit" ? "수정" : "등록"}</p>
+              {type == "detail" ? EventInfo(id) : type == "edit" ? EventEdit(id) : EventForm()}
+              {/* // 공연/전시 정보 등록 form */}
+              
+            </div>
+          </div>
+        </div>
+        {/* // 전시 / 공연 정보 등록 */}
+      </div>
     </Box>
   );
 }

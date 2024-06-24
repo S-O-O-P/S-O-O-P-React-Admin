@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, TextField, Typography, InputAdornment, Pagination } from '@mui/material';
 import EventTable from '../../components/admin/EventTable';
 import './Events.css';
+import { useNavigate } from 'react-router-dom';
 
 const initialEvents = [
   { id: 1, category: '뮤지컬', title: '뮤지컬 (디어 에반 헨슨) - 부산 (Dear Evan Hansen)', ticketOpenDate: '2024.08.20(화) 12:00', createdAt: '2024-04-12', manage: '수정' },
@@ -32,6 +33,8 @@ function Events() {
     setPage(value);
   };
 
+  const navigate = useNavigate();
+
   const displayedEvents = events.slice((page - 1) * rowsPerPage, page * rowsPerPage);
 
   return (
@@ -39,7 +42,7 @@ function Events() {
       <Box className="header-container">
         <Typography variant="h5" className="table-title">공연/전시 정보 전체 조회</Typography>
         <Box className="actions-container">
-          <Button variant="contained" className="register-button">등록</Button>
+          <Button variant="contained" className="register-button" onClick={() => navigate('/events/register/0')}>등록</Button>
           <TextField
             variant="outlined"
             placeholder="제목 검색"

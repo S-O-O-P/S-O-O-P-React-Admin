@@ -7,7 +7,7 @@ function EventTable({ events }) {
   const navigate = useNavigate();
 
   const handleRowClick = (id) => {
-    navigate(`/events/${id}`);
+    navigate(`/events/detail/${id}`);
   };
 
   return (
