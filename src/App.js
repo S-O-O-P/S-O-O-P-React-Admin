@@ -7,8 +7,8 @@ import Honeypot from './pages/Honeypot/Honeypot';
 import HoneypotDetail from './pages/Honeypot/Honeypotdetail';
 import Notice from './pages/Notice/Notice';
 import Inquiry from './pages/Inquiry/Inquiry';
-import Events from './pages/Events/Events';
-import EventsDetail from './pages/Events/EventsDetail';
+import Events from './pages/EventsInfo/Events';
+import EventsDetail from './pages/EventsInfo/EventsDetail';
 import '../src/pages/Home/Dashboard.css';
 import '../src/pages/Customer/Customer.css';
 import '../src/pages/Customer/Customerdetail.css';
@@ -16,8 +16,8 @@ import '../src/pages/Honeypot/Honeypot.css';
 import '../src/pages/Honeypot/Honeypotdetail.css';
 import '../src/pages/Notice/Notice.css';
 import '../src/pages/Inquiry/Inquiry.css';
-import './pages/Events/Events.css';
-import './pages/Events/EventsDetail.css'
+import './pages/EventsInfo/Events.css';
+import './pages/EventsInfo/EventsDetail.css'
 import { GlobalStyles } from '@mui/material';
 import Layout from './layouts/Layout'; // Layout 경로 추가
 

@@ -72,7 +72,6 @@ function Customer() {
     <Box className="customer-container">
       <Box className="header-container">
         <Typography variant="h5" className="table-title">회원 전체 조회</Typography>
-       
           <TextField
            placeholder='회원 코드 검색'
             variant="outlined"
@@ -91,7 +90,6 @@ function Customer() {
               style: { borderRadius: 20, border: '1px solid #FFB755' }
             }}
           />
-      
       </Box>
       <CustomerTable
         members={filteredMembers}

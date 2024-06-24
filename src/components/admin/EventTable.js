@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import '../../pages/Events/Events.css';
+import '../../pages/EventsInfo/Events.css';
 
 function EventTable({ events }) {
   const navigate = useNavigate();
