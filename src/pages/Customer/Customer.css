@@ -1,26 +1,23 @@
-.member-table-container {
-  margin: 20px;
+.customer-container {
+  padding-top: 16px;
 }
+
+.member-table-container {
+  margin: 20px auto;
+  width: calc(100% - 85px) !important;
+}
+
 
 .header-container {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
   justify-content: space-between;
-}
-
-.table-title {
-  margin-right: 20px;
-  padding-right: 20px;
-  background-color: white;
-  color: black;
-  width: 201px;
-  height: 32px;
   
 }
 
-.table-content {
-  background-color: #FFB755;
+.table-title {
+  padding-top: 10px;
+  padding-left: 40px;
 }
 
 .search-field {
@@ -28,12 +25,13 @@
   height: 40px;
   top: -10px;
   border-color: #FFB755;
+  padding-right: 40px !important;
+  margin-right: 40px;
 }
 
 .link {
   text-decoration: none;
   color: inherit;
-  font-weight: bold;
 }
 
 .search-icon {
@@ -45,4 +43,8 @@
   margin-top: 20px;
   display: flex;
   justify-content: center;
+}
+
+.customer-table-row:hover {
+  background-color: rgba(255, 183, 85, 0.1);
 }

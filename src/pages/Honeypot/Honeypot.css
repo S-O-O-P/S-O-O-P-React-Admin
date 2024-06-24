@@ -1,40 +1,61 @@
 .honeypot-main {
-    flex-grow: 1;
-    background-color: var(--background-default);
-    padding: 24px;
-  }
-  
-  .honeypot-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-  
-  .honeypot-search {
-    display: flex;
-    align-items: center;
-  }
-  
-  .honeypot-search-input {
-    margin-right: 16px;
-  }
-  
-  .honeypot-pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 16px;
-  }
-  
-  .status-cell {
-    display: inline-block;
-    padding: 10px 25px;
-    border: 2px solid #FFB755;
-    border-radius: 15px;
-    color: #FFB755;
-    font-weight: bold;
-    text-align: center;
-   
+  flex-grow: 1;
+  background-color: var(--background-default);
+  padding: 24px;
+  margin: 0 auto;
+  width: calc(100% - 85px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
 
-  }
-  
+.honeypot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.honeypot-search {
+  width: 302px;
+  height: 40px;
+  top: -10px;
+  border-color: #FFB755;
+  padding-left: 40px !important;
+}
+
+.honeypot-search-input {
+  margin-right: 16px;
+}
+
+.honeypot-pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.status-cell {
+  display: inline-block;
+  padding: 10px 25px;
+  border: 2px solid #FFB755;
+  border-radius: 15px;
+  color: #FFB755;
+  font-weight: bold;
+  text-align: center;
+  min-width: 57px; 
+  height: 20px; 
+  line-height: 20px; 
+ 
+
+}
+
+.inactive-status {
+  color: #DCE5D7;
+}
+
+
+.honeypot-table-row:hover {
+  background-color: rgba(255, 183, 85, 0.1);
+}
