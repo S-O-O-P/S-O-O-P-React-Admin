@@ -1,5 +1,5 @@
 import { useState } from "react";
-import style from "../Customer/Inquiry.module.css";
+import style from "../Customer/InquiryAnswer.module.css";
 import { useNavigate } from 'react-router-dom';
 
 function InquiryAnswer() {
