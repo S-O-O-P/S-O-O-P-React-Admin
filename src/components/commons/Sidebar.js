@@ -52,7 +52,7 @@ function Sidebar() {
               color: navLinkIsActive ? 'white' : ''
             })}
           >
-            
+
             <img src={isActive(route.paths) ? route.activeImg : route.inactiveImg} alt={route.name} />
             <ListItemText primary={route.name} />
           </ListItem>

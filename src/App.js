@@ -5,6 +5,7 @@ import Customer from './pages/Customer/Customer';
 import CustomerDetail from './pages/Customer/Customerdetail';
 import Honeypot from './pages/Honeypot/Honeypot';
 import HoneypotDetail from './pages/Honeypot/Honeypotdetail';
+import InquiryAnswer from './pages/Customer/InquiryAnswer';
 import Notice from './pages/Notice/Notice';
 import Inquiry from './pages/Inquiry/Inquiry';
 import Events from './pages/EventsInfo/Events';
@@ -34,6 +35,7 @@ export default function App() {
               <Route path="/customer/:id" element={<CustomerDetail />} />
               <Route path='/honeypot' element={<Honeypot />} />
               <Route path="/honeypot/:no" element={<HoneypotDetail />} />
+              <Route path='/inquiryanswer' element={<InquiryAnswer />} />
               <Route path='/notice' element={<Notice/>} />
               <Route path='/inquiry' element={<Inquiry/>} />
               <Route path='/events' element={<Events/>} />
