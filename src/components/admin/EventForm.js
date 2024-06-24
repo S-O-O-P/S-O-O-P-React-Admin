@@ -3,7 +3,24 @@ import '../../pages/EventsInfo/EventsDetail.css';
 import { useEffect, useState } from 'react';
 
 export default function EventForm(){
-  const [currentTextLength, setCurrentTextLength] = useState(0);
+  
+  // 입력 내용 State
+  const [category, setCategory] = useState("concert");
+  //const [[]] // 얼리버드 티켓 예매 시작 / 마감
+  const [region, setRegion] = useState(""); // 지역
+  const [place, setPlace] = useState(""); // 관람 장소
+  const [price, setPrice] = useState(""); //관람 가격
+  const [age, setAge] = useState(""); // 관람 연령
+  //const [] // 얼리버드 티켓 사용 기간 시작 / 마감
+  const [whereToBuy, setWhereToBuy] = useState(""); // 예매처 명
+  const [buyUrl, setBuyUrl] = useState(""); // 예매처 링크
+  const [earlyTitle, setEarlyTitle] = useState(""); // 제목
+  const [detailInfo, setDetailInfo] = useState(""); // 상세 정보
+  const [imgUrl, setImgUrl] = useState(""); // 이미지 url
+  const [thumbnail, setThumbnaill] = useState(""); // 썸네일 이미지 url
+
+
+  const [currentTextLength, setCurrentTextLength] = useState(0); // 상세 정보 입력 글자 실시간 확인
   const navigate = useNavigate();
 
   useEffect(
