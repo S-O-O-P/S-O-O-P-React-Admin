@@ -61,8 +61,7 @@ function InquiryAnswer() {
                         <div className={style.back}>
                             <div className={style.modal}>
                                 <img src='/images/commons/icon_confirm.png' alt='확인' width={45} />
-                                <p className={style.modalTitle}>1:1문의가 접수 되었습니다.</p>
-                                <p className={style.modalContext}>문의 내용에 따라 답변이 늦어질 수 있습니다.</p>
+                                <p className={style.modalTitle}>1:1 문의 답변 등록 완료</p>
                                 <a href="/help">
                                     <button className={style.modalButton} onClick={closeBtn}>확인</button>
                                 </a>
@@ -73,7 +72,7 @@ function InquiryAnswer() {
                         <div className={style.back}>
                             <div className={style.modal}>
                                 <img src='/images/commons/icon_alert.png' alt='경고' width={45} />
-                                <p className={style.modalTitle}>제목과 내용을 모두 작성해주세요.</p>
+                                <p className={style.modalTitle}>답변을 작성해주세요.</p>
                                 <button className={style.modalButton} onClick={closeBtn}>확인</button>
                             </div>
                         </div>
