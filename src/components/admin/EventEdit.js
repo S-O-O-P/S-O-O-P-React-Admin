@@ -1,9 +1,39 @@
 import { useNavigate } from 'react-router-dom';
 import '../../pages/EventsInfo/EventsDetail.css';
+import { useEffect } from 'react';
 
 export default function EventEdit(id){
 
   const navigate = useNavigate();
+
+  useEffect(
+    () => { 
+      
+      // 카테고리 리스트
+      const genreFilter = document.querySelector(".selected_filter");
+
+      // 카테고리 리스트 아이템 클릭이벤트 
+      const genreFilterItem = document.querySelectorAll(".genre_filter_list > ul > li");
+      
+      genreFilter.addEventListener('click', (e)=>{ // 클릭 이벤트 추가
+        e.currentTarget.classList.contains("active") ? e.currentTarget.classList.remove("active") : e.currentTarget.classList.add("active"); // 클릭한 버튼의 활성화 여부에 따라 active 클래스 추가 또는 삭제
+        e.currentTarget.nextElementSibling.classList.contains("active") ? e.currentTarget.nextElementSibling.classList.remove("active") : e.currentTarget.nextElementSibling.classList.add("active"); // 클릭한 버튼 > 필터링 리스트의 active 클래스 추가 또는 삭제
+      })
+
+      genreFilterItem.forEach(detailItem => { // 카테고리 필터링 리스트 아이템 각각에
+        detailItem.addEventListener('click', (e)=>{ // 클릭 이벤트 추가
+          e.currentTarget.closest("ul").classList.remove("active"); // 카테고리 필터링 리스트 비활성화
+          genreFilter.classList.remove("active"); // 카테고리 필터링 리스트 비활성화
+          e.currentTarget.closest("ul").previousElementSibling.childNodes[0].innerText = e.currentTarget.innerText;
+        })
+      });
+
+      const detailInfoTxt = document.querySelector('.event_detail_txt');
+
+      return () => {
+      }
+    },[]
+  );
 
   
   return(
@@ -12,7 +42,7 @@ export default function EventEdit(id){
         <li className="genre_category">
           <span className="fill_item_tit">카테고리</span>
           <div className="genre_filter_list">
-            <span className="selected_filter flex_between"><span className="selected_option">공연</span><img src="./assets/images/common/icon_arrow_bottom_main_color.png" alt="arrow direction bottom icon" className="filter_arrow_icon"/></span>
+            <span className="selected_filter flex_between"><span className="selected_option">공연</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_bottom_main_color.png`} alt="arrow direction bottom icon" className="filter_arrow_icon"/></span>
             <ul>
               <li className="genre_option">전시</li>
               <li className="genre_option">공연</li>

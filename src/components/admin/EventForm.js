@@ -214,7 +214,7 @@ export default function EventForm(){
           <a href="#" className="negative_btn cancel" onClick={() => navigate(-1)}>취소</a>
         </li>
         <li>          
-          <button type="submit" className="register_btn">수정</button>
+          <button type="submit" className="register_btn">등록</button>
         </li>
       </ul>
     </form>
