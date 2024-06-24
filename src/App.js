@@ -5,7 +5,7 @@ import Customer from './pages/Customer/Customer';
 import CustomerDetail from './pages/Customer/Customerdetail';
 import Honeypot from './pages/Honeypot/Honeypot';
 import HoneypotDetail from './pages/Honeypot/Honeypotdetail';
-import InquiryAnswer from './pages/Customer/InquiryAnswer';
+import InquiryAnswer from './pages/Inquiry/InquiryAnswer';
 import Notice from './pages/Notice/Notice';
 import Inquiry from './pages/Inquiry/Inquiry';
 import Events from './pages/EventsInfo/Events';
@@ -19,7 +19,7 @@ import '../src/pages/Notice/Notice.css';
 import '../src/pages/Inquiry/Inquiry.css';
 import './pages/EventsInfo/Events.css';
 import './pages/EventsInfo/EventsDetail.css'
-import { GlobalStyles } from '@mui/material';
+import  GlobalStyles  from './styles/GlobalStyles';
 import Layout from './layouts/Layout'; // Layout 경로 추가
 
 export default function App() {
