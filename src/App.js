@@ -22,6 +22,7 @@ import './pages/EventsInfo/EventsDetail.css'
 import  GlobalStyles  from './styles/GlobalStyles';
 import Layout from './layouts/Layout'; // Layout 경로 추가
 
+
 export default function App() {
     return (
       <>      

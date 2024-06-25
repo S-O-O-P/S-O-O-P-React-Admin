@@ -1,9 +1,9 @@
 .customer-container {
-  padding-top: 16px;
+  padding-top: 20px;
 }
 
 .member-table-container {
-  margin: 20px auto;
+  margin: 20px auto !important;
   width: calc(100% - 85px) !important;
 }
 
@@ -23,7 +23,7 @@
 .search-field {
   width: 302px;
   height: 40px;
-  top: -10px;
+  
   border-color: #FFB755;
   padding-right: 40px !important;
   margin-right: 40px;

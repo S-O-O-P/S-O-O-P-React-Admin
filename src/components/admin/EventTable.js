@@ -1,11 +1,13 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import '../../pages/EventsInfo/Events.css';
+import '../../pages/EventsInfo/Events.css'; // CSS 파일 임포트
 
+// EventTable 컴포넌트
 function EventTable({ events }) {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // 페이지 이동을 위한 네비게이트 함수
 
+  // 행 클릭 핸들러
   const handleRowClick = (id) => {
     navigate(`/events/detail/${id}`);
   };
