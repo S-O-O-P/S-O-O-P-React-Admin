@@ -36,7 +36,7 @@ export default function App() {
               <Route path="/customer/:id" element={<CustomerDetail />} />
               <Route path='/honeypot' element={<Honeypot />} />
               <Route path="/honeypot/:no" element={<HoneypotDetail />} />
-              <Route path='/inquiryanswer' element={<InquiryAnswer />} />
+              <Route path='/inquiry/:id' element={<InquiryAnswer />} />
               <Route path='/notice' element={<Notice/>} />
               <Route path='/inquiry' element={<Inquiry/>} />
               <Route path='/events' element={<Events/>} />

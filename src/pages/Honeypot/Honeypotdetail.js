@@ -90,7 +90,7 @@ function HoneypotDetail() {
           목록
         </Button>
         <Box className="honeypot-right-buttons">
-          <Button variant="outlined" className="honeypot-action-button-outline">
+          <Button variant="outlined" className="honeypot-action-button-outline" onClick={handleBackClick}>
             취소
           </Button>
           <Button variant="contained" className="honeypot-action-button-contained" onClick={handleClickOpen}>
