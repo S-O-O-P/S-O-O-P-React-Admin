@@ -55,7 +55,18 @@ function Notice() {
                   </Button>
                 </InputAdornment>
               ),
-              style: { borderRadius: 20, border: '1px solid #FFB755', backgroundColor: '#fff' }
+              style: { borderRadius: 20, border: '1px solid #FFB755', backgroundColor: '#fff' },
+              sx: {
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#FFB755', // 기본 테두리 색상
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#FFB755', // 호버 시 테두리 색상
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#FFB755', // 포커스 시 테두리 색상
+                },
+              },
             }}
           />
         </Box>

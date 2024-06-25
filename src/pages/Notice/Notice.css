@@ -24,11 +24,12 @@
   
   .register-button {
     background-color: #FFB755 !important;
+    display: flex;
+    align-items: center;
     color: white !important;
-    border-radius: 20px;
-    padding: 10px 20px;
+    border-radius: 15px !important;
     border-color: #FFB755 !important;
-    bottom: 7px !important;
+    
   }
   
   .search-field {
@@ -98,4 +99,5 @@
   .manage {
     color: #FFB755 !important;
     border-color: #FFB755 !important;
+    border-radius: 15px !important;
   }

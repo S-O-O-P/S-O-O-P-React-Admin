@@ -90,3 +90,24 @@
     background-color: #FFB755 !important;
     color: #fff !important;
   }
+
+  .status-cells {
+    display: inline-block;
+    padding: 10px 13px;
+    border: 2px solid #FFB755;
+    border-radius: 15px;
+    color: #FFB755;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .inactive-status {
+    display: inline-block;
+    padding: 10px 19px;
+    border: 2px solid #FFB755;
+    border-radius: 15px;
+    color: #DCE5D7;
+    font-weight: bold;
+    text-align: center;
+  }
+

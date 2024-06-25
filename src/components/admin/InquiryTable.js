@@ -27,7 +27,7 @@ function InquiryTable({ inquiries }) {
               <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)'}}>{inquiry.category}</TableCell>
               <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)'}}>{inquiry.date}</TableCell>
               <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)'}}>
-                <Box onClick={() => handleRowClick(inquiry.id)}  className={`status-cell ${inquiry.manage === '미답변' ? 'inactive-status' : ''}`}>
+                <Box onClick={() => handleRowClick(inquiry.id)}  className={`status-cells ${inquiry.manage === '미답변' ? 'inactive-status' : ''}`}>
                 {inquiry.manage}
         </Box>
               </TableCell>

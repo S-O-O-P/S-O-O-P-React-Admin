@@ -1,23 +1,24 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box, Pagination } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination,Box } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
-import '../../pages/Customer/Customer.css';
+import '../../pages/Customer/Customer.css'; // CSS 파일 임포트
 
+// CustomerTable 컴포넌트
 function CustomerTable({ members, page, rowsPerPage, handlePageChange }) {
-  const location = useLocation();
-  const paginatedMembers = members.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+  const location = useLocation(); // 현재 위치 정보
+  const paginatedMembers = members.slice((page - 1) * rowsPerPage, page * rowsPerPage); // 현재 페이지에 표시할 회원 목록
 
   return (
     <Box className="member-table-container">
       <TableContainer component={Paper}>
         <Table className='table'>
           <TableHead className='table-content'>
-            <TableRow >
-              <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }}>회원코드</TableCell>
-              <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }}>닉네임</TableCell>
-              <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }}>성별</TableCell>
-              <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color:'white' }}>이메일</TableCell>
-              <TableCell align="center" sx={{ color:'white' }}>가입일자</TableCell>
+            <TableRow>
+              <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }}>회원코드</TableCell>
+              <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }}>닉네임</TableCell>
+              <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }}>성별</TableCell>
+              <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }}>이메일</TableCell>
+              <TableCell align="center" sx={{ color: 'white' }}>가입일자</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

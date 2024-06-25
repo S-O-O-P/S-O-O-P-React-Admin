@@ -64,4 +64,27 @@
     border: 2px solid #FFB755 !important;
     font-weight: bold !important;
   }
+
+
+  .event-detail-container {
+    padding: 20px;
+  }
+  
+  .event-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .event-category, .event-ticketOpenDate, .event-createdAt {
+    margin-bottom: 10px;
+  }
+  
+  .error-container {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
   
