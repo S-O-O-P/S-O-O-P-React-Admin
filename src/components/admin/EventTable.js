@@ -9,7 +9,7 @@ function EventTable({ events }) {
 
   // 행 클릭 핸들러
   const handleRowClick = (id) => {
-    navigate(`/events/${id}`);
+    navigate(`/events/detail/${id}`);
   };
 
   return (

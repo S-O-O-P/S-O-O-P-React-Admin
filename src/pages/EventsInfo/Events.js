@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField, Typography, InputAdornment, Pagination } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import EventTable from '../../components/admin/EventTable'; // EventTable 컴포넌트 임포트
 import './Events.css'; // CSS 파일 임포트
+
 
 // 초기 이벤트 목록
 const initialEvents = [
@@ -35,6 +37,8 @@ function Events() {
     setPage(value);
   };
 
+  const navigate = useNavigate();
+
   // 현재 페이지에 표시할 이벤트 계산
   const displayedEvents = events.slice((page - 1) * rowsPerPage, page * rowsPerPage);
 
@@ -43,7 +47,9 @@ function Events() {
       <Box className="header-container">
         <Typography variant="h5" className="table-title">공연/전시 정보 전체 조회</Typography>
         <Box className="actions-container">
-          <Button variant="outlined" className="register-button">등록</Button>
+
+          <Button variant="contained" className="register-button" onClick={() => navigate('/events/register/0')}>등록</Button>
+
           <TextField
             variant="outlined"
             placeholder="제목 검색"

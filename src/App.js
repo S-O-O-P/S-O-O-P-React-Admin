@@ -40,7 +40,7 @@ export default function App() {
               <Route path='/notice' element={<Notice/>} />
               <Route path='/inquiry' element={<Inquiry/>} />
               <Route path='/events' element={<Events/>} />
-              <Route path="/events/:id" element={<EventsDetail />} />
+              <Route path="/events/:type/:id" element={<EventsDetail />} />
             </Routes>
           </Layout>
         </BrowserRouter>
