@@ -13,7 +13,7 @@ function Sidebar() {
 
   const routes = [
     { paths: ['/home'], name: '홈', activeImg: `${baseImagePath}icon_home_white.png`, inactiveImg: `${baseImagePath}icon_home_colored.png` },
-    { paths: ['/customer', '/customer/:id'], name: '회원관리', activeImg: `${baseImagePath}icon_user_white.png`, inactiveImg: `${baseImagePath}icon_user_main_color.png` },
+    { paths: ['/customer', '/customer/:userCode'], name: '회원관리', activeImg: `${baseImagePath}icon_user_white.png`, inactiveImg: `${baseImagePath}icon_user_main_color.png` },
     { paths: ['/honeypot'], name: '허니팟 관리', activeImg: `${baseImagePath}icon_board_white.png`, inactiveImg: `${baseImagePath}icon_board_main_color.png` },
     { paths: ['/events'], name: '공연/전시 정보', activeImg: `${baseImagePath}icon_performance_white.png`, inactiveImg: `${baseImagePath}icon_performance_colored.png` },
     { paths: ['/notice'], name: '공지사항 관리', activeImg: `${baseImagePath}icon_notice_white.png`, inactiveImg: `${baseImagePath}icon_notice_colored.png` },

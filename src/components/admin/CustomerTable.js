@@ -1,7 +1,7 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination,Box } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination, Box } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
-import '../../pages/Customer/Customer.css'; // CSS 파일 임포트
+import '../../pages/Customer/Customer.css'; // Ensure you have the appropriate styles
 
 // CustomerTable 컴포넌트
 function CustomerTable({ members, page, rowsPerPage, handlePageChange }) {
@@ -25,14 +25,14 @@ function CustomerTable({ members, page, rowsPerPage, handlePageChange }) {
             {paginatedMembers.map((member, index) => (
               <TableRow key={index} className='customer-table-row'>
                 <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>
-                  <Link to={`/customer/${member.id}`} state={{ from: location.pathname + location.search, searchTerm: location.state?.searchTerm }} className="link">
-                    {member.id}
+                  <Link to={`/customer/${member.userCode}`} state={{ from: location.pathname + location.search, searchTerm: location.state?.searchTerm }} className="link">
+                    {member.userCode}
                   </Link>
                 </TableCell>
                 <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>{member.nickname}</TableCell>
                 <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>{member.gender}</TableCell>
                 <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>{member.email}</TableCell>
-                <TableCell align="center">{member.date}</TableCell>
+                <TableCell align="center">{member.signupDate}</TableCell>
               </TableRow>
             ))}
           </TableBody>

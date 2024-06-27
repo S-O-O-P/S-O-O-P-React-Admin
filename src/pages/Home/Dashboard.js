@@ -97,7 +97,6 @@ const Dashboard = () => {
     ],
   };
 
->>>>>>> a7271db8b442a851751ad6c02fd3cd9074a34941
   return (
     <Box className="dashboard-container">
       <Box className="dashboard-header">
@@ -112,8 +111,6 @@ const Dashboard = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           <DashboardChart title="장르별 허니팟" chartData={genreChartData} />
-<<<<<<< HEAD
-=======
         </Grid>
       </Grid>
       <Box className="dashboard-info-container" sx={{ mt: 2 }}>
@@ -247,7 +244,7 @@ const Dashboard = () => {
               </Table>
             </TableContainer>
           </Paper>
->>>>>>> a7271db8b442a851751ad6c02fd3cd9074a34941
+
         </Grid>
       </Grid>
       {/* Other dashboard components */}
