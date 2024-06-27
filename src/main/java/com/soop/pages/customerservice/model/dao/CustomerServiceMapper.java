@@ -1,7 +1,12 @@
 package com.soop.pages.customerservice.model.dao;
 
+import com.soop.pages.customerservice.model.dto.NoticeDTO;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface CustomerServiceMapper {
+
+    List<NoticeDTO> csMainNoticeListAll();
 }
