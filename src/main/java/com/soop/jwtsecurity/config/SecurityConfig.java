@@ -74,7 +74,7 @@ public class SecurityConfig {
 
         // 경로별 인가 설정
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/main", "/").permitAll() // 메인 페이지 접근 허용
+                .requestMatchers("/").permitAll() // 메인 페이지 접근 허용
                 .requestMatchers("/reissue").permitAll()   // 토큰 재발급 경로 접근 허용
                 .anyRequest().authenticated()              // 기타 모든 요청은 인증 필요
         );

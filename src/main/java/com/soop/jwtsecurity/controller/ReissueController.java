@@ -1,5 +1,6 @@
 package com.soop.jwtsecurity.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soop.jwtsecurity.entityDTO.RefreshEntity;
 import com.soop.jwtsecurity.jwt.JWTUtil;
 import com.soop.jwtsecurity.mapper.UserMapper;
@@ -13,7 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @ResponseBody
@@ -30,7 +34,7 @@ public class ReissueController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         //get refresh token
         String refresh = null;
@@ -95,11 +99,14 @@ public class ReissueController {
         addRefreshEntity(username, newRefresh, 86400000L);
 
         // Refresh 토큰을 쿠키에 추가
-        response.addCookie(createCookie("refresh", newRefresh));
+        response.addCookie(createCookie("refresh", refresh));
 
-        //response
-        response.setHeader("access", newAccess);
-        response.addCookie(createCookie("refresh", newRefresh));
+        //응답 설정
+        response.setHeader("Authorization", "Bearer " + newAccess);
+        response.setStatus(HttpStatus.OK.value());
+
+
+        response.sendRedirect("http://localhost:3000/"); //프론트 url
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
