@@ -5,79 +5,79 @@
 
 <mapper namespace="com.soop.jwtsecurity.mapper.UserMapper">
 
-    <resultMap id="user" type="com.soop.jwtsecurity.entityDTO.UserEntity">
-        <id property="id" column="id"/>
-        <result property="email" column="email"/>
-        <result property="name" column="name"/>
-        <result property="role" column="role"/>
-        <result property="username" column="username"/>
-    </resultMap>
+<!--    <resultMap id="user" type="com.soop.jwtsecurity.entityDTO.UserEntity">-->
+<!--        <id property="id" column="id"/>-->
+<!--        <result property="email" column="email"/>-->
+<!--        <result property="name" column="name"/>-->
+<!--        <result property="role" column="role"/>-->
+<!--        <result property="username" column="username"/>-->
+<!--    </resultMap>-->
 
-    <resultMap id="refresh" type="com.soop.jwtsecurity.entityDTO.RefreshEntity">
-        <id property="id" column="id"/>
-        <result property="username" column="username"/>
-        <result property="refresh" column="refresh"/>
-        <result property="expiration" column="expiration"/>
-    </resultMap>
+<!--    <resultMap id="refresh" type="com.soop.jwtsecurity.entityDTO.RefreshEntity">-->
+<!--        <id property="id" column="id"/>-->
+<!--        <result property="username" column="username"/>-->
+<!--        <result property="refresh" column="refresh"/>-->
+<!--        <result property="expiration" column="expiration"/>-->
+<!--    </resultMap>-->
 
-    <select id="findByUsername" resultType="com.soop.jwtsecurity.entityDTO.UserEntity">
-        select
-            username
-        from userentity
-        where username = #{username}
-    </select>
+<!--    <select id="findByUsername" resultType="com.soop.jwtsecurity.entityDTO.UserEntity">-->
+<!--        select-->
+<!--            username-->
+<!--        from userentity-->
+<!--        where username = #{username}-->
+<!--    </select>-->
 
 
-    <insert id="saveUserEntity" parameterType="com.soop.jwtsecurity.entityDTO.UserEntity">
-        INSERT INTO userentity
-        (
-           email
-        ,   name
-        ,   role
-        ,   username
-        )
-        values
-        (
-           #{email}
-        ,   #{name}
-        ,   #{role}
-        ,   #{username}
-        )
-    </insert>
+<!--    <insert id="saveUserEntity" parameterType="com.soop.jwtsecurity.entityDTO.UserEntity">-->
+<!--        INSERT INTO userentity-->
+<!--        (-->
+<!--           email-->
+<!--        ,   name-->
+<!--        ,   role-->
+<!--        ,   username-->
+<!--        )-->
+<!--        values-->
+<!--        (-->
+<!--           #{email}-->
+<!--        ,   #{name}-->
+<!--        ,   #{role}-->
+<!--        ,   #{username}-->
+<!--        )-->
+<!--    </insert>-->
 
-    <insert id="saveRefreshEntity" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">
-        INSERT INTO refreshentity
-        (
+<!--    <insert id="saveRefreshEntity" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">-->
+<!--        INSERT INTO refreshentity-->
+<!--        (-->
 
-           username
-        ,   refresh
-        ,   expiration
-        )
-        values
-        (
-           #{username}
-        ,   #{refresh}
-        ,   #{expiration}
-        )
-    </insert>
+<!--           username-->
+<!--        ,   refresh-->
+<!--        ,   expiration-->
+<!--        )-->
+<!--        values-->
+<!--        (-->
+<!--           #{username}-->
+<!--        ,   #{refresh}-->
+<!--        ,   #{expiration}-->
+<!--        )-->
+<!--    </insert>-->
 
-    <select id="searchRefreshEntity" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">
-        select A.refresh
-        from refreshentity A
-        join userentity B on A.username = B.username
-        where A.username = #{username}
-    </select>
+<!--    <select id="searchRefreshEntity" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">-->
+<!--        select A.refresh-->
+<!--        from refreshentity A-->
+<!--        join userentity B on A.username = B.username-->
+<!--        where A.username = #{username}-->
+<!--    </select>-->
 
-    <select id="existsByRefresh" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">
-        select
-            refresh
-        from refreshentity
-        where refresh = #{refresh}
-    </select>
+<!--    <select id="existsByRefresh" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">-->
+<!--        select-->
+<!--            refresh-->
+<!--        from refreshentity-->
+<!--        where refresh = #{refresh}-->
+<!--    </select>-->
 
-    <delete id="deleteByRefresh" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">
-        delete from refreshentity
-           where refresh = #{refresh}
-    </delete>
+<!--    <delete id="deleteByRefresh" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">-->
+<!--        delete from refreshentity-->
+<!--           where refresh = #{refresh}-->
+<!--    </delete>-->
 
 </mapper>

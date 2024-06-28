@@ -1,7 +1,7 @@
 package com.soop.pages.customerservice.model.service;
 
 import com.soop.pages.customerservice.model.dao.CustomerServiceMapper;
-import com.soop.pages.customerservice.model.dto.NoticeDTO;
+import com.soop.pages.customerservice.model.dto.NoticeMemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ public class CustomerServiceService {
     @Autowired
     private CustomerServiceMapper customerServiceMapper;
 
-    public List<NoticeDTO> csMainNoticeList() {
+    public List<NoticeMemberDTO> csMainNoticeList() {
 
         return customerServiceMapper.csMainNoticeListAll();
     }
