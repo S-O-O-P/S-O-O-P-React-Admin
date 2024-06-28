@@ -1,6 +1,5 @@
 package com.soop.jwtsecurity.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soop.jwtsecurity.dto.CustomOAuth2User;
 import com.soop.jwtsecurity.entityDTO.RefreshEntity;
 import com.soop.jwtsecurity.jwt.JWTUtil;
@@ -19,8 +18,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -60,10 +57,16 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 //        response.setContentType("application/json");
 //        new ObjectMapper().writeValue(response.getWriter(), tokenResponse);
 //
-        response.addCookie(createCookie("refresh", refresh));
+
+        System.out.println("access = " + access);
+        System.out.println("refresh = " + refresh);
+
+//        response.addCookie(createCookie("refresh", refresh));
         response.setHeader("Authorization", "Bearer " + access);
-        response.setStatus(HttpStatus.FOUND.value());
-        response.setHeader("Location", "http://localhost:3000/");
+        response.setContentType("application/json");
+        response.sendRedirect("http://localhost:3000/login?token=" + access);
+//        response.setHeader("Location", "http://localhost:3000/login");
+//        response.setStatus(HttpStatus.MOVED_PERMANENTLY.value());
 
     }
 
