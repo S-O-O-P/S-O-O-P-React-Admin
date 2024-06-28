@@ -7,11 +7,16 @@ export default function EventForm(){
   // 입력 내용 State
   const [category, setCategory] = useState("concert");
   //const [[]] // 얼리버드 티켓 예매 시작 / 마감
+  const [startBuy, setStartBuy] = useState("");
+  const [endBuy, setEndBuy] = useState("");
   const [region, setRegion] = useState(""); // 지역
   const [place, setPlace] = useState(""); // 관람 장소
-  const [price, setPrice] = useState(""); //관람 가격
+  const [earlyPrice, setEarlyPrice] = useState(""); //얼리버드 가격
+  const [price, setPrice] = useState(""); //일반 가격
   const [age, setAge] = useState(""); // 관람 연령
   //const [] // 얼리버드 티켓 사용 기간 시작 / 마감
+  const [startUse, setStartUse] = useState("");
+  const [endUse, setEndUse] = useState("");
   const [whereToBuy, setWhereToBuy] = useState(""); // 예매처 명
   const [buyUrl, setBuyUrl] = useState(""); // 예매처 링크
   const [earlyTitle, setEarlyTitle] = useState(""); // 제목
@@ -123,32 +128,17 @@ export default function EventForm(){
             </ul>
           </div>
         </li>
-        {/* // 장르 카테고리 필터*/}
-
-        <li className="event_date">
-          <span className="fill_item_tit">티켓 예매 기간</span>
-          <label>
-            {/* 티켓 예매 기간 */}
-            <input type="date" placeholder="2024-07-18"/>
-            {/* <img src="" alt="calendar icon"> */}
-          </label>
-          {/* <label>
-            <input type="text">
-          </label> */}
-          {/* 시간 정보 입력 */}
-        </li>
-        {/* // 공연/전시 정보 일자 선택 */}
+        {/* // 장르 카테고리 필터*/}        
 
         <li className="event_place">
-          <span className="fill_item_tit">장소</span>
-          <input type="text" placeholder="관람 장소를 입력하세요."/>
+          <span className="fill_item_tit">지역</span>
+          <input type="text" placeholder="지역을 입력하세요."/>
         </li>
-        {/* // 공연/전시 장소 */}
+        {/* // 공연/전시 지역 */}
 
-        
-        <li className="event_price">
-          <span className="fill_item_tit">가격</span>
-          <input type="text" placeholder="가격을 입력하세요."/>
+        <li className="event_place">
+          <span className="fill_item_tit">관람 장소</span>
+          <input type="text" placeholder="관람 장소를 입력하세요."/>
         </li>
         {/* // 공연/전시 장소 */}
 
@@ -157,9 +147,30 @@ export default function EventForm(){
           <input type="text" placeholder="관람 연령을 입력하세요."/>
         </li>
         {/* // 공연/전시 관람연령 */}
+        
+        <li className="event_price">
+          <span className="fill_item_tit">할인 가격</span>
+          <input type="text" placeholder="할인 가격을 입력하세요."/>
+        </li>
+        {/* // 공연/전시 할인 가격 */}
+
+        <li className="event_price">
+          <span className="fill_item_tit">일반 가격</span>
+          <input type="text" placeholder="일반 가격을 입력하세요."/>
+        </li>
+        {/* // 공연/전시 일반 가격 */}
 
         <li className="event_period">
-          <span className="fill_item_tit">관람 기간</span>
+          <span className="fill_item_tit">예매 기간</span>
+          <ul className="flex_start">
+            <li><span>시작</span><input type="date" placeholder="2024-08-01"/></li>
+            <li><span>마감</span><input type="date" placeholder="2024-08-31"/></li>
+          </ul>
+        </li>
+        {/* // 공연/전시 관람기간 */}
+
+        <li className="event_period">
+          <span className="fill_item_tit">사용기한</span>
           <ul className="flex_start">
             <li><span>시작</span><input type="date" placeholder="2024-08-01"/></li>
             <li><span>마감</span><input type="date" placeholder="2024-08-31"/></li>

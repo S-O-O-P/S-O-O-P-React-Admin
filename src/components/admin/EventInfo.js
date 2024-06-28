@@ -13,47 +13,70 @@ export default function EventInfo(id){
             <p>뮤지컬</p>
           </div>
         </li>
-        {/* // 장르 카테고리 필터*/}
-
-        <li className="event_date">
-          <span className="fill_item_tit">티켓 예매 기간</span>
-          <div className="fill_contxt">
-            <p>2024-07-08</p>
-          </div>
-          {/* <label>
-            <input type="text">
-          </label> */}
-          {/* 시간 정보 입력 */}
-        </li>
-        {/* // 공연/전시 정보 일자 선택 */}
+        {/* // 장르 카테고리 필터*/}        
 
         <li className="event_place">
-          <span className="fill_item_tit">장소</span>
+          <span className="fill_item_tit">지역</span>
+          <div className="fill_contxt">
+            <p>서울</p>
+          </div>
+        </li>
+        {/* // 공연/전시 장소 */}
+
+        <li className="event_place">
+          <span className="fill_item_tit">관람 장소</span>
           <div className="fill_contxt">
             <p>더현대 서울 ALT.1</p>
           </div>
         </li>
         {/* // 공연/전시 장소 */}
 
-        
-        <li className="event_price">
-          <span className="fill_item_tit">가격</span>
-          <div className="fill_contxt">
-            <p>9,900 원</p>
-          </div>
-        </li>
-        {/* // 공연/전시 장소 */}
-
         <li className="event_age">
-          <span className="fill_item_tit">관람연령</span>
+          <span className="fill_item_tit">관람 연령</span>
           <div className="fill_contxt">
             <p>전체관람가</p>
           </div>
         </li>
         {/* // 공연/전시 관람연령 */}
+        
+        <li className="event_price">
+          <span className="fill_item_tit"> 할인 가격</span>
+          <div className="fill_contxt">
+            <p>9,900 원</p>
+          </div>
+        </li>
+        {/* // 공연/전시 얼리버드 가격 */}  
+
+        <li className="event_price">
+          <span className="fill_item_tit">일반 가격</span>
+          <div className="fill_contxt">
+            <p>15,000 원</p>
+          </div>
+        </li>
+        {/* // 공연/전시 가격 */}      
+
+        <li className="event_period buy_ticket">
+          <span className="fill_item_tit">예매 기간</span>
+          <ul className="flex_start">
+            <li>
+              <span>시작</span>
+              <div className="fill_contxt">
+                <p>2024-08-01</p>
+              </div>
+            </li>
+            <li>
+              <span>마감</span>
+              <div className="fill_contxt">
+                <p>2024-08-31</p>
+              </div>
+            </li>
+          </ul>
+          {/* 시간 정보 입력 */}
+        </li>
+        {/* // 얼리버드 티켓 예매 기간 선택 */}
 
         <li className="event_period">
-          <span className="fill_item_tit">관람기간</span>
+          <span className="fill_item_tit">사용기한</span>
           <ul className="flex_start">
             <li>
               <span>시작</span>
