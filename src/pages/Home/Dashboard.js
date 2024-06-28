@@ -1,67 +1,108 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Box, Grid, Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import DashboardChart from '../../components/admin/DashboardChart';
+import DashboardChart from '../../components/admin/DashboardChart'; // 이 컴포넌트는 이미 정의되어 있다고 가정합니다.
 import './Dashboard.css';
 
-const monthlyChartData = {
-  labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-  datasets: [
-    {
-      label: '생성 건수',
-      data: [30, 45, 40, 50, 60, 55, 50, 45, 35, 30, 25, 20],
-      backgroundColor: 'rgba(75, 192, 192, 0.6)',
-    },
-  ],
-};
+const Dashboard = () => {
+  const [monthlyHoneyCount, setMonthlyHoneyCount] = useState([]);
+  const [genreHoneyCount, setGenreHoneyCount] = useState([]);
+  const [todayMatchingCount, setTodayMatchingCount] = useState(0);
+  const [totalMatchingCount, setTotalMatchingCount] = useState(0);
+  const [todayInquiryCount, setTodayInquiryCount] = useState(0);
+  const [totalInquiryCount, setTotalInquiryCount] = useState(0);
+  const [todayHoneyCount, setTodayHoneyCount] = useState(0);
+  const [totalReportCount, setTotalReportCount] = useState(0);
+  const [todayReportCount, setTodayReportCount] = useState(0);
+  const [reportData, setReportData] = useState([]);
+  const [inquiryData, setInquiryData] = useState([]);
+  const [notices, setNotices] = useState([]);
 
-const dailyChartData = {
-  labels: ['뮤지컬', '전시회', '공연', '행사축제', '팝업'],
-  datasets: [
-    {
-      label: '생성 건수',
-      data: [35, 40, 55, 60, 50],
-      backgroundColor: [
-        '#FFB755', // Vibrant Orange
-        '#DFE0DF', // Olive Green
-        '#14DFA4', // Steel Blue
-        '#00E1C8', // Chocolate
-        '#FFBA94', // Blue Violet
-      ],
-    },
-  ],
-};
+  useEffect(() => {
+    axios.get('http://localhost:8080/dashboard/monthly-honey-count')
+      .then(response => setMonthlyHoneyCount(response.data.monthlyHoneyCount))
+      .catch(error => console.error("There was an error fetching the monthly honey count!", error));
 
-const reportData = [
-  { id: 35, title: 'XX 같이 볼사람 1', date: '2024-06-03', queries: 0 },
-  { id: 34, title: 'XX 같이 볼사람 1', date: '2024-06-03', queries: 0 },
-  { id: 33, title: 'XX 같이 볼사람 1', date: '2023-06-03', queries: 0 },
-  { id: 32, title: 'XX 같이 볼사람 1', date: '2024-06-03', queries: 0 },
-  { id: 31, title: 'XX 같이 볼사람 1', date: '2024-06-03', queries: 0 },
-];
+    axios.get('http://localhost:8080/dashboard/genre-honey-count')
+      .then(response => setGenreHoneyCount(response.data.genreHoneyCount))
+      .catch(error => console.error("There was an error fetching the genre honey count!", error));
 
-const inquiryData = [
-  { id: 36, title: '공연 프로그램북이나 공식MD를 구입하고 싶습니다.', status: '답변완료', date: '2024-06-03', type: '전시회', control: '버튼' },
-  { id: 35, title: '공연장에 몇 시까지 도착해야 하나요?', status: '답변완료', date: '2024-06-02', type: '행사/축제', control: '버튼' },
-  { id: 34, title: '공연장에 갈 때 옷차림에 제한이 있나요?', status: '답변완료', date: '2024-06-01', type: '공연', control: '버튼' },
-  { id: 33, title: '비어있는 좌석으로 자리를 옮겨도 되나요?', status: '답변완료', date: '2024-06-01', type: '팝업', control: '버튼' },
-  { id: 32, title: '공연시작 시산에 늦었어요. 늦게라도 들어갈 수 있나요?', status: '답변완료', date: '2024-06-01', type: '뮤지컬', control: '버튼' },
-];
+    axios.get('http://localhost:8080/dashboard/today-matching-count')
+      .then(response => setTodayMatchingCount(response.data.todayMatchingCount))
+      .catch(error => console.error("There was an error fetching the today matching count!", error));
 
-const notices = [
-  { id: 32, title: '[공지사항] 얼리벗 업데이트 사항 공지', date: '2024-06-03' },
-  { id: 31, title: '[이벤트] 얼리벗 신규회원 이벤트!', date: '2024-06-02' },
-  { id: 30, title: '[공지사항] 얼리벗 개인정보 처리방침 변경 안내(6/7)', date: '2024-06-01' },
-  { id: 29, title: '[공지사항] 어리버드 티켓 정보 서비스 업데이트 공지', date: '2024-06-01' },
-  { id: 28, title: '[이벤트] 얼리벗 신규 오픈 이벤트', date: '2024-06-01' },
-];
+    axios.get('http://localhost:8080/dashboard/total-matching-count')
+      .then(response => setTotalMatchingCount(response.data.totalMatchingCount))
+      .catch(error => console.error("There was an error fetching the today matching count!", error));
 
-function Dashboard() {
+    axios.get('http://localhost:8080/dashboard/today-inquiry-count')
+      .then(response => setTodayInquiryCount(response.data.todayInquiryCount))
+      .catch(error => console.error("There was an error fetching the today inquiry count!", error));
+
+    axios.get('http://localhost:8080/dashboard/total-inquiry-count')
+      .then(response => setTotalInquiryCount(response.data.totalInquiryCount))
+      .catch(error => console.error("There was an error fetching the today inquiry count!", error));
+
+
+    axios.get('http://localhost:8080/dashboard/today-honey-count')
+      .then(response => setTodayHoneyCount(response.data.todayHoneyCount))
+      .catch(error => console.error("There was an error fetching the today honey count!", error));
+
+    axios.get('http://localhost:8080/dashboard/total-report-count')
+      .then(response => setTotalReportCount(response.data.totalReportCount))
+      .catch(error => console.error("There was an error fetching the today matching count!", error));
+
+    axios.get('http://localhost:8080/dashboard/today-report-count')
+      .then(response => setTodayReportCount(response.data.todayReportCount))
+      .catch(error => console.error("There was an error fetching the today matching count!", error));
+
+    axios.get('http://localhost:8080/dashboard/reports')
+      .then(response => setReportData(response.data.reports))
+      .catch(error => console.error("There was an error fetching the reports!", error));
+
+    axios.get('http://localhost:8080/dashboard/inquiries')
+      .then(response => setInquiryData(response.data.inquiries))
+      .catch(error => console.error("There was an error fetching the inquiries!", error));
+
+    axios.get('http://localhost:8080/dashboard/notices')
+      .then(response => setNotices(response.data.notices))
+      .catch(error => console.error("There was an error fetching the notices!", error));
+  }, []);
+
+  const monthlyChartData = {
+    labels: monthlyHoneyCount.map(item => item.month),
+    datasets: [
+      {
+        label: '생성 건수',
+        data: monthlyHoneyCount.map(item => item.honey_count),
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+      },
+    ],
+  };
+
+  const genreChartData = {
+    labels: genreHoneyCount.map(item => item.genre),
+    datasets: [
+      {
+        label: '생성 건수',
+        data: genreHoneyCount.map(item => item.honey_count),
+        backgroundColor: [
+          '#FFB755', 
+          '#DFE0DF', 
+          '#14DFA4', 
+          '#00E1C8', 
+          '#FFBA94', 
+        ],
+      },
+    ],
+  };
+
   return (
     <Box className="dashboard-container">
       <Box className="dashboard-header">
         <Typography variant="h6" sx={{ color: 'white' }}>오늘의 허니팟</Typography>
         <Box className="dashboard-title">
-          <Typography variant="h7" className="dashboard-summary">20개</Typography>
+          <Typography variant="h7" className="dashboard-summary">{todayHoneyCount}개</Typography>
         </Box>
       </Box>
       <Grid container spacing={2}>
@@ -69,7 +110,7 @@ function Dashboard() {
           <DashboardChart title="월별 허니팟" chartData={monthlyChartData} />
         </Grid>
         <Grid item xs={12} md={6}>
-          <DashboardChart title="장르별 허니팟" chartData={dailyChartData} />
+          <DashboardChart title="장르별 허니팟" chartData={genreChartData} />
         </Grid>
       </Grid>
       <Box className="dashboard-info-container" sx={{ mt: 2 }}>
@@ -78,12 +119,12 @@ function Dashboard() {
           <Box className="info-content">
             <Box className="info-item">
               <Typography>전체</Typography>
-              <Typography>45,912</Typography>
+              <Typography>{totalMatchingCount}</Typography>
             </Box>
             <div className="horizontal-line"></div>
             <Box className="info-item">
               <Typography>오늘</Typography>
-              <Typography>546</Typography>
+              <Typography>{todayMatchingCount}</Typography>
             </Box>
           </Box>
         </Paper>
@@ -92,12 +133,12 @@ function Dashboard() {
           <Box className="info-content">
             <Box className="info-item">
               <Typography>전체</Typography>
-              <Typography>45,912</Typography>
+              <Typography>{totalInquiryCount}</Typography>
             </Box>
             <div className="horizontal-line"></div>
             <Box className="info-item">
               <Typography>오늘</Typography>
-              <Typography>2</Typography>
+              <Typography>{todayInquiryCount}</Typography>
             </Box>
           </Box>
         </Paper>
@@ -106,12 +147,12 @@ function Dashboard() {
           <Box className="info-content">
             <Box className="info-item">
               <Typography>전체</Typography>
-              <Typography>45,912</Typography>
+              <Typography>{totalReportCount}</Typography>
             </Box>
             <div className="horizontal-line"></div>
             <Box className="info-item">
               <Typography>오늘</Typography>
-              <Typography>2</Typography>
+              <Typography>{todayReportCount}</Typography>
             </Box>
           </Box>
         </Paper>
@@ -135,10 +176,10 @@ function Dashboard() {
                 <TableBody>
                   {reportData.map((row, index) => (
                     <TableRow key={row.id}>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.id}</TableCell>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.title}</TableCell>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.date}</TableCell>
-                      <TableCell sx={{ borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.queries}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.honeypotCode}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.honeypotTitle}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.regDate}</TableCell>
+                      <TableCell sx={{ borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.reportCount}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -157,17 +198,17 @@ function Dashboard() {
                   <TableRow>
                     <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">no</TableCell>
                     <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">제목</TableCell>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">구분</TableCell>
+                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">유형</TableCell>
                     <TableCell sx={{ color: 'white' }} align="center">관리</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {inquiryData.map((row, index) => (
                     <TableRow key={row.id}>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.id}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.inquiryCode}</TableCell>
                       <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.title}</TableCell>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.type}</TableCell>
-                      <TableCell sx={{ borderBottom: index === inquiryData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.status}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.category}</TableCell>
+                      <TableCell sx={{ borderBottom: index === inquiryData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.answerStatus}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -194,18 +235,21 @@ function Dashboard() {
                 <TableBody>
                   {notices.map((notice, index) => (
                     <TableRow key={notice.id}>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === notices.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.id}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === notices.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.noticeCode}</TableCell>
                       <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === notices.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.title}</TableCell>
-                      <TableCell sx={{ borderBottom: index === notices.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.date}</TableCell>
+                      <TableCell sx={{ borderBottom: index === notices.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.regDate}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
           </Paper>
+
         </Grid>
       </Grid>
+      {/* Other dashboard components */}
     </Box>
   );
-}
+};
+
 export default Dashboard;

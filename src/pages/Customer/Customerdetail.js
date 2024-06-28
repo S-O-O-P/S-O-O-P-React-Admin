@@ -1,23 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Box, Typography, TextField, Button, Grid } from '@mui/material';
-import './Customerdetail.css'; // CSS 파일 임포트
+import axios from 'axios';
+import './Customer.css'; // CSS 파일 임포트
 
 // CustomerDetail 컴포넌트
 function CustomerDetail() {
-  const { id } = useParams(); // URL 파라미터에서 ID 가져오기
+  const { userCode } = useParams(); // URL 파라미터에서 ID 가져오기
   const navigate = useNavigate(); // 페이지 이동을 위한 네비게이트 함수
   const location = useLocation(); // 현재 위치 정보
 
-  // 회원 목록 데이터
-  const members = [
-    { id: 'user001', nickname: 'userone', gender: '남', email: 'userone@gmail.com', date: '2024-06-23' },
-    { id: 'user002', nickname: 'usertwo', gender: '여', email: 'usertwo@gmail.com', date: '2024-06-23' },
-    { id: 'user003', nickname: 'userthree', gender: '남', email: 'userthree@gmail.com', date: '2024-06-23' },
-    { id: 'user004', nickname: 'userfour', gender: '여', email: 'userfour@gmail.com', date: '2024-06-23' },
-  ];
+  const [member, setMember] = useState({}); // 단일 객체로 변경
+  const [loading, setLoading] = useState(true);
 
-  const member = members.find(member => member.id === id); // 회원 정보 찾기
+  useEffect(() => {
+    axios.get(`http://localhost:8080/customer/${userCode}`)
+      .then(response => {
+        console.log('API Response:', response.data); // 디버깅을 위한 로그
+        setMember(response.data); // 응답 데이터를 단일 객체로 설정
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('There was an error fetching the member data!', error);
+        setLoading(false);
+      });
+  }, [userCode]);
+
+  // 로딩 중일 때 메시지 표시
+  if (loading) {
+    return <Typography variant="h4" color="#FFB755" className='customer-loading'>Loading...</Typography>;
+  }
 
   // 회원 정보를 찾지 못했을 때 메시지 표시
   if (!member) {
@@ -36,7 +48,7 @@ function CustomerDetail() {
         <Grid item xs={12} sm={6}>
           <div className="detail-group">
             <Typography className="detail-label">회원코드</Typography>
-            <Typography className="detail-value">{member.id}</Typography>
+            <Typography className="detail-value">{member.userCode}</Typography>
           </div>
           <div className="detail-group">
             <Typography className="detail-label">성별</Typography>
@@ -52,17 +64,21 @@ function CustomerDetail() {
           </div>
           <div className="detail-group">
             <Typography className="detail-label">가입일자</Typography>
-            <Typography className="detail-value">{member.date}</Typography>
+            <Typography className="detail-value">{member.signupDate}</Typography>
           </div>
           <div className="detail-group">
             <Typography className="detail-label">가입플랫폼</Typography>
-            <Typography className="detail-value">카카오톡</Typography>
+            <Typography className="detail-value">{member.signupPlatform}</Typography>
           </div>
         </Grid>
         <Grid item xs={12} sm={6} className="profile-content-container">
           <Typography className="profile-content">프로필 사진</Typography>
           <Box className="profile-picture">
-            <Typography>등록된 프로필이 없습니다.</Typography>
+            {member.profilePic ? (
+              <img src={member.profilePic} alt="Profile" />
+            ) : (
+              <Typography>등록된 프로필이 없습니다.</Typography>
+            )}
           </Box>
         </Grid>
         <Grid item xs={12}>
@@ -70,7 +86,7 @@ function CustomerDetail() {
             label="자기소개"
             multiline
             rows={4}
-            defaultValue="자기소개 글 입니다."
+            defaultValue={member.aboutMe}
             variant="outlined"
             fullWidth
             InputProps={{ readOnly: true, className: "text-field-input" }} // 읽기 전용 설정

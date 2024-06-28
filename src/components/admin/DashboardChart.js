@@ -31,7 +31,7 @@ function DashboardChart({ title, chartData }) {
       },
       title: {
         display: true,
-        text: '생성 건수',
+        text: '2024년 생성 건수',
       },
     },
     scales: {
