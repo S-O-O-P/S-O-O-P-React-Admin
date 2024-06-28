@@ -12,7 +12,7 @@ function Sidebar() {
   const routes = [
     { paths: ['/home'], name: '홈', activeImg: `${baseImagePath}icon_home_white.png`, inactiveImg: `${baseImagePath}icon_home_colored.png` },
     { paths: ['/customer', '/customer/:userCode'], name: '회원관리', activeImg: `${baseImagePath}icon_user_white.png`, inactiveImg: `${baseImagePath}icon_user_main_color.png` },
-    { paths: ['/inquiry', '/inquiry/:id'], name: '1:1문의', activeImg: `${baseImagePath}icon_support_white.png`, inactiveImg: `${baseImagePath}icon_support_colored.png` }
+    { paths: ['/inquiry', '/inquiry/:id'], name: '1:1문의', activeImg: `${baseImagePath}icon_support_white.png`, inactiveImg: `${baseImagePath}icon_support_colored.png` },
     { paths: ['/honeypot', '/honeypot/:honeypotCode'], name: '허니팟 관리', activeImg: `${baseImagePath}icon_board_white.png`, inactiveImg: `${baseImagePath}icon_board_main_color.png` },
     { paths: ['/events', '/events/:type/:id', '/events/detail/:id'], name: '공연/전시 정보', activeImg: `${baseImagePath}icon_performance_white.png`, inactiveImg: `${baseImagePath}icon_performance_colored.png` },
     { paths: ['/notice'], name: '공지사항 관리', activeImg: `${baseImagePath}icon_notice_white.png`, inactiveImg: `${baseImagePath}icon_notice_colored.png` },
