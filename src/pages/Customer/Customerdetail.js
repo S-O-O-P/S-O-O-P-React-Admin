@@ -10,15 +10,14 @@ function CustomerDetail() {
   const navigate = useNavigate(); // 페이지 이동을 위한 네비게이트 함수
   const location = useLocation(); // 현재 위치 정보
 
-  const [member, setMember] = useState({});
+  const [member, setMember] = useState({}); // 단일 객체로 변경
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     axios.get(`http://localhost:8080/customer/${userCode}`)
       .then(response => {
         console.log('API Response:', response.data); // 디버깅을 위한 로그
-        setMember(response.data);
+        setMember(response.data); // 응답 데이터를 단일 객체로 설정
         setLoading(false);
       })
       .catch(error => {
@@ -27,11 +26,12 @@ function CustomerDetail() {
       });
   }, [userCode]);
 
-  // 회원 정보를 찾지 못했을 때 메시지 표시
+  // 로딩 중일 때 메시지 표시
   if (loading) {
     return <Typography variant="h4" color="#FFB755" className='customer-loading'>Loading...</Typography>;
   }
 
+  // 회원 정보를 찾지 못했을 때 메시지 표시
   if (!member) {
     return <Typography variant="h4" color="#FFB755" className='customer-error'>회원 정보를 찾을 수 없습니다.</Typography>;
   }
