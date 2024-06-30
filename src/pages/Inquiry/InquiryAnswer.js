@@ -46,7 +46,7 @@ function InquiryAnswer() {
         await axios.post(`http://localhost:8080/inquiry/${inquiryCode}/answer`, {
           answer: answer
         });
-        setInquiry(prevInquiry => ({ ...prevInquiry, answer, answerStatus: "답변완료" })); // Update inquiry state with the new answer and status
+        setInquiry(prevInquiry => ({ ...prevInquiry, answer })); // Update inquiry state with the new answer and status
         setModalOpen(true);
       } catch (error) {
         console.error("There was an error posting the answer!", error);
@@ -61,7 +61,7 @@ function InquiryAnswer() {
       await axios.patch(`http://localhost:8080/inquiry/${inquiryCode}/status`, {
         answerStatus: "답변완료"
       });
-      navigate('/inquiry', { state: { page: currentPage, searchTerm, updatedInquiry: { ...inquiry, answerStatus: "답변완료" } } });
+      navigate('/inquiry', { state: { page: currentPage, searchTerm, updatedInquiry: {answerStatus: "답변완료" } } });
     } catch (error) {
       console.error("There was an error updating the answer status!", error);
     }
