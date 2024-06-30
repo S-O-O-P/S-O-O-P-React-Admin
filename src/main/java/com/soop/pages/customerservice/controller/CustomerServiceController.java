@@ -38,4 +38,21 @@ public class CustomerServiceController {
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
+
+    @GetMapping("/notice")
+    public ResponseEntity<Map<String, Object>> noticeList() {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        List<NoticeMemberDTO> mainNoticeList = customerServiceService.noticeList();
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("mainNoticeList", mainNoticeList);
+        System.out.println("result = " + result);
+        System.out.println("mainNoticeList = " + mainNoticeList);
+        System.out.println("headers = " + headers);
+
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
 }

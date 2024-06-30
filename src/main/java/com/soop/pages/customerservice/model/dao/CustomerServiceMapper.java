@@ -9,4 +9,6 @@ import java.util.List;
 public interface CustomerServiceMapper {
 
     List<NoticeMemberDTO> csMainNoticeListAll();
+
+    List<NoticeMemberDTO> noticeListAll();
 }

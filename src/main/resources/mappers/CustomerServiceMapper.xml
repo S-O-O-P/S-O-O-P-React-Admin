@@ -32,4 +32,19 @@
          ORDER BY REG_DATE
          LIMIT 0, 5
     </select>
+
+    <select id="noticeListAll" resultMap="NoticeResultMap">
+        SELECT
+               A.NOTICE_CODE,
+               A.CATEGORY,
+               A.TITLE,
+               A.CONTENT,
+               A.USER_CODE,
+               A.REG_DATE,
+               B.USER_CODE,
+               B.NICKNAME
+          FROM NOTICE A
+          LEFT JOIN LINKBEE_USER B ON A.USER_CODE = B.USER_CODE
+         ORDER BY REG_DATE
+    </select>
 </mapper>

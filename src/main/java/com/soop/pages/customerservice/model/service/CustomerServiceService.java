@@ -18,4 +18,8 @@ public class CustomerServiceService {
         return customerServiceMapper.csMainNoticeListAll();
     }
 
+    public List<NoticeMemberDTO> noticeList() {
+
+        return customerServiceMapper.noticeListAll();
+    }
 }
