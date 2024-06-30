@@ -22,8 +22,9 @@ function Customer() {
     axios.get('http://localhost:8080/customer/')
       .then(response => {
         console.log('API Response:', response.data); // Debugging statement
-        setMembers(response.data.usersInfo);
-        setFilteredMembers(response.data.usersInfo);
+        const filteredUsers = response.data.usersInfo.filter(user => user.userRole !== 'ADMIN');
+        setMembers(filteredUsers);
+        setFilteredMembers(filteredUsers);
       })
       .catch(error => console.error('There was an error fetching the members!', error));
   }, []);

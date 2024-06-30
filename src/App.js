@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as BrowserRouter, Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/Home/Dashboard';
 import Customer from './pages/Customer/Customer';
@@ -21,29 +21,38 @@ import './pages/EventsInfo/Events.css';
 import './pages/EventsInfo/EventsDetail.css'
 import  GlobalStyles  from './styles/GlobalStyles';
 import Layout from './layouts/Layout'; // Layout 경로 추가
-
+import Login from './components/admin/Login';
 
 export default function App() {
-    return (
-      <>      
-        <GlobalStyles/>
-        <BrowserRouter>
-          <Layout>
-            <Routes>
-              <Route index element={<Dashboard />} />
-              <Route path="/home" element={<Dashboard />} />
-              <Route path="/customer" element={<Customer />} />
-              <Route path="/customer/:userCode" element={<CustomerDetail />} />
-              <Route path='/honeypot' element={<Honeypot />} />
-              <Route path="/honeypot/:honeypotCode" element={<HoneypotDetail />} />
-              <Route path='/inquiry/:id' element={<InquiryAnswer />} />
-              <Route path='/notice' element={<Notice/>} />
-              <Route path='/inquiry' element={<Inquiry/>} />
-              <Route path='/events' element={<Events/>} />
-              <Route path="/events/:type/:id" element={<EventsDetail />} />
-            </Routes>
-          </Layout>
-        </BrowserRouter>
-      </>
-    );
+  const [user, setUser] = useState(null); // 사용자 정보 상태
+
+  return (
+    <>
+      <GlobalStyles />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login setUser={setUser} />} />
+          <Route
+            path="/*"
+            element={
+              <Layout user={user}>
+                <Routes>
+                  <Route path="home" element={<Dashboard />} />
+                  <Route path="customer" element={<Customer />} />
+                  <Route path="customer/:userCode" element={<CustomerDetail />} />
+                  <Route path="honeypot" element={<Honeypot />} />
+                  <Route path="honeypot/:honeypotCode" element={<HoneypotDetail />} />
+                  <Route path="inquiry/:inquiryCode" element={<InquiryAnswer />} />
+                  <Route path="notice" element={<Notice />} />
+                  <Route path="inquiry" element={<Inquiry />} />
+                  <Route path="events" element={<Events />} />
+                  <Route path="events/:type/:id" element={<EventsDetail />} />
+                </Routes>
+              </Layout>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
 }

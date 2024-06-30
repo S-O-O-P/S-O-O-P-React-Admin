@@ -2,27 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, TextField, Typography, InputAdornment, Pagination } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import InquiryTable from '../../components/admin/InquiryTable';
+import axios from 'axios';
 import './Inquiry.css';
-
-const initialInquiries = [
-  { id: 37, title: '이벤트 관련 안내질문 있나요?', category: '뮤지컬', date: '2024-07-16', manage: '미답변' },
-  { id: 36, title: '공연 프로그램북이나 굿즈MD를 구입하고 싶습니다.', category: '전시회', date: '2024-07-16', manage: '미답변' },
-  { id: 35, title: '이벤트 관련 안내질문 있나요?', category: '뮤지컬', date: '2024-07-16', manage: '미답변' },
-  { id: 34, title: '이벤트 관련 안내질문 있나요?', category: '뮤지컬', date: '2024-07-16', manage: '미답변' },
-  { id: 33, title: '이벤트 관련 안내질문 있나요?', category: '뮤지컬', date: '2024-07-16', manage: '미답변' },
-  { id: 32, title: '이벤트 관련 안내질문 있나요?', category: '뮤지컬', date: '2024-07-16', manage: '미답변' },
-  { id: 31, title: '이벤트 관련 안내질문 있나요?', category: '뮤지컬', date: '2024-07-16', manage: '미답변' },
-  { id: 30, title: '이벤트 관련 안내질문 있나요?', category: '뮤지컬', date: '2024-07-16', manage: '미답변' },
-  { id: 29, title: '이벤트 관련 안내질문 있나요?', category: '뮤지컬', date: '2024-07-16', manage: '미답변' },
-  { id: 28, title: '이벤트 관련 안내질문 있나요?', category: '뮤지컬', date: '2024-07-16', manage: '미답변' },
-  { id: 27, title: '이벤트 관련 안내질문 있나요?', category: '뮤지컬', date: '2024-07-16', manage: '미답변' },
-  { id: 26, title: '이벤트 관련 안내질문 있나요?', category: '뮤지컬', date: '2024-07-16', manage: '미답변' },
-  { id: 25, title: '이벤트 관련 안내질문 있나요?', category: '뮤지컬', date: '2024-07-16', manage: '미답변' },
-  { id: 24, title: '이벤트 관련 안내질문 있나요?', category: '뮤지컬', date: '2024-07-16', manage: '미답변' },
-  { id: 23, title: '이벤트 관련 안내질문 있나요?', category: '뮤지컬', date: '2024-07-16', manage: '미답변' },
-  { id: 22, title: '이벤트 관련 안내질문 있나요?', category: '뮤지컬', date: '2024-07-16', manage: '미답변' },
-  { id: 21, title: '이벤트 관련 안내질문 있나요?', category: '뮤지컬', date: '2024-07-16', manage: '미답변' },
-];
 
 function Inquiry() {
   const location = useLocation();
@@ -34,18 +15,49 @@ function Inquiry() {
   const [page, setPage] = useState(currentPage);
   const [searchTerm, setSearchTerm] = useState(location.state?.searchTerm || '');
   const [filteredInquiries, setFilteredInquiries] = useState([]);
+  const [inquiries, setInquiries] = useState([]);
 
   const rowsPerPage = 5;
 
   useEffect(() => {
-    const savedInquiries = JSON.parse(localStorage.getItem('inquiries')) || initialInquiries;
-    if (location.state?.searchTerm) {
-      handleSearch(location.state.searchTerm, savedInquiries);
+    fetchInquiries();
+  }, []);
+
+  useEffect(() => {
+    if (location.state?.updatedInquiry) {
+      setInquiries(prevInquiries => prevInquiries.map(inquiry =>
+        inquiry.inquiryCode === location.state.updatedInquiry.inquiryCode
+          ? location.state.updatedInquiry
+          : inquiry
+      ));
+      setFilteredInquiries(prevInquiries => prevInquiries.map(inquiry =>
+        inquiry.inquiryCode === location.state.updatedInquiry.inquiryCode
+          ? location.state.updatedInquiry
+          : inquiry
+      ));
     } else {
-      setFilteredInquiries(savedInquiries);
+      if (location.state?.searchTerm) {
+        handleSearch(location.state.searchTerm, inquiries);
+      } else {
+        setFilteredInquiries(inquiries);
+      }
     }
     setPage(currentPage);
-  }, [currentPage, location.state?.searchTerm]);
+  }, [currentPage, location.state?.searchTerm, location.state?.updatedInquiry, inquiries]);
+
+  const fetchInquiries = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/inquiry/'); // API 엔드포인트를 설정합니다.
+      setInquiries(response.data.inquiryInfo); // Adjusted to match the response structure
+      if (location.state?.searchTerm) {
+        handleSearch(location.state.searchTerm, response.data.inquiryInfo);
+      } else {
+        setFilteredInquiries(response.data.inquiryInfo);
+      }
+    } catch (error) {
+      console.error('Error fetching inquiries:', error);
+    }
+  };
 
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -60,7 +72,7 @@ function Inquiry() {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearch = (term = searchTerm, inquiriesList = initialInquiries) => {
+  const handleSearch = (term = searchTerm, inquiriesList = inquiries) => {
     const filtered = inquiriesList.filter(inquiry =>
       inquiry.title.toLowerCase().includes(term.toLowerCase())
     );
@@ -69,12 +81,14 @@ function Inquiry() {
   };
 
   const handleInquiryClick = (inquiry) => {
-    if (inquiry.manage === '미답변' || inquiry.manage === '답변완료') {
-      navigate(`/inquiry/${inquiry.id}`, { state: { inquiry, page, searchTerm } });
+    if (inquiry.answerStatus === '답변대기' || inquiry.answerStatus === '답변완료') {
+      navigate(`/inquiry/${inquiry.inquiryCode}`, { state: { inquiry, page, searchTerm } });
     }
   };
 
-  const displayedInquiries = filteredInquiries.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+  const displayedInquiries = Array.isArray(filteredInquiries)
+    ? filteredInquiries.slice((page - 1) * rowsPerPage, page * rowsPerPage)
+    : [];
 
   return (
     <Box className="inquiry-container">

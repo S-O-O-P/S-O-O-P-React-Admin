@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography, Button, List, ListItem, ListItemText } from '@mui/material';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 
 function Sidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
 
   const baseImagePath = '/images/admin/';
   const baseImagePaths = '/images/commons/';
@@ -12,11 +14,10 @@ function Sidebar() {
   const routes = [
     { paths: ['/home'], name: '홈', activeImg: `${baseImagePath}icon_home_white.png`, inactiveImg: `${baseImagePath}icon_home_colored.png` },
     { paths: ['/customer', '/customer/:userCode'], name: '회원관리', activeImg: `${baseImagePath}icon_user_white.png`, inactiveImg: `${baseImagePath}icon_user_main_color.png` },
-    { paths: ['/inquiry', '/inquiry/:id'], name: '1:1문의', activeImg: `${baseImagePath}icon_support_white.png`, inactiveImg: `${baseImagePath}icon_support_colored.png` }
+    { paths: ['/inquiry', '/inquiry/:id'], name: '1:1문의', activeImg: `${baseImagePath}icon_support_white.png`, inactiveImg: `${baseImagePath}icon_support_colored.png` },
     { paths: ['/honeypot', '/honeypot/:honeypotCode'], name: '허니팟 관리', activeImg: `${baseImagePath}icon_board_white.png`, inactiveImg: `${baseImagePath}icon_board_main_color.png` },
     { paths: ['/events', '/events/:type/:id', '/events/detail/:id'], name: '공연/전시 정보', activeImg: `${baseImagePath}icon_performance_white.png`, inactiveImg: `${baseImagePath}icon_performance_colored.png` },
     { paths: ['/notice'], name: '공지사항 관리', activeImg: `${baseImagePath}icon_notice_white.png`, inactiveImg: `${baseImagePath}icon_notice_colored.png` },
-
   ];
 
   const isActive = (paths) => {
@@ -26,16 +27,37 @@ function Sidebar() {
     });
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUser(null);
+    navigate('/');
+  };
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+  }, [user]);
+
   return (
     <Box className="sidebar">
       <Box className="sidebar-header">
         <img src={`${baseImagePaths}logo.png`} alt="logo" className="sidebar-logo" />
         <Box className="sidebar-role-user">
           <Typography variant="body2" className="sidebar-role">관리자</Typography>
-          <Typography variant="body1" className="sidebar-user">김진용님</Typography>
+          <Typography variant="body1" className="sidebar-user">
+            {user && user.nickname && user.userRole === 'ADMIN' ? `${user.nickname}님` : '로딩 중...'}
+          </Typography>
         </Box>
         <Box className="sidebar-logout-container">
-          <Button variant="body2">
+          <Button variant="body2" onClick={handleLogout}>
             Logout
             <img src={`${baseImagePaths}icon_logout_white.png`} alt="로그아웃" className='sidebar-logout' />
           </Button>
