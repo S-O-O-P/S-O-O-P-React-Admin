@@ -46,33 +46,37 @@
     </insert>
 
     <insert id="saveRefreshEntity" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">
-        INSERT INTO refreshentity
-        (
-
-           username
-        ,   refresh
-        ,   expiration
+        INSERT INTO refreshentity (username, refresh, expiration)
+        VALUES (
+              #{username}
+            , #{refresh}
+            , #{expiration}
         )
-        values
+        ON DUPLICATE KEY UPDATE
+        refresh = VALUES
         (
-           #{username}
-        ,   #{refresh}
-        ,   #{expiration}
+        refresh
+        ),
+        expiration = VALUES
+        (
+        expiration
         )
     </insert>
 
+
     <select id="searchRefreshEntity" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">
-        select A.refresh
-        from refreshentity A
-        join userentity B on A.username = B.username
-        where A.username = #{username}
+        select
+            A.refresh
+            from refreshentity A
+            join userentity B on A.username = B.username
+            where A.username = #{username}
     </select>
 
-    <select id="existsByRefresh" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">
+    <select id="existsByRefresh" parameterType="String" resultType="Boolean">
         select
-            refresh
-        from refreshentity
-        where refresh = #{refresh}
+            case when count(*) > 0 then true else false end
+            from refreshentity
+            where refresh = #{refresh}
     </select>
 
     <delete id="deleteByRefresh" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">

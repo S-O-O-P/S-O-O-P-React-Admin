@@ -8,7 +8,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -40,34 +39,24 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String access = jwtUtil.createJwt("access", username, role, 600L);
+        String access = jwtUtil.createJwt("access", username, role, 600L * 1000); // 10분 (600초)
         String existingRefreshToken = userMapper.searchRefreshEntity(username);
 
         if (existingRefreshToken != null) {
             userMapper.deleteByRefresh(existingRefreshToken);
         }
 
-        String refresh = jwtUtil.createJwt("refresh", username, role, 86400000L);
-        addRefreshEntity(username, refresh, 86400000L);
-
-//        // JSON으로 응답
-//        Map<String, String> tokenResponse = new HashMap<>();
-//        tokenResponse.put("accessToken", access);
-//        tokenResponse.put("redirectUrl", "http://localhost:3000/");
-//        response.setContentType("application/json");
-//        new ObjectMapper().writeValue(response.getWriter(), tokenResponse);
-//
+        String refresh = jwtUtil.createJwt("refresh", username, role, 86400L *1000); // 24시간 (86400000밀리초)
+        addRefreshEntity(username, refresh, 86400L*1000);
 
         System.out.println("access = " + access);
         System.out.println("refresh = " + refresh);
 
-//        response.addCookie(createCookie("refresh", refresh));
-        response.setHeader("Authorization", "Bearer " + access);
-        response.setContentType("application/json");
-        response.sendRedirect("http://localhost:3000/login?token=" + access);
-//        response.setHeader("Location", "http://localhost:3000/login");
-//        response.setStatus(HttpStatus.MOVED_PERMANENTLY.value());
+        // 리프레시 토큰을 HTTP-Only 쿠키로 저장
+        createAndAddCookie(response, "refresh", refresh);
 
+        // 액세스 토큰을 쿼리 스트링으로 전달
+        response.sendRedirect("http://localhost:3000/login?token=" + access);
     }
 
     private void addRefreshEntity(String username, String refresh, Long expiredMs) {
@@ -80,11 +69,20 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         userMapper.saveRefreshEntity(refreshEntity);
     }
 
-    private Cookie createCookie(String key, String value) {
+    private void createAndAddCookie(HttpServletResponse response, String key, String value) {
         Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(24 * 60 * 60);
+        cookie.setMaxAge(24 * 60 * 60); // 24시간
         cookie.setDomain("localhost");
         cookie.setHttpOnly(true);
-        return cookie;
+        cookie.setPath("/");
+        cookie.setSecure(false); // localhost 환경에서는 false, 실제 배포 시 true로 설정
+
+        response.addCookie(cookie);
+
+        // SameSite 설정 추가
+        response.setHeader("Set-Cookie",
+                String.format("%s=%s; Max-Age=%d; Domain=%s; Path=%s; HttpOnly; SameSite=Strict",
+                        key, value, 24 * 60 * 60, "localhost", "/"));
     }
+
 }
