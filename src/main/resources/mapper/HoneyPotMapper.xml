@@ -57,7 +57,7 @@
         HONEYPOT
                  (INTEREST_CODE, HONEYPOT_TITLE, HONEYPOT_CONTENT, USER_CODE, POSTER, REGION, TOTAL_MEMBER, REG_DATE, EVENT_DATE, END_DATE, VISIBILITY_STATUS, CLOSURE_STATUS, REPORT_COUNT)
         VALUES
-                 (#{interestCode}, #{honeypotTitle}, #{honeypotContent}, #{hostCode}, #{poster}, #{region}, #{totalMember}, #{regDate}, #{eventDate}, #{endDate}, #{visibilityStatus}, #{closureStatus}, #{reportCount});
+                 ( #{interestCode}, #{honeypotTitle}, #{honeypotContent}, #{hostCode}, #{poster}, #{region}, #{totalMember}, #{regDate}, #{eventDate}, #{endDate}, #{visibilityStatus}, #{closureStatus}, #{reportCount});
     </insert>
 
 
