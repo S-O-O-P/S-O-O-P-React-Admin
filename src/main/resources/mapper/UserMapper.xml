@@ -59,10 +59,10 @@
         ),
         expiration = VALUES
         (
+
         expiration
         )
     </insert>
-
 
     <select id="searchRefreshEntity" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">
         select
