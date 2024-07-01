@@ -24,12 +24,13 @@ function CustomerTable({ members, page, rowsPerPage, handlePageChange }) {
           <TableBody>
             {paginatedMembers.map((member, index) => (
               <TableRow key={index} className='customer-table-row'>
+                <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>{member.userCode}</TableCell>
                 <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>
-                  <Link to={`/customer/${member.userCode}`} state={{ from: location.pathname + location.search, searchTerm: location.state?.searchTerm }} className="link">
-                    {member.userCode}
+                   <Link to={`/customer/${member.userCode}`} state={{ from: location.pathname + location.search, searchTerm: location.state?.searchTerm }} className="link">
+                  {member.nickname}
                   </Link>
                 </TableCell>
-                <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>{member.nickname}</TableCell>
+                
                 <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>{member.gender}</TableCell>
                 <TableCell align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>{member.email}</TableCell>
                 <TableCell align="center">{member.signupDate}</TableCell>
