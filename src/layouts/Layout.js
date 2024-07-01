@@ -12,11 +12,11 @@ const theme = createTheme({
   },
 });
 
-function Layout({ children }) {
+function Layout({ user, children }) {
   return (
     <ThemeProvider theme={theme}>
       <Box className="layout">
-        <Sidebar />
+        <Sidebar user={user} />
         <Box className="main-content">
           {children}
         </Box>

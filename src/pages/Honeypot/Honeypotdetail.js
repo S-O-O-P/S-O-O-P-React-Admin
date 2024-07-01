@@ -51,12 +51,27 @@ function HoneypotDetail() {
   // 상태 토글 핸들러
   const handleToggleStatus = () => {
     setOpen(false);
-    const from = location.state?.from || '/honeypot'; // 기본값을 '/honeypot'로 설정
-    const currentStatus = row.visibilityStatus;
-    const newStatus = currentStatus === '활성화' ? '비활성화' : '활성화';
-    navigate(from, { state: { toggleStatus: { honeypotCode: parseInt(honeypotCode, 10), newStatus }, searchTerm: location.state?.searchTerm } });
-  };
+    const newStatus = row.visibilityStatus === '활성화' ? '비활성화' : '활성화';
 
+    axios.post(`http://localhost:8080/honeypot/${honeypotCode}/toggleStatus`, { newStatus })
+        .then(response => {
+            // 상태 변경이 성공하면 서버 응답에 따라 로컬 상태 업데이트
+            setRow(prevRow => ({ ...prevRow, visibilityStatus: newStatus }));
+
+            // 상태 변경 후 목록 페이지로 이동
+            const from = location.state?.from || '/honeypot';
+            navigate(from, { state: { toggleStatus: { honeypotCode: parseInt(honeypotCode, 10), newStatus }, searchTerm: location.state?.searchTerm } });
+        })
+        .catch(error => {
+            console.error('There was an error updating the honeypot status!', error);
+            if (error.response) {
+                console.error('Error response data:', error.response.data);
+                console.error('Error response status:', error.response.status);
+                console.error('Error response headers:', error.response.headers);
+            }
+        });
+};
+ 
 
   return (
     <Box className="honeypot-detail-container">
