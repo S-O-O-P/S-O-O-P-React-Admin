@@ -22,4 +22,9 @@ public class CustomerServiceService {
 
         return customerServiceMapper.noticeListAll();
     }
+
+    public NoticeMemberDTO noticeDetail(String code) {
+
+        return customerServiceMapper.noticeDetail(code);
+    }
 }
