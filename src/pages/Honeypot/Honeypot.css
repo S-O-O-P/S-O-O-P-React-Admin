@@ -39,7 +39,7 @@
 
 .inactive-status {
   display: inline-block;
-  padding: 10px 19px;
+  padding: 10px 25px;
   border: 2px solid #FFB755;
   border-radius: 15px;
   color: #DCE5D7;
@@ -51,3 +51,4 @@
 .honeypot-table-row:hover {
   background-color: rgba(255, 183, 85, 0.1);
 }
+

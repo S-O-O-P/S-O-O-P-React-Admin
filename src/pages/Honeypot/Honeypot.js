@@ -97,7 +97,7 @@ function Honeypot() {
   const displayedRows = filteredRows.slice((page - 1) * rowsPerPage, page * rowsPerPage); // 현재 페이지에 표시할 행 계산
 
   return (
-    <Box className="honeypot-container">
+    <Box className="table-container">
       <Box className="header-container">
         <Typography variant="h5" className="table-title">
           허니팟 관리 전체 조회
