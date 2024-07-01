@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.util.Date;
 
 @Controller
@@ -20,92 +21,84 @@ import java.util.Date;
 public class ReissueController {
 
     private final JWTUtil jwtUtil;
-
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
     public ReissueController(JWTUtil jwtUtil, UserMapper userMapper) {
-
         this.jwtUtil = jwtUtil;
         this.userMapper = userMapper;
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
-
-        //get refresh token
+    public void reissue(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("Reissue endpoint called with cookies: ");
+        for (Cookie cookie : request.getCookies()) {
+            System.out.println(cookie.getName() + ": " + cookie.getValue());
+        }
+        // 쿠키에서 리프레시 토큰을 가져옵니다.
         String refresh = null;
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-
-            if (cookie.getName().equals("refresh")) {
-
-                refresh = cookie.getValue();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("refresh")) {
+                    refresh = cookie.getValue();
+                    break;
+                }
             }
         }
 
         if (refresh == null) {
-
-            //response status code
-            return new ResponseEntity<>("refresh token null", HttpStatus.BAD_REQUEST);
+            response.sendRedirect("http://localhost:3000/login?error=refresh token null");
+            return;
         }
 
-        //expired check
+        // 토큰 만료 확인
         try {
             jwtUtil.isExpired(refresh);
         } catch (ExpiredJwtException e) {
-
-            //response status code
-            return new ResponseEntity<>("refresh token expired", HttpStatus.BAD_REQUEST);
+            response.sendRedirect("http://localhost:3000/login?error=refresh token expired");
+            return;
         }
 
-        // 토큰이 refresh인지 확인 (발급시 페이로드에 명시)
+        // 리프레시 토큰인지 확인
         String category = jwtUtil.getCategory(refresh);
-
-        if (!category.equals("refresh")) {
-
-            //response status code
-            return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
+        if (!"refresh".equals(category)) {
+            response.sendRedirect("http://localhost:3000/login?error=invalid refresh token");
+            return;
         }
 
-        //DB에 저장되어 있는지 확인
+        // DB에 리프레시 토큰이 존재하는지 확인
         Boolean isExist = userMapper.existsByRefresh(refresh);
         if (!isExist) {
-
-            //response body
-            return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
+            response.sendRedirect("http://localhost:3000/login?error=invalid refresh token");
+            return;
         }
 
         String username = jwtUtil.getUsername(refresh);
         String role = jwtUtil.getRole(refresh);
 
-        //새로운 토큰 발급
-        String newAccess = jwtUtil.createJwt("access", username, role, 600L);
+        // 새로운 액세스 토큰 발급
+        String newAccess = jwtUtil.createJwt("access", username, role, 600L * 1000);
+        String newRefresh = jwtUtil.createJwt("refresh", username, role, 86400L * 1000);
 
+        // DB에 리프레시 토큰 업데이트
         String existingRefreshToken = userMapper.searchRefreshEntity(username);
-
         if (existingRefreshToken != null) {
-            // 기존 Refresh 토큰 삭제
             userMapper.deleteByRefresh(existingRefreshToken);
         }
+        addRefreshEntity(username, newRefresh, 86400L * 1000);
 
-        // 새로운 Refresh 토큰 생성
-        String newRefresh = jwtUtil.createJwt("refresh", username, role, 86400000L);
+        // 새 리프레시 토큰을 HTTP-Only 쿠키에 추가
+        createAndAddCookie(response, "refresh", newRefresh);
 
-        // 새로운 Refresh 토큰 저장
-        addRefreshEntity(username, newRefresh, 86400000L);
+        // 새 액세스 토큰을 쿼리 스트링으로 전송
+        response.setHeader("Authorization", "Bearer " + newAccess);
+        response.setStatus(HttpStatus.OK.value());
 
-        // Refresh 토큰을 쿠키에 추가
-        response.addCookie(createCookie("refresh", newRefresh));
-
-        //response
-        response.setHeader("access", newAccess);
-        response.addCookie(createCookie("refresh", newRefresh));
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        System.out.println("newRefresh = " + newRefresh);
+        System.out.println("newAccess = " + newAccess);
     }
 
     private void addRefreshEntity(String username, String refresh, Long expiredMs) {
-
         Date date = new Date(System.currentTimeMillis() + expiredMs);
 
         RefreshEntity refreshEntity = new RefreshEntity();
@@ -115,15 +108,21 @@ public class ReissueController {
 
         userMapper.saveRefreshEntity(refreshEntity);
     }
-    private Cookie createCookie(String key, String value) {
 
+    private void createAndAddCookie(HttpServletResponse response, String key, String value) {
         Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(24*60*60);
-        //cookie.setSecure(true);
-        cookie.setPath("/");
+        cookie.setMaxAge(24 * 60 * 60); // 24시간
         cookie.setDomain("localhost");
         cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setSecure(false); // localhost 환경에서는 false, 실제 배포 시 true로 설정
 
-        return cookie;
+        response.addCookie(cookie);
+
+        // SameSite 설정 추가
+        response.setHeader("Set-Cookie",
+                String.format("%s=%s; Max-Age=%d; Domain=%s; Path=%s; HttpOnly; SameSite=Strict",
+                        key, value, 24 * 60 * 60, "localhost", "/"));
     }
+
 }

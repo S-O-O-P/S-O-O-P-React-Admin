@@ -1,6 +1,5 @@
 package com.soop.jwtsecurity.handler;
 
-
 import com.soop.jwtsecurity.dto.CustomOAuth2User;
 import com.soop.jwtsecurity.entityDTO.RefreshEntity;
 import com.soop.jwtsecurity.jwt.JWTUtil;
@@ -9,7 +8,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -24,20 +22,16 @@ import java.util.Iterator;
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JWTUtil jwtUtil;
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    public CustomSuccessHandler(JWTUtil jwtUtil,UserMapper userMapper) {
-
+    public CustomSuccessHandler(JWTUtil jwtUtil, UserMapper userMapper) {
         this.jwtUtil = jwtUtil;
         this.userMapper = userMapper;
     }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-
-        //OAuth2User
         CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();
-
         String username = customUserDetails.getUsername();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -45,39 +39,27 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        // Access 토큰 생성
-        String access = jwtUtil.createJwt("access", username, role, 600L);
-
-
-        // 토큰 정보 가져오기
+        String access = jwtUtil.createJwt("access", username, role, 600L * 1000); // 10분 (600초)
         String existingRefreshToken = userMapper.searchRefreshEntity(username);
 
         if (existingRefreshToken != null) {
-            // 기존 Refresh 토큰 삭제
             userMapper.deleteByRefresh(existingRefreshToken);
         }
 
-        // 새로운 Refresh 토큰 생성
-        String refresh = jwtUtil.createJwt("refresh", username, role, 86400000L);
+        String refresh = jwtUtil.createJwt("refresh", username, role, 86400L *1000); // 24시간 (86400000밀리초)
+        addRefreshEntity(username, refresh, 86400L*1000);
 
-        // 새로운 Refresh 토큰 저장
-        addRefreshEntity(username, refresh, 86400000L);
+        System.out.println("access = " + access);
+        System.out.println("refresh = " + refresh);
 
-        // Refresh 토큰을 쿠키에 추가
-        response.addCookie(createCookie("refresh", refresh));
+        // 리프레시 토큰을 HTTP-Only 쿠키로 저장
+        createAndAddCookie(response, "refresh", refresh);
 
-
-        //응답 설정
-        response.setHeader("access", access);
-        response.setStatus(HttpStatus.OK.value());
-
-//        response.addCookie(createCookie("access", access));
-        response.sendRedirect("http://localhost:3000/"); //프론트 url
+        // 액세스 토큰을 쿼리 스트링으로 전달
+        response.sendRedirect("http://localhost:3000/login?token=" + access);
     }
 
-
     private void addRefreshEntity(String username, String refresh, Long expiredMs) {
-
         Date date = new Date(System.currentTimeMillis() + expiredMs);
 
         RefreshEntity refreshEntity = new RefreshEntity();
@@ -85,17 +67,22 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         refreshEntity.setRefresh(refresh);
         refreshEntity.setExpiration(date.toString());
         userMapper.saveRefreshEntity(refreshEntity);
-
     }
 
-    private Cookie createCookie(String key, String value) {
-
+    private void createAndAddCookie(HttpServletResponse response, String key, String value) {
         Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(24*60*60);
-        //cookie.setSecure(true); //https 일 경우
+        cookie.setMaxAge(24 * 60 * 60); // 24시간
         cookie.setDomain("localhost");
         cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setSecure(false); // localhost 환경에서는 false, 실제 배포 시 true로 설정
 
-        return cookie;
+        response.addCookie(cookie);
+
+        // SameSite 설정 추가
+        response.setHeader("Set-Cookie",
+                String.format("%s=%s; Max-Age=%d; Domain=%s; Path=%s; HttpOnly; SameSite=Strict",
+                        key, value, 24 * 60 * 60, "localhost", "/"));
     }
+
 }
