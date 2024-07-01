@@ -22,7 +22,7 @@
 
     <select id="findByUsername" resultType="com.soop.jwtsecurity.entityDTO.UserEntity">
         select
-            username
+        username
         from userentity
         where username = #{username}
     </select>
@@ -31,14 +31,14 @@
     <insert id="saveUserEntity" parameterType="com.soop.jwtsecurity.entityDTO.UserEntity">
         INSERT INTO userentity
         (
-           email
+        email
         ,   name
         ,   role
         ,   username
         )
         values
         (
-           #{email}
+        #{email}
         ,   #{name}
         ,   #{role}
         ,   #{username}
@@ -48,9 +48,9 @@
     <insert id="saveRefreshEntity" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">
         INSERT INTO refreshentity (username, refresh, expiration)
         VALUES (
-              #{username}
-            , #{refresh}
-            , #{expiration}
+        #{username}
+        , #{refresh}
+        , #{expiration}
         )
         ON DUPLICATE KEY UPDATE
         refresh = VALUES
@@ -59,29 +59,29 @@
         ),
         expiration = VALUES
         (
+
         expiration
         )
     </insert>
 
-
     <select id="searchRefreshEntity" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">
         select
-            A.refresh
-            from refreshentity A
-            join userentity B on A.username = B.username
-            where A.username = #{username}
+        A.refresh
+        from refreshentity A
+        join userentity B on A.username = B.username
+        where A.username = #{username}
     </select>
 
     <select id="existsByRefresh" parameterType="String" resultType="Boolean">
         select
-            case when count(*) > 0 then true else false end
-            from refreshentity
-            where refresh = #{refresh}
+        case when count(*) > 0 then true else false end
+        from refreshentity
+        where refresh = #{refresh}
     </select>
 
     <delete id="deleteByRefresh" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">
         delete from refreshentity
-           where refresh = #{refresh}
+        where refresh = #{refresh}
     </delete>
 
 </mapper>
