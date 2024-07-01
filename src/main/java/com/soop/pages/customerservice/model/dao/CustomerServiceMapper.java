@@ -11,4 +11,6 @@ public interface CustomerServiceMapper {
     List<NoticeMemberDTO> csMainNoticeListAll();
 
     List<NoticeMemberDTO> noticeListAll();
+
+    NoticeMemberDTO noticeDetail(String code);
 }

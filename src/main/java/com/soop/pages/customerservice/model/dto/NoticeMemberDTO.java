@@ -2,8 +2,6 @@ package com.soop.pages.customerservice.model.dto;
 
 import lombok.*;
 
-import java.util.Date;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -16,7 +14,7 @@ public class NoticeMemberDTO {
     private String title;
     private String content;
     private int userCode;
-    private Date regDate;
+    private String regDate;
 
     private MemberDTO memberDTO;
 }
