@@ -1,0 +1,3 @@
+### 등록 테스트
+POST http://localhost:8081/honeypot/regist
+Content-Type: application/json
