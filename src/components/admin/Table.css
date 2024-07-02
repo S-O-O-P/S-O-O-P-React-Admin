@@ -1,0 +1,153 @@
+.table-container {
+  margin: 20px auto !important;
+  width: calc(100% - 85px) !important;
+  
+  }
+
+
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(100% - 85px) !important;
+    margin: auto !important;
+  }
+
+  
+  
+  .table-head-cell, .table-cell {
+    border-right: 1px solid rgba(224, 224, 224, 1);
+    text-align: center !important;
+
+  }
+  
+  .table-head-cell {
+    background-color: #FFB755;
+    font-weight: bold;
+    color: white !important;
+  }
+  
+  .table-row:hover {
+    background-color: rgba(255, 183, 85, 0.1);
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  
+  .pagination .MuiPaginationItem-root {
+    color: #FFB755 !important;
+  }
+  
+  .pagination .Mui-selected {
+    background-color: #FFB755 !important;
+    color: #fff !important;
+  }
+
+  .error-container {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+
+
+
+  .search-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  .search-field {
+    margin-left: auto;
+  }
+  
+
+  
+  .search-field .MuiInputBase-root input {
+    padding: 10px 15px;
+  }
+  
+  .search-field .MuiInputAdornment-root {
+    margin-left: 10px;
+  }
+  
+  .search-button img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .common-container {
+    padding-top: 20px;
+  }
+
+  .register-button {
+    background-color: #FFB755 !important;
+    color: white !important;
+    border-color: #FFB755 !important;
+    border-radius: 15px !important;
+  }
+
+  .actions-container {
+    display: flex;
+    gap: 10px;
+  }
+
+  .manage {
+    display: inline-block;
+    border: 2px solid #FFB755 !important;
+    border-radius: 15px !important;
+    padding: 5px 15px !important;
+    color: #FFB755 !important;
+    font-weight: bold !important;
+    text-align: center !important;
+  }
+
+
+  .status-cell {
+    display: inline-block;
+    padding: 5px 15px;
+    border: 2px solid #FFB755 !important;
+    border-radius: 15px;
+    color: #FFB755 !important;
+    font-weight: bold !important;
+    text-align: center;
+
+
+  }
+  
+  .inactive-status {
+    display: inline-block;
+    padding: 5px 15px;
+    border: 2px solid #FFB755 !important;
+    border-radius: 15px;
+    color: #FFB755 !important;
+    font-weight: bold !important;
+    text-align: center;
+  }
+
+
+  .table-cells {
+    border-right: 1px solid rgba(224, 224, 224, 1);
+    text-align: center !important;
+    padding: 23px !important;/* Adjust the padding to increase the size of the cells */
+  }
+
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    border: 2px solid #FFB755;
+    border-radius: 20px;
+    padding: 0 8px;
+  }
+  
+  .search-input {
+    margin-left: 8px;
+    flex: 1;
+  }

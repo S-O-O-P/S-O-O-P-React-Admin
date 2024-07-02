@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Box, Button, TextField, Typography, InputAdornment, Pagination } from '@mui/material';
+import { Box, Button, Typography, InputBase, Pagination } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import EventTable from '../../components/admin/EventTable'; // EventTable 컴포넌트 임포트
-import './Events.css'; // CSS 파일 임포트
 
 
 // 초기 이벤트 목록
@@ -37,53 +36,44 @@ function Events() {
     setPage(value);
   };
 
+  // 키 입력 핸들러
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  // 검색 버튼 클릭 핸들러
+  const handleSearchClick = () => {
+    handleSearch();
+  };
+
   const navigate = useNavigate();
 
   // 현재 페이지에 표시할 이벤트 계산
   const displayedEvents = events.slice((page - 1) * rowsPerPage, page * rowsPerPage);
 
   return (
-    <Box className="events-container">
+    <Box className="common-container">
       <Box className="header-container">
-        <Typography variant="h5" className="table-title">공연/전시 정보 전체 조회</Typography>
-        <Box className="actions-container">
-
-          <Button variant="contained" className="register-button" onClick={() => navigate('/events/register/0')}>등록</Button>
-
-          <TextField
-            variant="outlined"
-            placeholder="제목 검색"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-            className="search-field"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment >
-                  <Button onClick={handleSearch}>
-                    <img src="images/admin/icon_search.png" alt="search" />
-                  </Button>
-                </InputAdornment>
-              ),
-              style: { borderRadius: 20, border: '1px solid #FFB755' },
-
-              sx: {
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#FFB755', // 기본 테두리 색상
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#FFB755', // 호버 시 테두리 색상
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#FFB755', // 포커스 시 테두리 색상
-                },
-              },
-            }}
-            
-          />
+        <Typography variant="h5" className="table-titles">공연/전시 정보 전체 조회</Typography>
+         <Box className="actions-container">
+          <Button variant="outlined" className="register-button" onClick={() => navigate('/events/register/0')}>등록</Button>
+          <Box className="search-box">
+            <InputBase
+              className="search-input"
+              placeholder='회원 이름 검색'
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onKeyPress={handleKeyPress}
+            />
+            <Button onClick={handleSearchClick}>
+              <img src="/images/admin/icon_search.png" alt="search" />
+            </Button>
+          </Box>
+          </Box>
         </Box>
-      </Box>
-      {initialEvents.length === 0 ? (
+      {events.length === 0 ? (
         <Box className="error-container">
           <Typography variant="h4" color="#FFB755">해당 공연/전시 정보를 찾을 수 없습니다.</Typography>
         </Box>
@@ -94,7 +84,16 @@ function Events() {
             count={Math.ceil(events.length / rowsPerPage)}
             page={page}
             onChange={handlePageChange}
-            className="pagination"
+            className='pagination'
+            sx={{
+              '.MuiPaginationItem-root': {
+                color: '#FFB755',
+              },
+              '.Mui-selected': {
+                backgroundColor: '#FFB755',
+                color: '#fff',
+              },
+            }}
           />
         </>
       )}

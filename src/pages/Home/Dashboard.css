@@ -45,6 +45,13 @@
   text-align: center;
 }
 
+.info-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 50%;
+  padding: 15px;
+}
 .info-content {
   display: flex;
   flex-direction: column;
@@ -69,12 +76,7 @@
   justify-content: space-between;
 }
 
-.info-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 50%;
-}
+
 
 .horizontal-line {
   width: 100%;

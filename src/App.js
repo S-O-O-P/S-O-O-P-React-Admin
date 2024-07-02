@@ -11,13 +11,8 @@ import Inquiry from './pages/Inquiry/Inquiry';
 import Events from './pages/EventsInfo/Events';
 import EventsDetail from './pages/EventsInfo/EventsDetail';
 import '../src/pages/Home/Dashboard.css';
-import '../src/pages/Customer/Customer.css';
 import '../src/pages/Customer/Customerdetail.css';
-import '../src/pages/Honeypot/Honeypot.css';
 import '../src/pages/Honeypot/Honeypotdetail.css';
-import '../src/pages/Notice/Notice.css';
-import '../src/pages/Inquiry/Inquiry.css';
-import './pages/EventsInfo/Events.css';
 import './pages/EventsInfo/EventsDetail.css'
 import  GlobalStyles  from './styles/GlobalStyles';
 import Layout from './layouts/Layout'; // Layout 경로 추가

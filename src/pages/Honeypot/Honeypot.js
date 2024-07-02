@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import HoneypotTable from '../../components/admin/HoneypotTable'; // HoneypotTable 컴포넌트 임포트
 import { useNavigate, useLocation } from 'react-router-dom';
-import './Honeypot.css'; // CSS 파일 임포트
-import { Box, Typography, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination, InputAdornment, Button } from '@mui/material';
+
+import { Box, Typography, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination, InputAdornment, Button, InputBase } from '@mui/material';
 import axios from 'axios';
 
 function Honeypot() {
@@ -97,54 +97,36 @@ function Honeypot() {
   const displayedRows = filteredRows.slice((page - 1) * rowsPerPage, page * rowsPerPage); // 현재 페이지에 표시할 행 계산
 
   return (
-    <Box className="table-container">
+    <Box className="common-container">
       <Box className="header-container">
-        <Typography variant="h5" className="table-title">
+        <Typography variant="h5" className="table-titles">
           허니팟 관리 전체 조회
         </Typography>
         <Box className="actions-container">
-          <TextField
-            variant="outlined"
-            placeholder="제목 검색"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            onKeyPress={handleKeyPress}
-            className="search-field"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Button onClick={handleSearchClick}>
-                    <img src="images/admin/icon_search.png" alt="search" />
-                  </Button>
-                </InputAdornment>
-              ),
-              style: { borderRadius: 20, border: '1px solid #FFB755' },
-              sx: {
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#FFB755', // 기본 테두리 색상
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#FFB755', // 호버 시 테두리 색상
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#FFB755', // 포커스 시 테두리 색상
-                },
-              },
-            }}
-          />
-        </Box>
+        <Box className="search-box">
+            <InputBase
+              className="search-input"
+              placeholder='회원 이름 검색'
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onKeyPress={handleKeyPress}
+            />
+            <Button onClick={handleSearchClick}>
+              <img src="/images/admin/icon_search.png" alt="search" />
+            </Button>
+          </Box>
+      </Box>
       </Box>
 
-      <Box className="honeypot-table-container">
-        <TableContainer component={Paper}>
-          <Table>
+        <TableContainer component={Paper} className="table-container">
+          <Table className="table">
             <TableHead>
               <TableRow>
-                <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">허니팟</TableCell>
-                <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">제목</TableCell>
-                <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">등록일자</TableCell>
-                <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">신고건수</TableCell>
-                <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">관리</TableCell>
+                <TableCell className="table-head-cell" align="center">허니팟</TableCell>
+                <TableCell className="table-head-cell" align="center">제목</TableCell>
+                <TableCell className="table-head-cell" align="center">등록일자</TableCell>
+                <TableCell className="table-head-cell" align="center">신고건수</TableCell>
+                <TableCell className="table-head-cell" align="center">관리</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -159,22 +141,23 @@ function Honeypot() {
           </Table>
         </TableContainer>
         <Box className="honeypot-pagination">
-          <Pagination
-            count={Math.ceil(filteredRows.length / rowsPerPage)}
-            page={page}
-            onChange={handleChangePage}
-            sx={{
-              '.MuiPaginationItem-root': {
-                color: 'primary',
-                '&.Mui-selected': {
-                  backgroundColor: '#FFB755',
-                  color: '#fff',
-                },
-              },
-            }}
-          />
+<Pagination
+        count={Math.ceil(filteredRows.length / rowsPerPage)}
+        page={page}
+        onChange={handleChangePage}
+        className='pagination'
+        sx={{
+          '.MuiPaginationItem-root': {
+            color: '#FFB755',
+          },
+          '.Mui-selected': {
+            backgroundColor: '#FFB755',
+            color: '#fff',
+          },
+        }}
+      />
         </Box>
-      </Box>
+      
     </Box>
   );
 }

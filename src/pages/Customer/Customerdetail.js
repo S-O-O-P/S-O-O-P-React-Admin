@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Box, Typography, TextField, Button, Grid } from '@mui/material';
 import axios from 'axios';
-import './Customer.css'; // CSS 파일 임포트
+import './Customerdetail.css';// CSS 파일 임포트
 
 // CustomerDetail 컴포넌트
 function CustomerDetail() {

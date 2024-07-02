@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, TextField, Typography, InputAdornment, Pagination } from '@mui/material';
+import { Box, Button, Typography, InputBase, Pagination } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import InquiryTable from '../../components/admin/InquiryTable';
 import axios from 'axios';
-import './Inquiry.css';
 
 function Inquiry() {
   const location = useLocation();
@@ -85,6 +84,16 @@ function Inquiry() {
     }
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const handleSearchClick = () => {
+    handleSearch();
+  };
+
   const handleInquiryClick = (inquiry) => {
     if (inquiry.answerStatus === '답변대기' || inquiry.answerStatus === '답변완료') {
       navigate(`/inquiry/${inquiry.inquiryCode}`, { state: { inquiry, page, searchTerm } });
@@ -96,39 +105,22 @@ function Inquiry() {
     : [];
 
   return (
-    <Box className="inquiry-container">
+    <Box className="common-container">
       <Box className="header-container">
-        <Typography variant="h5" className="table-title">1:1 문의 전체 조회</Typography>
-        <Box className="search-container">
-          <TextField
-            variant="outlined"
-            placeholder="제목 검색"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-            className="search-field"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Button onClick={() => handleSearch()}>
-                    <img src="images/admin/icon_search.png" alt="search" />
-                  </Button>
-                </InputAdornment>
-              ),
-              style: { borderRadius: 20, border: '1px solid #FFB755', backgroundColor: '#fff' },
-              sx: {
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#FFB755', // 기본 테두리 색상
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#FFB755', // 호버 시 테두리 색상
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#FFB755', // 포커스 시 테두리 색상
-                },
-              },
-            }}
-          />
+        <Typography variant="h5" className="table-titles">1:1 문의 관리</Typography>
+        <Box className="actions-container">
+          <Box className="search-box">
+            <InputBase
+              className="search-input"
+              placeholder='회원 이름 검색'
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onKeyPress={handleKeyPress}
+            />
+            <Button onClick={handleSearchClick}>
+              <img src="/images/admin/icon_search.png" alt="search" />
+            </Button>
+          </Box>
         </Box>
       </Box>
       <InquiryTable

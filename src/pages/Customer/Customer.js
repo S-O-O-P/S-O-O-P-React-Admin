@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CustomerTable from '../../components/admin/CustomerTable';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { TextField, Box, Button, InputAdornment, Typography } from '@mui/material';
+import { Box, Button, InputBase, Typography } from '@mui/material';
+
 
 function Customer() {
   const [members, setMembers] = useState([]);
@@ -36,7 +37,7 @@ function Customer() {
 
   const handlePageChange = (event, value) => {
     setPage(value);
-    if(value === 1) {
+    if (value === 1) {
       navigate('/customer', { state: { searchTerm } });
     } else {
       navigate(`/customer?page=${value}`, { state: { searchTerm } });
@@ -58,11 +59,7 @@ function Customer() {
     console.log("Filtered members:", filtered); // Add logging
     setFilteredMembers(filtered);
     setPage(1); // Reset to first page on search
-    if(page === 1) {
-      navigate('/customer', { state: { searchTerm } });
-    } else {
-      navigate(`/customer?page=${page}`, { state: { searchTerm } });
-    }
+    navigate('/customer', { state: { searchTerm } });
   };
 
   const handleKeyPress = (event) => {
@@ -72,43 +69,26 @@ function Customer() {
   };
 
   const handleSearchClick = () => {
-    handleSearch(); // 검색 버튼 클릭 시 검색 수행
+    handleSearch(); // Perform search on button click
   };
 
   return (
-    <Box className="customer-container">
+    <Box className="common-container">
       <Box className="header-container">
-        <Typography variant="h5" className="table-title">회원 전체 조회</Typography>
+        <Typography variant="h5" className="table-titles">회원 관리</Typography>
         <Box className="actions-container">
-          <TextField
-            placeholder='회원 이름 검색'
-            variant="outlined"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            onKeyPress={handleKeyPress}
-            className="search-field"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Button onClick={handleSearchClick}>
-                    <img src="/images/admin/icon_search.png" alt="search" />
-                  </Button>
-                </InputAdornment>
-              ),
-              style: { borderRadius: 20, border: '1px solid #FFB755' },
-              sx: {
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#FFB755',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#FFB755',
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#FFB755',
-                },
-              },
-            }}
-          />
+          <Box className="search-box">
+            <InputBase
+              className="search-input"
+              placeholder='회원 이름 검색'
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onKeyPress={handleKeyPress}
+            />
+            <Button onClick={handleSearchClick}>
+              <img src="/images/admin/icon_search.png" alt="search" />
+            </Button>
+          </Box>
         </Box>
       </Box>
       <CustomerTable
@@ -122,8 +102,3 @@ function Customer() {
 }
 
 export default Customer;
-
-
-
-
-
