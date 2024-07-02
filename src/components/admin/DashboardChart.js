@@ -10,7 +10,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import '../../pages/Home/Dashboard.css';
+
 
 // Chart.js에 사용하려는 스케일과 요소를 등록
 ChartJS.register(
