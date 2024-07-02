@@ -1,9 +1,43 @@
-### 등록 테스트
+### 허니팟 등록 테스트
 POST http://localhost:8081/honeypot/regist
 Content-Type: application/json
 
-### 전체 조회 테스트
+### 허니팟 전체 조회 테스트
 GET http://localhost:8081/honeypot/list
 
-### 상세 조회 테스트
+### 허니팟 상세 조회 테스트
 GET http://localhost:8081/honeypot/detail/4
+
+### 허니팟 임시 조회 테스트
+GET http://localhost:8081/honeypot/detail/temporary/1
+
+### 허니팟 수정 테스트
+PUT http://localhost:8081/honeypot/modify/1
+Content-Type: application/json
+
+{
+    "honeypotTitle": "수정된 허니팟 제목",
+    "honeypotContent": "수정된 허니팟 내용",
+    "eventDate": "2024-07-22",
+    "endDate": "2024-07-21",
+    "totalMember": 3
+}
+
+### 댓글 전체 조회 테스트
+GET http://localhost:8081/honeypot/comment
+
+### 댓글코드로 댓글 조회 테스트
+GET http://localhost:8081/honeypot/comment/1
+
+### 댓글 수정 테스트
+PUT http://localhost:8081/honeypot/comment/1
+Content-Type: application/json
+
+{
+  "commentCode": 1,
+  "content": "수정된 댓글 내용입니다.",
+  "updateTime": "2024-07-03T15:30:00"
+}
+
+### 댓글 삭제 테스트
+DELETE http://localhost:8081/honeypot/comment/1

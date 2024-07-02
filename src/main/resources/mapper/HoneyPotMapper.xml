@@ -115,5 +115,96 @@
         WHERE A.HONEYPOT_CODE = #{honeypotCode};
     </select>
 
+    <!-- 수정용 임시 상세 조회 -->
+    <select id="temporaryFindByHoneypotCode" resultMap="honeypotResultMap">
+        SELECT * FROM HONEYPOT
+        WHERE HONEYPOT_CODE = #{honeypotCode};
+    </select>
+
+    <!-- 상세페이지 정보 수정(제목, 내용만) -->
+    <update id="modifyHoneypot" parameterType="com.soop.pages.honeypot.model.dto.HoneypotDTO">
+        UPDATE HONEYPOT
+           SET HONEYPOT_TITLE = #{honeypotTitle},
+               HONEYPOT_CONTENT = #{honeypotContent},
+               EVENT_DATE = #{eventDate},
+               END_DATE = #{endDate},
+               TOTAL_MEMBER = #{totalMember}
+         WHERE HONEYPOT_CODE = #{honeypotCode}
+    </update>
+
+    <!-- 댓글 관련 resultMap -->
+    <resultMap id="commentResultMap" type="com.soop.pages.honeypot.model.dto.CommentDTO">
+        <id property="commentCode" column="COMMENT_CODE"/>
+        <result property="honeypotCode" column="HONEYPOT_CODE"/>
+        <result property="userCode" column="USER_CODE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="writingTime" column="WRITING_TIME"/>
+        <result property="updateTime" column="UPDATE_TIME"/>
+    </resultMap>
+
+    <resultMap id="commentAndLinkBeeUserResultMap" type="com.soop.pages.honeypot.model.dto.CommentAndLinkBeeUserDTO">
+        <id property="commentCode" column="COMMENT_CODE"/>
+        <result property="honeypotCode" column="HONEYPOT_CODE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="writingTime" column="WRITING_TIME"/>
+        <result property="updateTime" column="UPDATE_TIME"/>
+        <association property="writerInfo" javaType="com.soop.pages.honeypot.model.dto.LinkBeeUserDTO">
+            <id property="userCode" column="USER_CODE"/>
+            <result property="nickname" column="NICKNAME"/>
+            <result property="profilePic" column="PROFILE_PIC"/>
+        </association>
+    </resultMap>
+
+    <!-- 댓글 전체 조회 -->
+    <select id="findAllComments" resultMap="commentAndLinkBeeUserResultMap">
+        SELECT
+                A.COMMENT_CODE,
+                A.HONEYPOT_CODE,
+                A.USER_CODE,
+                C.NICKNAME,
+                C.PROFILE_PIC,
+                A.CONTENT,
+                A.WRITING_TIME,
+                A.UPDATE_TIME
+          FROM  COMMENT A
+        INNER JOIN LINKBEE_USER C ON A.USER_CODE = C.USER_CODE
+    </select>
+
+    <!-- 댓글 코드로 조회(임시) -->
+    <select id="temporaryFindCommentByCommentCode" resultMap="commentResultMap">
+        SELECT * FROM COMMENT
+        WHERE COMMENT_CODE = #{commentCode}
+    </select>
+
+    <!-- 댓글 코드로 댓글 조회 -->
+    <select id="findCommentByCommentCode" resultMap="commentAndLinkBeeUserResultMap">
+        SELECT
+        A.COMMENT_CODE,
+        A.HONEYPOT_CODE,
+        A.USER_CODE,
+        C.NICKNAME,
+        C.PROFILE_PIC,
+        A.CONTENT,
+        A.WRITING_TIME,
+        A.UPDATE_TIME
+        FROM  COMMENT A
+        INNER JOIN LINKBEE_USER C ON A.USER_CODE = C.USER_CODE
+         WHERE COMMENT_CODE = #{commentCode}
+    </select>
+
+    <!-- 댓글 정보 수정(내용, 수정시간) -->
+    <update id="modifyComment" parameterType="com.soop.pages.honeypot.model.dto.HoneypotDTO">
+        UPDATE COMMENT
+        SET CONTENT = #{content},
+            UPDATE_TIME = #{updateTime}
+        WHERE COMMENT_CODE = #{commentCode}
+    </update>
+
+    <!-- 댓글 삭제 -->
+    <delete id="deleteCommentByCommentCode" parameterType="int">
+        DELETE FROM COMMENT
+         WHERE COMMENT_CODE = #{commentCode}
+    </delete>
+
 
 </mapper>
