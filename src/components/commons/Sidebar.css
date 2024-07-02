@@ -1,13 +1,17 @@
 
- /* .sidebar {
-  position: fixed;
-  top: 0;
-  left: -8px;
-  width: 140px; 
-   height: 100%; 
-  background-color: #FFF; 
 
- }  */
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.main-content {
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 
 
 .sidebar {
@@ -27,13 +31,14 @@
 
 .sidebar-logo {
   width: 60px;
-  height: 60px; /* Adjust logo size as needed */
+  height: 60px;
   margin-bottom: 38px;
   margin-top: 15px;
 }
 
 .sidebar-role-user {
   display: flex;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 16px;
 }
@@ -42,19 +47,19 @@
   background-color: #FFB755;
   color: white;
   padding: 1px 3px;
-  border-radius: 16px; /* Adjust to make it rounder */
+  border-radius: 16px;
   margin-right: 8px;
   width: 50px;
   height: 30px;
   display: flex;
   justify-content: center;
-  align-items: center; /* Center the text both horizontally and vertically */
-  font-size: 0.7rem; /* Adjusted font size */
+  align-items: center;
+  font-size: 0.7rem;
 }
 
 .sidebar-user {
   padding-left: 5px;
-  font-size: 0.7rem; /* Adjusted font size */
+  font-size: 0.7rem;
 }
 
 .sidebar-logout-container {
@@ -63,7 +68,7 @@
   align-items: center;
   margin-bottom: 16px;
   background-color: #FFB755;
-  border-radius: 16px; /* Adjust to make it rounder */
+  border-radius: 16px;
   padding: 4px 8px;
   width: 111px;
   height: 30px;
@@ -71,19 +76,19 @@
 }
 
 .sidebar-logout {
-  color: white; /* Set text color to white */
-  text-transform: none; /* Keep text capitalization as is */
-  border: none; /* Remove default button border */
-  background: none; /* Remove default button background */
-  font-size: 0.875rem; /* Adjust font size */
+  color: white;
+  text-transform: none;
+  border: none;
+  background: none;
+  font-size: 0.875rem;
   display: flex;
   align-items: center;
   margin-left: 5px;
 }
 
 .sidebar-logout img {
-  width: 16px; /* Adjust icon size as needed */
-  margin-left: 8px; /* Add space between text and image */
+  width: 16px;
+  margin-left: 8px;
 }
 
 .sidebar-menu {
@@ -110,6 +115,7 @@
   justify-content: center;
 }
 
+
 .vertical-line {
   position: fixed;
   top: 0;
@@ -117,12 +123,4 @@
   width: 4px; /* Adjust width as needed */
   height: 100vh; /* Full height */
   background-color: #FFB755; /* Adjust color as needed */
-}
-
-.content {
-  margin-left: 144px; /* Adjust based on sidebar width and vertical line */
-  width: calc(100% - 144px); /* Adjust width to accommodate sidebar */
-  height: 100%;
-  overflow-y: auto; /* Allow content area to scroll */
-  padding: 16px; /* Adjust padding as needed */
 }

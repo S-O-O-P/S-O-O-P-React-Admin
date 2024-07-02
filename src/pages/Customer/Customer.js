@@ -22,24 +22,25 @@ function Customer() {
     axios.get('http://localhost:8080/customer/')
       .then(response => {
         console.log('API Response:', response.data); // Debugging statement
-        setMembers(response.data.usersInfo);
-        setFilteredMembers(response.data.usersInfo);
+        const filteredUsers = response.data.usersInfo.filter(user => user.userRole !== 'ADMIN');
+        setMembers(filteredUsers);
+        setFilteredMembers(filteredUsers);
       })
       .catch(error => console.error('There was an error fetching the members!', error));
   }, []);
 
   useEffect(() => {
-    if (searchTerm) {
-      handleSearch(searchTerm);
-    } else {
-      setFilteredMembers(members);
-    }
+    setFilteredMembers(members);
     setPage(currentPage);
-  }, [currentPage, searchTerm, members]);
+  }, [members, currentPage]);
 
   const handlePageChange = (event, value) => {
     setPage(value);
-    navigate(`/customer?page=${value}`, { state: { searchTerm } });
+    if(value === 1) {
+      navigate('/customer', { state: { searchTerm } });
+    } else {
+      navigate(`/customer?page=${value}`, { state: { searchTerm } });
+    }
   };
 
   const handleSearchChange = (event) => {
@@ -47,11 +48,21 @@ function Customer() {
   };
 
   const handleSearch = (term = searchTerm) => {
+    console.log("Searching for:", term); // Add logging
+    console.log("Members:", members); // Log the members to inspect userCodes
+
     const filtered = members.filter(member =>
-      member.userCode.toString().toLowerCase().includes(term.toLowerCase())
+      member.nickname.toString().toLowerCase().includes(term.toLowerCase())
     );
+
+    console.log("Filtered members:", filtered); // Add logging
     setFilteredMembers(filtered);
-    navigate(`/customer?page=${page}`, { state: { searchTerm: term } });
+    setPage(1); // Reset to first page on search
+    if(page === 1) {
+      navigate('/customer', { state: { searchTerm } });
+    } else {
+      navigate(`/customer?page=${page}`, { state: { searchTerm } });
+    }
   };
 
   const handleKeyPress = (event) => {
@@ -61,7 +72,7 @@ function Customer() {
   };
 
   const handleSearchClick = () => {
-    handleSearch();
+    handleSearch(); // 검색 버튼 클릭 시 검색 수행
   };
 
   return (
@@ -70,7 +81,7 @@ function Customer() {
         <Typography variant="h5" className="table-title">회원 전체 조회</Typography>
         <Box className="actions-container">
           <TextField
-            placeholder='회원 코드 검색'
+            placeholder='회원 이름 검색'
             variant="outlined"
             value={searchTerm}
             onChange={handleSearchChange}
@@ -111,3 +122,8 @@ function Customer() {
 }
 
 export default Customer;
+
+
+
+
+

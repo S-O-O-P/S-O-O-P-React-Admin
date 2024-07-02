@@ -1,0 +1,220 @@
+body {
+    display: flex;
+    justify-content: center;
+    /* height: 100vh; */
+    margin: 0;
+    overflow-x: hidden;
+  }
+  
+  .App {
+    text-align: center;
+    width: 100vw;
+    min-height: 82vh;
+  }
+  
+  .logo { 
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .midle-logo{
+    height: 100px;
+    width: 100px;
+  }
+  .logo-content{
+    margin-bottom: 40px;
+    padding: 20px;
+  }
+  .logo-text{
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #EB844A;
+  
+  }
+  nav {
+    flex-grow: 1;
+    margin-left: 20px;
+    display: flex;
+  }
+  
+  
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    /* height: 91.5vh; */
+  }
+  
+  .login-container {
+    display: flex;
+    flex-direction: column;
+    /* text-align: center; */
+    align-items: center;
+    margin: 50px 0;
+    margin-top: 2%;
+  }
+  
+  .login-logo {
+    font-size: 48px;
+    margin-bottom: 80px;
+    margin-top: -80px;
+  }
+  
+  .login-box {
+    border: 1px solid #DCDCDC;
+    width: 500px;
+    height: 550px;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .login-box p {
+    margin-bottom: 20px;
+    font-size: 18px;
+  }
+  
+  .login-box button {
+    display: block;
+    width: 400px;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 10px;
+    height: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  
+  .login-box p {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #7A7777;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+}
+
+.login-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 10px;
+    height: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+  .text{
+    color: #7A7777;
+    font-size: 20px !important;
+    margin-bottom: 60px !important;
+  }
+  
+  
+  .naver-login {
+    background-color: #27D34B !important;
+    color: white;
+  } 
+  .naver-login:hover {
+    background-color: #27D34B !important;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+  } 
+  
+  .kakao-login {
+    background-color: #FFEB00 !important;
+  
+  }
+  .kakao-login:hover {
+    background-color: #FFEB00 !important;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  .google-login {
+    background-color: #ffffff !important;
+  }
+  .google-login:hover {
+    background-color: #ffffff !important;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .naver-login {
+    background: url('/public/images/login/Naver.png') no-repeat -4.5px -0.5px;
+    padding-left: 25px;
+  }
+  .kakao-login {
+    background: url('/public/images/login/Kakao.png') no-repeat -4.5px -0.5px;
+    padding-left: 25px;
+  }
+  .google-login {
+    background: url('/public/images/login/Google.png') no-repeat -5px -1px;
+    padding-left: 25px;
+  }
+  
+ /* 모달 스타일 추가 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 600;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.close-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #EB844A;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+} 
+
+
+
+
