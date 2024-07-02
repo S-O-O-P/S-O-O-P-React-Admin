@@ -17,6 +17,22 @@
         </association>
     </resultMap>
 
+    <resultMap id="inquiryResultMap" type="com.soop.pages.customerservice.model.dto.InquiryDTO">
+        <id property="inquiryCode" column="INQUIRY_CODE"/>
+        <result property="category" column="CATEGORY" />
+        <result property="title" column="TITLE" />
+        <result property="content" column="CONTENT" />
+        <result property="userCode" column="USER_CODE" />
+        <result property="inquiryDate" column="INQUIRY_DATE" />
+        <result property="adminCode" column="ADMIN_CODE" />
+        <result property="answerStatus" column="ANSWER_STATUS" />
+        <result property="answer" column="ANSWER" />
+        <result property="answerDate" column="ANSWER_DATE" />
+        <association property="memberDTO" javaType="com.soop.pages.customerservice.model.dto.MemberDTO">
+            <id property="userCode" column="USER_CODE"/>
+        </association>
+    </resultMap>
+
     <select id="csMainNoticeListAll" resultMap="NoticeResultMap">
         SELECT
                A.NOTICE_CODE,
@@ -62,4 +78,31 @@
         LEFT JOIN LINKBEE_USER B ON A.USER_CODE = B.USER_CODE
         WHERE A.NOTICE_CODE = #{code};
     </select>
+
+    <insert id="inquiry" parameterType="com.soop.pages.customerservice.model.dto.InquiryDTO">
+        INSERT INTO INQUIRY
+        (
+               CATEGORY,
+               TITLE,
+               CONTENT,
+               USER_CODE,
+               INQUIRY_DATE,
+               ADMIN_CODE,
+               ANSWER_STATUS,
+               ANSWER,
+               ANSWER_DATE
+        )
+        VALUES
+        (
+               #{category},
+               #{title},
+               #{content},
+               #{userCode},
+               #{inquiryDate},
+               #{adminCode},
+               '답변대기',
+               null,
+               null
+        )
+    </insert>
 </mapper>
