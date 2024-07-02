@@ -53,21 +53,28 @@ public class HoneyPotController {
 
     }
 
+//     허니팟 상세페이지 조회 (허니팟 코드로 조회)
+    @GetMapping("/detail/{honeypotCode}")
+    public ResponseEntity<HoneypotResponseMessage> findByHoneypotCode(@PathVariable int honeypotCode) {
 
-    // 허니팟 상세페이지 조회 (허니팟 코드로 조회)
-//    @GetMapping("/detail/{honeypotCode}")
-//    public ResponseEntity<HoneypotDTO> findByHoneypotCode(@PathVariable int honeypotCode) {
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-//
-//        HoneypotDTO foundHoneypot = honeypots.stream().filter(honeypot -> honeypot.getCode() == honeypotCode)
-//                .collect(Collectors.toList()).get(0);
-//
-//        return ResponseEntity
-//                .ok()
-//                .headers(headers)
-//                .body(foundHoneypot);
-//    }
+        // 응답 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        // 응답 데이터 설정
+        HoneypotAndInterestAndLinkBeeUserDTO foundHoneypot = honeyPotService.findByHoneypotCode(honeypotCode);
+
+        System.out.println(foundHoneypot);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("honeypot", foundHoneypot);
+
+        // ResponseEntity로 응답 반환
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .body(new HoneypotResponseMessage(200, "조회 성공", responseMap));
+
+    }
 
 }

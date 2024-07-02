@@ -86,5 +86,29 @@
         ORDER BY A.HONEYPOT_CODE;
     </select>
 
+    <!-- 허니팟 상세 조회 -->
+    <select id="findByHoneypotCode" resultMap="honeypotAndInterestAndLinkBeeUserResultMap">
+        SELECT
+                A.HONEYPOT_CODE,
+                B.INTEREST_NAME,
+                A.HONEYPOT_TITLE,
+                A.HONEYPOT_CONTENT,
+                C.NICKNAME,
+                C.PROFILE_PIC,
+                C.USER_ROLE,
+                A.POSTER,
+                A.REGION,
+                A.TOTAL_MEMBER,
+                A.REG_DATE,
+                A.EVENT_DATE,
+                A.END_DATE,
+                A.VISIBILITY_STATUS,
+                A.CLOSURE_STATUS
+          FROM HONEYPOT AS A
+        LEFT JOIN INTEREST AS B ON(A.INTEREST_CODE = B.INTEREST_CODE)
+        LEFT JOIN LINKBEE_USER AS C ON(A.USER_CODE = C.USER_CODE)
+        WHERE A.HONEYPOT_CODE = #{honeypotCode};
+    </select>
+
 
 </mapper>

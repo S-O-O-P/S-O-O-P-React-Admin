@@ -14,4 +14,6 @@ public interface HoneyPotMapper {
 
     // 허니팟 전체 조회
     List<HoneypotDTO> findAllHoneypots();
+
+    HoneypotAndInterestAndLinkBeeUserDTO findByHoneypotCode(int honeypotCode);
 }

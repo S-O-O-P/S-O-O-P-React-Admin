@@ -26,4 +26,8 @@ public class HoneyPotService {
     public List<HoneypotDTO> findAllHoneypots() {
         return honeyPotMapper.findAllHoneypots();
     }
+
+    public HoneypotAndInterestAndLinkBeeUserDTO findByHoneypotCode(int honeypotCode) {
+        return honeyPotMapper.findByHoneypotCode(honeypotCode);
+    }
 }
