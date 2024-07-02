@@ -11,6 +11,10 @@ function EventTable({ events }) {
   const handleRowClick = (id) => {
     navigate(`/events/detail/${id}`);
   };
+  // 수정 버튼 클릭 핸들러
+  const handleUpdateClick = (id) => {
+    navigate(`/events/edit/${id}`);
+  };
 
   return (
     <TableContainer component={Paper} className="event-table-container">
@@ -32,7 +36,7 @@ function EventTable({ events }) {
               <TableCell align="center" className="table-cell">{event.ticketOpenDate}</TableCell>
               <TableCell align="center" className="table-cell">{event.createdAt}</TableCell>
               <TableCell align="center" className="table-cell">
-                <Button variant="outlined" className="manage" onClick={() => handleRowClick(event.id)} sx={{cursor:'pointer'}}>{event.manage}</Button>
+                <Button variant="outlined" className="manage" onClick={() => handleUpdateClick(event.id)} sx={{cursor:'pointer'}}>{event.manage}</Button>
               </TableCell>
             </TableRow>
           ))}
