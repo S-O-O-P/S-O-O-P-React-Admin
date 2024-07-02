@@ -1,5 +1,6 @@
 package com.soop.pages.customerservice.controller;
 
+import com.soop.pages.customerservice.model.dto.InquiryDTO;
 import com.soop.pages.customerservice.model.dto.NoticeMemberDTO;
 import com.soop.pages.customerservice.model.service.CustomerServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +8,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.nio.charset.Charset;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,9 +33,6 @@ public class CustomerServiceController {
 
         Map<String, Object> result = new HashMap<>();
         result.put("mainNoticeList", mainNoticeList);
-        System.out.println("result = " + result);
-        System.out.println("mainNoticeList = " + mainNoticeList);
-        System.out.println("headers = " + headers);
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
@@ -66,8 +64,18 @@ public class CustomerServiceController {
 
         result.put("mainNoticeList", mainNoticeList);
 
-
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/inquiry")
+    public ResponseEntity<?> inquiry(@RequestBody InquiryDTO newInquiry) {
+
+        System.out.println("newInquiry = " + newInquiry);
+        customerServiceService.inquiry(newInquiry);
+
+        return ResponseEntity
+                .created(URI.create("inquity"))
+                .build();
     }
 
 }

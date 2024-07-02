@@ -1,6 +1,7 @@
 package com.soop.pages.customerservice.model.service;
 
 import com.soop.pages.customerservice.model.dao.CustomerServiceMapper;
+import com.soop.pages.customerservice.model.dto.InquiryDTO;
 import com.soop.pages.customerservice.model.dto.NoticeMemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,9 @@ public class CustomerServiceService {
     public NoticeMemberDTO noticeDetail(String code) {
 
         return customerServiceMapper.noticeDetail(code);
+    }
+
+    public void inquiry(InquiryDTO newInquiry) {
+        customerServiceMapper.inquiry(newInquiry);
     }
 }
