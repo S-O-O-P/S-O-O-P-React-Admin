@@ -77,7 +77,12 @@ function Inquiry() {
       inquiry.title.toLowerCase().includes(term.toLowerCase())
     );
     setFilteredInquiries(filtered);
-    navigate(`/inquiry?page=${page}`, { state: { searchTerm: term } });
+    setPage(1); // Reset to first page on search
+    if (page === 1) {
+      navigate('/inquiry', { state: { searchTerm } });
+    } else {
+      navigate(`/inquiry?page=${page}`, { state: { searchTerm } });
+    }
   };
 
   const handleInquiryClick = (inquiry) => {

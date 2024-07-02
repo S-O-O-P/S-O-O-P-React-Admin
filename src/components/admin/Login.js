@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import style from "../../pages/Inquiry/InquiryAnswer.module.css"
 
 const onNaverLogin = () => {
   window.location.href = "http://localhost:8081/oauth2/authorization/naver";
@@ -56,7 +57,7 @@ function Login({ setUser }) {
         localStorage.setItem('user', JSON.stringify(userData));
         navigate('/home');
       } else {
-        setModalMessage('관리자 아이디 및 비밀번호가 아닙니다. 관리자 계정으로 로그인 해주세요.');
+        setModalMessage('관리자 아이디 및 비밀번호가 아닙니다.\n 관리자 계정으로 로그인 해주세요.');
         setShowModal(true);
       }
     } catch (error) {
@@ -66,7 +67,7 @@ function Login({ setUser }) {
     }
   };
 
-  const closeModal = () => {
+  const closeBtn = () => {
     setShowModal(false);
   };
 
@@ -106,10 +107,11 @@ function Login({ setUser }) {
           </div>
         </div>
         {showModal && (
-          <div className="modal">
-            <div className="modal-content">
-              <p>{modalMessage}</p>
-              <button className="close-button" onClick={closeModal}>닫기</button>
+          <div className={style.back}>
+            <div className={style.modal}>
+            <img src='/images/commons/icon_alert.png' alt='경고' width={45} />
+              <p style={{ whiteSpace: 'pre-wrap' }}>{modalMessage}</p>
+              <button className={style.modalButton} onClick={closeBtn}>닫기</button>
             </div>
           </div>
         )}
