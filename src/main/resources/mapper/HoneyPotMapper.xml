@@ -3,6 +3,117 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.soop.pages.honeypot.model.dto.SampleDTO">
+<mapper namespace="com.soop.pages.honeypot.model.dao.HoneyPotMapper">
+
+    <resultMap id="honeypotResultMap" type="com.soop.pages.honeypot.model.dto.HoneypotDTO">
+        <id property="honeypotCode" column="HONEYPOT_CODE"/>
+        <result property="interestCode" column="INTEREST_CODE"/>
+        <result property="honeypotTitle" column="HONEYPOT_TITLE" />
+        <result property="honeypotContent" column="HONEYPOT_CONTENT" />
+        <result property="hostCode" column="USER_CODE"/>
+        <result property="poster" column="POSTER" />
+        <result property="region" column="REGION" />
+        <result property="totalMember" column="TOTAL_MEMBER" />
+        <result property="regDate" column="REG_DATE" />
+        <result property="eventDate" column="EVENT_DATE" />
+        <result property="endDate" column="END_DATE" />
+        <result property="visibilityStatus" column="VISIBILITY_STATUS" />
+        <result property="closureStatus" column="CLOSURE_STATUS" />
+        <result property="reportCount" column="REPORT_COUNT" />
+        <result property="seqNo" column="SEQ_NO"/>
+    </resultMap>
+
+    <resultMap id="honeypotAndInterestAndLinkBeeUserResultMap" type="com.soop.pages.honeypot.model.dto.HoneypotAndInterestAndLinkBeeUserDTO">
+        <id property="honeypotCode" column="HONEYPOT_CODE"/>
+        <result property="honeypotTitle" column="HONEYPOT_TITLE" />
+        <result property="honeypotContent" column="HONEYPOT_CONTENT" />
+        <result property="poster" column="POSTER" />
+        <result property="region" column="REGION" />
+        <result property="totalMember" column="TOTAL_MEMBER" />
+        <result property="regDate" column="REG_DATE" />
+        <result property="eventDate" column="EVENT_DATE" />
+        <result property="endDate" column="END_DATE" />
+        <result property="visibilityStatus" column="VISIBILITY_STATUS" />
+        <result property="closureStatus" column="CLOSURE_STATUS" />
+        <result property="reportCount" column="REPORT_COUNT" />
+        <result property="seqNo" column="SEQ_NO"/>
+        <association property="interestCategory" javaType="com.soop.pages.honeypot.model.dto.InterestDTO">
+            <id property="interestCode" column="INTEREST_CODE"/>
+            <result property="interestName" column="INTEREST_NAME"/>
+        </association>
+        <association property="hostInfo" javaType="com.soop.pages.honeypot.model.dto.LinkBeeUserDTO">
+            <id property="userCode" column="USER_CODE"/>
+            <result property="nickname" column="NICKNAME"/>
+            <result property="email" column="EMAIL"/>
+            <result property="gender" column="GENDER"/>
+            <result property="profilePic" column="PROFILE_PIC"/>
+            <result property="userRole" column="USER_ROLE"/>
+            <result property="signupDate" column="SIGNUP_DATE"/>
+            <result property="signupPlatform" column="SIGNUP_PLATFORM"/>
+        </association>
+    </resultMap>
+
+    <!-- 허니팟 등록 -->
+    <insert id="insertHoneypot" parameterType="com.soop.pages.honeypot.model.dto.HoneypotDTO">
+        INSERT
+          INTO
+        HONEYPOT
+                 (INTEREST_CODE, HONEYPOT_TITLE, HONEYPOT_CONTENT, USER_CODE, POSTER, REGION, TOTAL_MEMBER, REG_DATE, EVENT_DATE, END_DATE, VISIBILITY_STATUS, CLOSURE_STATUS, REPORT_COUNT, SEQ_NO)
+        VALUES
+                 ( #{interestCode}, #{honeypotTitle}, #{honeypotContent}, #{hostCode}, #{poster}, #{region}, #{totalMember}, #{regDate}, #{eventDate}, #{endDate}, #{visibilityStatus}, #{closureStatus}, #{reportCount}, #{seqNo});
+    </insert>
+
+    <!-- 허니팟 전체 조회 -->
+    <select id="findAllHoneypots" resultMap="honeypotAndInterestAndLinkBeeUserResultMap">
+        SELECT
+               A.HONEYPOT_CODE,
+               <!--A.INTEREST_CODE,-->
+               B.INTEREST_NAME,
+               A.HONEYPOT_TITLE,
+               A.HONEYPOT_CONTENT,
+               <!--A.USER_CODE,-->
+               C.NICKNAME,
+               C.PROFILE_PIC,
+               C.USER_ROLE,
+               A.POSTER,
+               A.REGION,
+               A.TOTAL_MEMBER,
+               A.REG_DATE,
+               A.EVENT_DATE,
+               A.END_DATE,
+               A.VISIBILITY_STATUS,
+               A.CLOSURE_STATUS,
+               A.SEQ_NO
+          FROM HONEYPOT AS A
+        LEFT JOIN INTEREST AS B ON(A.INTEREST_CODE = B.INTEREST_CODE)
+        LEFT JOIN LINKBEE_USER AS C ON(A.USER_CODE = C.USER_CODE)
+        ORDER BY A.HONEYPOT_CODE;
+    </select>
+
+    <!-- 허니팟 상세 조회 -->
+    <select id="findByHoneypotCode" resultMap="honeypotAndInterestAndLinkBeeUserResultMap">
+        SELECT
+                A.HONEYPOT_CODE,
+                B.INTEREST_NAME,
+                A.HONEYPOT_TITLE,
+                A.HONEYPOT_CONTENT,
+                C.NICKNAME,
+                C.PROFILE_PIC,
+                C.USER_ROLE,
+                A.POSTER,
+                A.REGION,
+                A.TOTAL_MEMBER,
+                A.REG_DATE,
+                A.EVENT_DATE,
+                A.END_DATE,
+                A.VISIBILITY_STATUS,
+                A.CLOSURE_STATUS,
+                A.SEQ_NO
+          FROM HONEYPOT AS A
+        LEFT JOIN INTEREST AS B ON(A.INTEREST_CODE = B.INTEREST_CODE)
+        LEFT JOIN LINKBEE_USER AS C ON(A.USER_CODE = C.USER_CODE)
+        WHERE A.HONEYPOT_CODE = #{honeypotCode};
+    </select>
+
 
 </mapper>
