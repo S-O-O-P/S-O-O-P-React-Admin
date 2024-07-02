@@ -39,7 +39,9 @@ function Notice() {
       <Box className="header-container">
         <Typography variant="h5" className="table-title">공지 사항 전체 조회</Typography>
         <Box className="actions-container">
-          <Button variant="outlined" className="register-button">등록</Button>
+          <a href='noticeregist'>
+            <Button variant="outlined" className="register-button">등록</Button>
+          </a>
           <TextField
             variant="outlined"
             placeholder="제목 검색"
@@ -72,21 +74,21 @@ function Notice() {
         </Box>
       </Box>
       <NoticeTable notices={displayedNotices} rowsPerPage={rowsPerPage} />
-        <Pagination
-          count={Math.ceil(notices.length / rowsPerPage)}
-          page={page}
-          onChange={handlePageChange}
-          className='pagination'
-          sx={{
-            '.MuiPaginationItem-root': {
-              color: '#FFB755',
-            },
-            '.Mui-selected': {
-              backgroundColor: '#FFB755',
-              color: '#fff',
-            },
-          }}
-        />
+      <Pagination
+        count={Math.ceil(notices.length / rowsPerPage)}
+        page={page}
+        onChange={handlePageChange}
+        className='pagination'
+        sx={{
+          '.MuiPaginationItem-root': {
+            color: '#FFB755',
+          },
+          '.Mui-selected': {
+            backgroundColor: '#FFB755',
+            color: '#fff',
+          },
+        }}
+      />
     </Box>
   );
 }
