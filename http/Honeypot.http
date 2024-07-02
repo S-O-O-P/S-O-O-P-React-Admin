@@ -6,4 +6,4 @@ Content-Type: application/json
 GET http://localhost:8081/honeypot/list
 
 ### 상세 조회 테스트
-GET http://localhost:8081/honeypot/detail/3
+GET http://localhost:8081/honeypot/detail/4

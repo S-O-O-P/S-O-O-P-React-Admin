@@ -35,11 +35,12 @@ public class HoneypotDTO {
     private String poster;
     private String region;
     private int totalMember;
-    private LocalDate regDate;
-    private LocalDate eventDate;
-    private LocalDate endDate;
+    private Date regDate;
+    private Date eventDate;
+    private Date endDate;
     private String visibilityStatus;
     private String closureStatus;
     private int reportCount;
+    private int seqNo;
 
 }

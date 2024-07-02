@@ -30,5 +30,5 @@ public class HoneypotAndInterestAndLinkBeeUserDTO {
     private String visibilityStatus;        // 활성화 여부
     private String closureStatus;           // 마감 여부
     private int reportCount;                // 신고 횟수
-
+    private int seqNo;                      // 시퀀스 번호
 }
