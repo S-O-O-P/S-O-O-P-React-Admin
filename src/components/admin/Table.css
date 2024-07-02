@@ -146,6 +146,15 @@
     border-radius: 20px;
     padding: 0 8px;
   }
+
+  .search-boxs {
+    display: flex !important;
+    align-items: center !important;
+    border: 1px solid #FFB755 !important;
+    border-radius: 20px !important;
+    padding: 8px !important;
+    padding-left: 15px !important;
+  }
   
   .search-input {
     margin-left: 8px;

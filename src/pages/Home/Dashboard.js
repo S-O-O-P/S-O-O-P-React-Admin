@@ -19,12 +19,24 @@ const Dashboard = () => {
   const [notices, setNotices] = useState([]);
 
   useEffect(() => {
+    const sampleMonthlyHoneyCount = [
+      { month: '07월', honey_count: 3 },
+      { month: '08월', honey_count: 2 },
+      { month: '09월', honey_count: 4 },
+    ];
+    const sampleGenreHoneyCount = [
+      { genre: '공연', honey_count: 3 },
+      { genre: '행사/축제', honey_count: 4 },
+      { genre: '전시회', honey_count: 2 },
+      { genre: '뮤지컬', honey_count: 4 },
+    ];
+
     axios.get('http://localhost:8080/dashboard/monthly-honey-count')
-      .then(response => setMonthlyHoneyCount(response.data.monthlyHoneyCount))
+      .then(response => setMonthlyHoneyCount([...response.data.monthlyHoneyCount, ...sampleMonthlyHoneyCount]))
       .catch(error => console.error("There was an error fetching the monthly honey count!", error));
 
     axios.get('http://localhost:8080/dashboard/genre-honey-count')
-      .then(response => setGenreHoneyCount(response.data.genreHoneyCount))
+      .then(response => setGenreHoneyCount([...response.data.genreHoneyCount, ...sampleGenreHoneyCount]))
       .catch(error => console.error("There was an error fetching the genre honey count!", error));
 
     axios.get('http://localhost:8080/dashboard/today-matching-count')
@@ -42,7 +54,6 @@ const Dashboard = () => {
     axios.get('http://localhost:8080/dashboard/total-inquiry-count')
       .then(response => setTotalInquiryCount(response.data.totalInquiryCount))
       .catch(error => console.error("There was an error fetching the today inquiry count!", error));
-
 
     axios.get('http://localhost:8080/dashboard/today-honey-count')
       .then(response => setTodayHoneyCount(response.data.todayHoneyCount))
@@ -107,7 +118,7 @@ const Dashboard = () => {
       </Box>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
-          <DashboardChart title="월별 허니팟" chartData={monthlyChartData} />
+          <DashboardChart  title="월별 허니팟" chartData={monthlyChartData} />
         </Grid>
         <Grid item xs={12} md={6}>
           <DashboardChart title="장르별 허니팟" chartData={genreChartData} />

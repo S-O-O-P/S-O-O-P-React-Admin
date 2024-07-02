@@ -15,26 +15,60 @@
   }
   
   .detail-group {
-    margin-bottom: 30px;
+    display: flex;
+    align-items: center; /* Center items vertically */
+    margin-bottom: 50px !important;
   }
   
   .detail-label {
-    font-weight: bold;
-    margin-bottom: 20px;
+    display: inline-block !important; 
+    width: 120px !important; 
+    height: 48px !important; 
+    font-size: 18px !important; 
+    font-weight: var(--medium) !important; 
+    text-align: center !important; 
+    border-radius: 48px !important; 
+    background-color: var(--main-color) !important; 
+    color: #ffffff !important; 
+    line-height: 48px !important;
   }
   
   .detail-value {
-    margin-bottom: 10px;
-    padding: 10px 0;
-    border-bottom: 1px solid #ccc;
+    min-width: 200px !important; 
+    margin-left: 20px !important; 
+    height: 48px !important; 
+    border-bottom: 1px solid var(--main-color) !important; 
+    text-align: center !important;
+    font-size: 16px !important; 
+    font-weight: var(--medium) !important;
+    display: flex;
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+    line-height: normal; /* Ensure normal line height */
+    margin-bottom: -4px; /* Move the border up by reducing the bottom margin */
   }
+  
+  
   
   .profile-content {
     font-weight: bold;
     text-align: center;
-    margin-bottom: 10px;
-    padding-right: 220px;
+    margin-bottom: 10px !important;
+    display: inline-block !important; 
+    width: 120px !important; 
+    height: 48px !important; 
+    font-size: 18px !important; 
+    font-weight: var(--medium) !important; 
+    text-align: center !important; 
+    border-radius: 48px !important; 
+    background-color: var(--main-color) !important; 
+    color: #ffffff !important; 
+    line-height: 48px !important;
+    margin-left: 190px !important; /* Move element to the right */
   }
+
+
+  
   
   .profile-picture {
     width: 300px;

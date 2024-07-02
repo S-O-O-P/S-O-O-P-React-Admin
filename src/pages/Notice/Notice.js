@@ -45,7 +45,7 @@ function Notice() {
         <Typography variant="h5" className="table-titles">공지 사항 전체 조회</Typography>
         <Box className="actions-container">
           <Button variant="outlined" className="register-button">등록</Button>
-        </Box>
+       
         <Box className="search-box">
           <InputBase
             className="search-input"
@@ -59,6 +59,7 @@ function Notice() {
           </Button>
         </Box>
       </Box>
+    </Box>
       <NoticeTable notices={displayedNotices} rowsPerPage={rowsPerPage} />
       <Pagination
         count={Math.ceil(notices.length / rowsPerPage)}

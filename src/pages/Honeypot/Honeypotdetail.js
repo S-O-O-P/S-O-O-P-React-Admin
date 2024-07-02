@@ -75,44 +75,44 @@ function HoneypotDetail() {
 
   return (
     <Box className="honeypot-detail-container">
-      <Typography variant="h4" component="div" gutterBottom>
+      <Typography variant="h4" component="div" sx={{marginBottom:'30px'}}>
         허니팟 상세 정보
       </Typography>
       <Grid container spacing={3} className="honeypot-detail-info">
         <Grid item xs={6} sm={4}>
-          <Box className="detail-item">
-            <Typography variant="body1">모집 상태</Typography>
-            <Typography variant="body2">{row.closureStatus}</Typography>
+          <Box className="detail-group">
+            <Typography className="detail-label">모집 상태</Typography>
+            <Typography className="detail-value">{row.closureStatus}</Typography>
           </Box>
         </Grid>
         <Grid item xs={6} sm={4}>
-          <Box className="detail-item">
-            <Typography variant="body1">모집인원</Typography>
-            <Typography variant="body2">{row.totalMember}</Typography>
+          <Box className="detail-group">
+            <Typography className="detail-label">모집인원</Typography>
+            <Typography className="detail-value">{row.totalMember}</Typography>
           </Box>
         </Grid>
         <Grid item xs={6} sm={4}>
-          <Box className="detail-item">
-            <Typography variant="body1">신고횟수</Typography>
-            <Typography variant="body2">{row.reportCount}</Typography>
+          <Box className="detail-group">
+            <Typography className="detail-label">신고횟수</Typography>
+            <Typography className="detail-value">{row.reportCount}</Typography>
           </Box>
         </Grid>
         <Grid item xs={6} sm={4}>
-          <Box className="detail-item">
-            <Typography variant="body1">생성일자</Typography>
-            <Typography variant="body2">{row.regDate}</Typography>
+          <Box className="detail-group">
+            <Typography className="detail-label">생성일자</Typography>
+            <Typography className="detail-value">{row.regDate}</Typography>
           </Box>
         </Grid>
         <Grid item xs={6} sm={4}>
-          <Box className="detail-item">
-            <Typography variant="body1">장르</Typography>
-            <Typography variant="body2">{row.interestCode}</Typography>
+          <Box className="detail-group">
+            <Typography className="detail-label">장르</Typography>
+            <Typography className="detail-value">{row.interestCode}</Typography>
           </Box>
         </Grid>
       </Grid>
       <Box className="honeypot-detail-divider">
-        <Typography variant="h6" component="div" gutterBottom>
-          게시물 상세 제목
+        <Typography className="detail-label" component="div" sx={{marginBottom:'15px'}}>
+          게시물 상세 
         </Typography>
       </Box>
       <Typography variant="body1" className="honeypot-detail-description">

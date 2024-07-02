@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { Box, Typography, TextField, Button, Grid } from '@mui/material';
+import { Box, Typography, TextField, Button, Grid, InputBase } from '@mui/material';
 import axios from 'axios';
 import './Customerdetail.css';// CSS 파일 임포트
 
@@ -82,15 +82,19 @@ function CustomerDetail() {
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <TextField
-            label="자기소개"
-            multiline
-            rows={4}
-            defaultValue={member.aboutMe}
-            variant="outlined"
-            fullWidth
-            InputProps={{ readOnly: true, className: "text-field-input" }} // 읽기 전용 설정
-          />
+        <Typography className="detail-label" sx={{marginBottom:'10px'}}>자기소개</Typography>
+        <Box className="search-boxs">
+            <InputBase
+              label="자기소개"
+              multiline
+              rows={4}
+              defaultValue={member.aboutMe}
+              variant="outlined"
+              fullWidth
+              readOnly // 읽기 전용 설정
+            />
+            </Box>
+        
         </Grid>
         <Grid item xs={12} className="button-container">
           <Button variant="outlined" className="cancel-button" onClick={() => navigate(-1)}>취소</Button>
