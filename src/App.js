@@ -17,6 +17,7 @@ import './pages/EventsInfo/EventsDetail.css'
 import  GlobalStyles  from './styles/GlobalStyles';
 import Layout from './layouts/Layout'; // Layout 경로 추가
 import Login from './components/admin/Login';
+import NoticeRegistPage from './pages/Notice/NoticeRegist';
 
 export default function App() {
   const [user, setUser] = useState(null); // 사용자 정보 상태
@@ -42,6 +43,7 @@ export default function App() {
                   <Route path="inquiry" element={<Inquiry />} />
                   <Route path="events" element={<Events />} />
                   <Route path="events/:type/:id" element={<EventsDetail />} />
+                  <Route path='noticeregist' element={<NoticeRegistPage/>}/>
                 </Routes>
               </Layout>
             }

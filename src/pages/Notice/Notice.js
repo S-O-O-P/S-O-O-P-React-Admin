@@ -42,24 +42,25 @@ function Notice() {
           <Button variant="outlined" className="register-button">등록</Button>
           Line 109:27:  'handleKeyPress' is not defined     no-undef
           Line 111:30:  'handleSearchClick' is not defined  
+
         </Box>
       </Box>
       <NoticeTable notices={displayedNotices} rowsPerPage={rowsPerPage} />
-        <Pagination
-          count={Math.ceil(notices.length / rowsPerPage)}
-          page={page}
-          onChange={handlePageChange}
-          className='pagination'
-          sx={{
-            '.MuiPaginationItem-root': {
-              color: '#FFB755',
-            },
-            '.Mui-selected': {
-              backgroundColor: '#FFB755',
-              color: '#fff',
-            },
-          }}
-        />
+      <Pagination
+        count={Math.ceil(notices.length / rowsPerPage)}
+        page={page}
+        onChange={handlePageChange}
+        className='pagination'
+        sx={{
+          '.MuiPaginationItem-root': {
+            color: '#FFB755',
+          },
+          '.Mui-selected': {
+            backgroundColor: '#FFB755',
+            color: '#fff',
+          },
+        }}
+      />
     </Box>
   );
 }

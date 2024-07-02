@@ -9,6 +9,10 @@ function EventTable({ events }) {
   const handleRowClick = (id) => {
     navigate(`/events/detail/${id}`);
   };
+  // 수정 버튼 클릭 핸들러
+  const handleUpdateClick = (id) => {
+    navigate(`/events/edit/${id}`);
+  };
 
   return (
     <TableContainer component={Paper} className="table-container">
@@ -31,6 +35,7 @@ function EventTable({ events }) {
               <TableCell className="table-cell">{event.createdAt}</TableCell>
               <TableCell className="table-cell">
                 <Button variant="outlined" className="manage" onClick={() => handleRowClick(event.id)}>{event.manage}</Button>
+
               </TableCell>
             </TableRow>
           ))}
