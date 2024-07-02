@@ -51,6 +51,7 @@
         </association>
     </resultMap>
 
+    <!-- 허니팟 등록 -->
     <insert id="insertHoneypot" parameterType="com.soop.pages.honeypot.model.dto.HoneypotDTO">
         INSERT
           INTO
@@ -60,6 +61,30 @@
                  ( #{interestCode}, #{honeypotTitle}, #{honeypotContent}, #{hostCode}, #{poster}, #{region}, #{totalMember}, #{regDate}, #{eventDate}, #{endDate}, #{visibilityStatus}, #{closureStatus}, #{reportCount});
     </insert>
 
+    <!-- 허니팟 전체 조회 -->
+    <select id="findAllHoneypots" resultMap="honeypotAndInterestAndLinkBeeUserResultMap">
+        SELECT
+               <!--A.INTEREST_CODE,-->
+               B.INTEREST_NAME,
+               A.HONEYPOT_TITLE,
+               A.HONEYPOT_CONTENT,
+               <!--A.USER_CODE,-->
+               C.NICKNAME,
+               C.PROFILE_PIC,
+               C.USER_ROLE,
+               A.POSTER,
+               A.REGION,
+               A.TOTAL_MEMBER,
+               A.REG_DATE,
+               A.EVENT_DATE,
+               A.END_DATE,
+               A.VISIBILITY_STATUS,
+               A.CLOSURE_STATUS
+          FROM HONEYPOT AS A
+        LEFT JOIN INTEREST AS B ON(A.INTEREST_CODE = B.INTEREST_CODE)
+        LEFT JOIN LINKBEE_USER AS C ON(A.USER_CODE = C.USER_CODE)
+        ORDER BY A.HONEYPOT_CODE;
+    </select>
 
 
 </mapper>
