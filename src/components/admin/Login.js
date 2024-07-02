@@ -4,17 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import style from "../../pages/Inquiry/InquiryAnswer.module.css"
 
-const onNaverLogin = () => {
-  window.location.href = "http://localhost:8081/oauth2/authorization/naver";
-}
 
-const onKakaoLogin = () => {
-  window.location.href = "http://localhost:8081/oauth2/authorization/kakao";
-}
-
-const onGoogleLogin = () => {
-  window.location.href = "http://localhost:8081/oauth2/authorization/google";
-}
 
 function Login({ setUser }) {
   const [nickname, setNickname] = useState('');
@@ -85,7 +75,7 @@ function Login({ setUser }) {
                 type="text" 
                 id="nickname" 
                 name="nickname" 
-                placeholder="닉네임을 입력하세요" 
+                placeholder="아이디를 입력하세요" 
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
               />
@@ -95,15 +85,12 @@ function Login({ setUser }) {
                 type="text" 
                 id="userCode" 
                 name="userCode" 
-                placeholder="유저코드를 입력하세요" 
+                placeholder="비밀번호를 입력하세요" 
                 value={userCode}
                 onChange={(e) => setUserCode(e.target.value)}
               />
             </div>
             <button className="login-button" onClick={handleLogin}>로그인</button>
-            <button onClick={onNaverLogin} className="naver-login">네이버 로그인</button>
-            <button onClick={onKakaoLogin} className="kakao-login">카카오 로그인</button>
-            <button onClick={onGoogleLogin} className="google-login">Google 로그인</button>
           </div>
         </div>
         {showModal && (
