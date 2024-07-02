@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Button, TextField, Typography, InputAdornment, Pagination,InputBase } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Button, Typography, InputBase, Pagination } from '@mui/material';
 import NoticeTable from '../../components/admin/NoticeTable';
-
 
 const initialNotices = [
   { id: 1, title: '공지사항 1', date: '2024-07-16', views: 34, manage: '수정' },
@@ -32,6 +31,12 @@ function Notice() {
     setPage(value);
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   const displayedNotices = notices.slice((page - 1) * rowsPerPage, page * rowsPerPage);
 
   return (
@@ -40,9 +45,18 @@ function Notice() {
         <Typography variant="h5" className="table-titles">공지 사항 전체 조회</Typography>
         <Box className="actions-container">
           <Button variant="outlined" className="register-button">등록</Button>
-          Line 109:27:  'handleKeyPress' is not defined     no-undef
-          Line 111:30:  'handleSearchClick' is not defined  
-
+        </Box>
+        <Box className="search-box">
+          <InputBase
+            className="search-input"
+            placeholder='공지 사항 제목 검색'
+            value={searchTerm}
+            onChange={handleSearchChange}
+            onKeyPress={handleKeyPress}
+          />
+          <Button onClick={handleSearch}>
+            <img src="/images/admin/icon_search.png" alt="search" />
+          </Button>
         </Box>
       </Box>
       <NoticeTable notices={displayedNotices} rowsPerPage={rowsPerPage} />
