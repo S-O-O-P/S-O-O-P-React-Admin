@@ -18,6 +18,8 @@ const Dashboard = () => {
   const [reportData, setReportData] = useState([]);
   const [inquiryData, setInquiryData] = useState([]);
   const [notices, setNotices] = useState([]);
+  const [todayDate, setTodayDate] = useState('');
+
 
   useEffect(() => {
     fetchDashboardData()
@@ -36,7 +38,16 @@ const Dashboard = () => {
         setNotices(data.notices);
       })
       .catch(error => console.error("There was an error fetching the dashboard data!", error));
+
+      const currentDate = new Date().toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      setTodayDate(currentDate);
   }, []);
+
+
 
   const monthlyChartData = {
     labels: monthlyHoneyCount.map(item => item.month),
@@ -69,8 +80,12 @@ const Dashboard = () => {
   return (
     <Box className="dashboard-container">
       <Box className="dashboard-header">
+      <Box className="dashboard-today">
+        <Typography variant="h6" sx={{ color: 'white' }}>Today</Typography>
+          <Typography variant="h7" className="dashboard-summary">{todayDate}</Typography>
+        </Box>
+      <Box className="dashboard-title">
         <Typography variant="h6" sx={{ color: 'white' }}>오늘의 허니팟</Typography>
-        <Box className="dashboard-title">
           <Typography variant="h7" className="dashboard-summary">{todayHoneyCount}개</Typography>
         </Box>
       </Box>

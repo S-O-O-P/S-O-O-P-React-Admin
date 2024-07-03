@@ -48,7 +48,7 @@ function CustomerDetail() {
       <Typography className="nickname-info" variant="h4" component="div" sx={{ marginBottom: '30px' }}>
         {member.nickname} 님의 회원 정보
       </Typography>
-      <Grid container spacing={2} className="customer-detail-grid">
+      <Grid container spacing={-20} className="customer-detail-grid">
         <Grid item xs={12} sm={6}>
           <div className="detail-group">
             <Typography className="detail-label">성별</Typography>
@@ -85,7 +85,8 @@ function CustomerDetail() {
             </Box>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
+        </Grid>
+        <Grid item xs={12} >
           <Typography className="detail-label" sx={{ marginBottom: '25px' }}>자기소개</Typography>
           <Box className="search-boxs">
             <InputBase
@@ -103,7 +104,7 @@ function CustomerDetail() {
           <Button variant="outlined" className="cancel-button" onClick={() => navigate(-1)}>취소</Button>
           <Button variant="outlined" className="confirm-button" onClick={handleConfirmClick}>확인</Button>
         </Grid>
-      </Grid>
+      
     </Box>
   );
 }

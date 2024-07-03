@@ -15,9 +15,27 @@
   width: 49.5%;
   height: 40px;
   border-radius: 15px;
-  justify-content: space-between;
   padding-left: 10px;
   padding-right: 10px;
+  
+}
+
+.dashboard-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+}
+
+.dashboard-today {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-summary {
+  display: flex;
+  padding-left: 15px;
 }
 
 .MuiTableCell-head {

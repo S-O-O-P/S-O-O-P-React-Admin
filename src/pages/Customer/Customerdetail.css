@@ -45,15 +45,14 @@
 }
 
 .profile-content-container, .profile-picture-container {
-  display: flex;
-  justify-content: flex-end;
-  
+ 
+ 
 }
 
 .profile-content {
   font-weight: bold;
   text-align: center;
-  margin-bottom: 10px !important;
+  margin-bottom: 20px !important;
   display: inline-block !important; 
   width: 120px !important; 
   height: 48px !important; 
