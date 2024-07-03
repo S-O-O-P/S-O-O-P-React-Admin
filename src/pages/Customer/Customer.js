@@ -59,7 +59,11 @@ function Customer() {
     console.log("Filtered members:", filtered); // Add logging
     setFilteredMembers(filtered);
     setPage(1); // Reset to first page on search
-    navigate('/customer', { state: { searchTerm } });
+    if (page === 1) {
+      navigate('/customer', { state: { searchTerm } });
+    } else {
+      navigate(`/customer?page=${page}`, { state: { searchTerm } });
+    }
   };
 
   const handleKeyPress = (event) => {

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { Box, Typography, TextField, Button, Grid } from '@mui/material';
+import { Box, Typography, Button, Grid, InputBase } from '@mui/material';
 import axios from 'axios';
-import './Customerdetail.css';// CSS 파일 임포트
+import './Customerdetail.css'; // CSS 파일 임포트
 
 // CustomerDetail 컴포넌트
 function CustomerDetail() {
@@ -44,12 +44,11 @@ function CustomerDetail() {
 
   return (
     <Box className="customer-detail-container">
+      <Typography className="nickname-info" variant="h4" component="div" sx={{ marginBottom: '30px' }}>
+        {member.nickname} 님의 회원 정보
+      </Typography>
       <Grid container spacing={2} className="customer-detail-grid">
         <Grid item xs={12} sm={6}>
-          <div className="detail-group">
-            <Typography className="detail-label">회원코드</Typography>
-            <Typography className="detail-value">{member.userCode}</Typography>
-          </div>
           <div className="detail-group">
             <Typography className="detail-label">성별</Typography>
             <Typography className="detail-value">{member.gender}</Typography>
@@ -71,26 +70,33 @@ function CustomerDetail() {
             <Typography className="detail-value">{member.signupPlatform}</Typography>
           </div>
         </Grid>
-        <Grid item xs={12} sm={6} className="profile-content-container">
-          <Typography className="profile-content">프로필 사진</Typography>
-          <Box className="profile-picture">
-            {member.profilePic ? (
-              <img src={member.profilePic} alt="Profile" />
-            ) : (
-              <Typography>등록된 프로필이 없습니다.</Typography>
-            )}
-          </Box>
+        <Grid item xs={12} sm={6} container direction="column" >
+          <Grid item className="profile-content-container">
+            <Typography className="profile-content">프로필 사진</Typography>
+          </Grid>
+          <Grid item className="profile-picture-container">
+            <Box className="profile-picture">
+              {member.profilePic ? (
+                <img src={member.profilePic} alt="Profile" />
+              ) : (
+                <Typography className='detail-values'>등록된 프로필이 없습니다.</Typography>
+              )}
+            </Box>
+          </Grid>
         </Grid>
         <Grid item xs={12}>
-          <TextField
-            label="자기소개"
-            multiline
-            rows={4}
-            defaultValue={member.aboutMe}
-            variant="outlined"
-            fullWidth
-            InputProps={{ readOnly: true, className: "text-field-input" }} // 읽기 전용 설정
-          />
+          <Typography className="detail-label" sx={{ marginBottom: '25px' }}>자기소개</Typography>
+          <Box className="search-boxs">
+            <InputBase
+              multiline
+              className='detail-values'
+              rows={4}
+              defaultValue={member.aboutMe}
+              variant="outlined"
+              fullWidth
+              readOnly // 읽기 전용 설정
+            />
+          </Box>
         </Grid>
         <Grid item xs={12} className="button-container">
           <Button variant="outlined" className="cancel-button" onClick={() => navigate(-1)}>취소</Button>

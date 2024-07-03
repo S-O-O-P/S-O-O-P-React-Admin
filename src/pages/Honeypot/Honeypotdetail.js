@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { Box, Typography, Button, Grid, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
+import { Box, Typography, Button, Grid, Dialog, DialogActions, DialogContent, DialogContentText,InputBase } from '@mui/material';
 import './Honeypotdetail.css'; // CSS 파일 임포트
 
 // HoneypotDetail 컴포넌트
@@ -75,55 +75,73 @@ function HoneypotDetail() {
 
   return (
     <Box className="honeypot-detail-container">
-      <Typography variant="h4" component="div" gutterBottom>
+      <Typography variant="h4" component="div" sx={{marginBottom:'30px'}}>
         허니팟 상세 정보
       </Typography>
       <Grid container spacing={3} className="honeypot-detail-info">
         <Grid item xs={6} sm={4}>
-          <Box className="detail-item">
-            <Typography variant="body1">모집 상태</Typography>
-            <Typography variant="body2">{row.closureStatus}</Typography>
+          <Box className="detail-group">
+            <Typography className="detail-label">모집 상태</Typography>
+            <Typography className="detail-value">{row.closureStatus}</Typography>
           </Box>
         </Grid>
         <Grid item xs={6} sm={4}>
-          <Box className="detail-item">
-            <Typography variant="body1">모집인원</Typography>
-            <Typography variant="body2">{row.totalMember}</Typography>
+          <Box className="detail-group">
+            <Typography className="detail-label">모집인원</Typography>
+            <Typography className="detail-value">{row.totalMember}</Typography>
           </Box>
         </Grid>
         <Grid item xs={6} sm={4}>
-          <Box className="detail-item">
-            <Typography variant="body1">신고횟수</Typography>
-            <Typography variant="body2">{row.reportCount}</Typography>
+          <Box className="detail-group">
+            <Typography className="detail-label">신고횟수</Typography>
+            <Typography className="detail-value">{row.reportCount}</Typography>
           </Box>
         </Grid>
         <Grid item xs={6} sm={4}>
-          <Box className="detail-item">
-            <Typography variant="body1">생성일자</Typography>
-            <Typography variant="body2">{row.regDate}</Typography>
+          <Box className="detail-group">
+            <Typography className="detail-label">생성일자</Typography>
+            <Typography className="detail-value">{row.regDate}</Typography>
           </Box>
         </Grid>
         <Grid item xs={6} sm={4}>
-          <Box className="detail-item">
-            <Typography variant="body1">장르</Typography>
-            <Typography variant="body2">{row.interestCode}</Typography>
+          <Box className="detail-group">
+            <Typography className="detail-label">장르</Typography>
+            <Typography className="detail-value">{row.interestCode}</Typography>
           </Box>
         </Grid>
+        <Grid item xs={7} sm={5}>
+          <Box className="detail-group">
+            <Typography className="detail-label">제목</Typography>
+            <Typography className="detail-value">{row.honeypotTitle}</Typography>
+          </Box>
+        </Grid>
+
+        
       </Grid>
-      <Box className="honeypot-detail-divider">
-        <Typography variant="h6" component="div" gutterBottom>
-          게시물 상세 제목
+
+
+        <Typography className="detail-label" component="div" sx={{marginBottom:'25px'}}>
+          내용 
         </Typography>
-      </Box>
-      <Typography variant="body1" className="honeypot-detail-description">
-        {row.honeypotContent}
-      </Typography>
+      <Box className="search-boxs">
+            <InputBase
+              multiline
+              rows={4}
+              className='detail-values'
+              defaultValue={row.honeypotContent}
+              variant="outlined"
+              fullWidth
+              readOnly // 읽기 전용 설정
+            />
+            </Box>
+
+
       <Box className="honeypot-detail-buttons">
-        <Button variant="outlined" className="honeypot-action-button-outline" onClick={handleBackClick}>
+        <Button variant="outlined" className="cancel-button" onClick={handleBackClick}>
           목록
         </Button>
         <Box className="honeypot-right-buttons">
-          <Button variant="outlined" className="honeypot-action-button-outline" onClick={handleBackClick}>
+          <Button variant="outlined" className="cancel-button" onClick={handleBackClick}>
             취소
           </Button>
           <Button variant="contained" className="honeypot-action-button-contained" onClick={handleClickOpen}>

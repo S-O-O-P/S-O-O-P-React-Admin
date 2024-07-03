@@ -100,13 +100,13 @@ function Honeypot() {
     <Box className="common-container">
       <Box className="header-container">
         <Typography variant="h5" className="table-titles">
-          허니팟 관리 전체 조회
+          허니팟 관리
         </Typography>
         <Box className="actions-container">
         <Box className="search-box">
             <InputBase
               className="search-input"
-              placeholder='회원 이름 검색'
+              placeholder='제목 검색'
               value={searchTerm}
               onChange={handleSearchChange}
               onKeyPress={handleKeyPress}
@@ -122,7 +122,7 @@ function Honeypot() {
           <Table className="table">
             <TableHead>
               <TableRow>
-                <TableCell className="table-head-cell" align="center">허니팟</TableCell>
+                <TableCell className="table-head-cell" align="center">no</TableCell>
                 <TableCell className="table-head-cell" align="center">제목</TableCell>
                 <TableCell className="table-head-cell" align="center">등록일자</TableCell>
                 <TableCell className="table-head-cell" align="center">신고건수</TableCell>

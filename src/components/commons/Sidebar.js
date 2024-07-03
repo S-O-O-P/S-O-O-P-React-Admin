@@ -46,10 +46,14 @@ function Sidebar() {
     }
   }, [user]);
 
+  const handleLogoClick = () => {
+    navigate('/home');
+  };
+
   return (
     <Box className="sidebar">
       <Box className="sidebar-header">
-        <img src={`${baseImagePaths}logo.png`} alt="logo" className="sidebar-logo" />
+        <img src={`${baseImagePaths}logo.png`} alt="logo" className="sidebar-logo" onClick={handleLogoClick} />
         <Box className="sidebar-role-user">
           <Typography variant="body2" className="sidebar-role">관리자</Typography>
           <Typography variant="body1" className="sidebar-user">

@@ -8,7 +8,7 @@ function InquiryTable({ inquiries, rowsPerPage, onInquiryClick }) {
       <Table className="table">
         <TableHead>
           <TableRow>
-            <TableCell className="table-head-cell">문의코드</TableCell>
+            <TableCell className="table-head-cell">no</TableCell>
             <TableCell className="table-head-cell">제목</TableCell>
             <TableCell className="table-head-cell">유형</TableCell>
             <TableCell className="table-head-cell">작성일</TableCell>

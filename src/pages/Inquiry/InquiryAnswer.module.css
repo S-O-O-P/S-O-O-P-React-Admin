@@ -10,8 +10,7 @@
 }
 
 .pageTitle {
-    font-size: 24px;
-    font-weight: var(--semiBold);
+    font-size: 1.5rem;
 }
 
 .categoryBox {
@@ -25,7 +24,7 @@
     display: flex;
     align-items: center;
     font-size: 16px;
-    font-weight: var(--reguler);
+    font-weight: var(--medium);
 }
 
 .titleBox {
@@ -37,8 +36,8 @@
     display: flex;
     align-items: center;
 
-    font-size: 18px;
-    font-weight: var(--reguler);
+    font-size: 16px;
+    font-weight: var(--medium);
 }
 
 .contextBox {
@@ -49,8 +48,8 @@
     padding: 10px;
     margin: 15px 0 20px 0;
 
-    font-size: 18px;
-    font-weight: var(--reguler);
+    font-size: 16px;
+    font-weight: var(--medium);
 }
 
 .answerBox {
@@ -61,8 +60,8 @@
     padding: 10px;
     resize: none;
     outline: none;
-    font-size: 18px;
-    font-weight: var(--reguler);
+    font-size: 16px;
+    font-weight: var(--medium);
 }
 
 .answerBox:focus {

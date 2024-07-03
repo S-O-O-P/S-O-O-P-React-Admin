@@ -12,7 +12,12 @@
 }
 
 .honeypot-detail-info {
-  margin-bottom: 40px;
+  margin-bottom: 25px;
+}
+
+.detail-values {
+    font-size: 16px !important; 
+    font-weight: var(--medium) !important;
 }
 
 .detail-item {
@@ -28,22 +33,12 @@
   margin-left: 10px;
 }
 
-.honeypot-detail-divider {
-  border-bottom: 1px solid #FFB755;
-  margin: 50px 0 !important;
-}
-
-.honeypot-detail-description {
-  line-height: 2 !important;
-}
-
 
 .honeypot-detail-buttons {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 300px !important;
-  border-top: 1px solid #FFB755;
+  margin-top: 20px !important;
   padding-top: 20px;
 }
 
@@ -59,10 +54,20 @@
 }
 
 .honeypot-action-button-contained {
-  background-color: #FFB755 !important;
-  color: white !important;
-  margin-left: 15px !important;
-  border-color: #FFB755 !important;
+  display: block !important; 
+  width: 96px !important; 
+  height: 48px !important; 
+  padding: 0 20px !important; 
+  border-radius:48px !important; 
+  border:1px solid var(--main-color) !important; 
+  color: var(--main-color) !important;
+  line-height: 48px !important; 
+  font-size: 15.4px !important; 
+  font-weight: var(--semiBold) !important; 
+  text-align: center !important; 
+  transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out, color 200ms ease-in-out !important; 
+  background-color: var(--main-color) !important; 
+  color: #ffffff !important;
 }
 
 .honeypot-action-button-contained:hover {
