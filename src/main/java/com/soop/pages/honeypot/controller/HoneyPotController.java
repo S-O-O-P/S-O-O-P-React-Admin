@@ -1,9 +1,6 @@
 package com.soop.pages.honeypot.controller;
 
-import com.soop.pages.honeypot.model.dto.CommentAndLinkBeeUserDTO;
-import com.soop.pages.honeypot.model.dto.CommentDTO;
-import com.soop.pages.honeypot.model.dto.HoneypotAndInterestAndLinkBeeUserDTO;
-import com.soop.pages.honeypot.model.dto.HoneypotDTO;
+import com.soop.pages.honeypot.model.dto.*;
 import com.soop.pages.honeypot.model.service.HoneyPotService;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.HttpHeaders;
@@ -125,14 +122,8 @@ public class HoneyPotController {
 
     }
 
-    //댓글 등록
-//    @PostMapping("/comment")
-//    public ResponseEntity<CommentDTO> registerComment(@RequestBody CommentDTO comment) {
-//        CommentDTO savedComment = honeyPotService.insertComment(comment);
-//        return ResponseEntity.ok(savedComment);
-//    }
 
-    // 댓글 등록 테스트
+    // 댓글 등록
     @PostMapping("/comment")
     public ResponseEntity<CommentAndLinkBeeUserDTO> registComment(@RequestBody CommentAndLinkBeeUserDTO newComment) {
         CommentAndLinkBeeUserDTO registComment = honeyPotService.registComment(newComment);
@@ -241,6 +232,56 @@ public class HoneyPotController {
 
         return ResponseEntity.ok().headers(headers).body(new HoneypotResponseMessage(200, "댓글 삭제 성공", reponseMap));
     }
+
+
+    // 참가신청 등록
+    @PostMapping("/application")
+    public ResponseEntity<ApplicationDTO> registComment(@RequestBody ApplicationDTO newApplication) {
+        ApplicationDTO registApplication = honeyPotService.registApplication(newApplication);
+        return ResponseEntity.ok(registApplication);
+    }
+
+    // 해당 허니팟의 참가신청 목록 조회
+    @GetMapping("/application/{honeypotCode}")
+    public ResponseEntity<List<ApplicationDTO>> findApplications(@PathVariable("honeypotCode") int honeypotCode) {
+        List<ApplicationDTO> applications = honeyPotService.findApplicationsByHoneypotCode(honeypotCode);
+        return ResponseEntity.ok(applications);
+    }
+
+    // 해당 허니팟에 참가 신청한 사람 개별 조회(참가신청코드로 구분)
+    @GetMapping("/application/{honeypotCode}/{applicationCode}")
+    public ResponseEntity<ApprovalStatusDTO> findApplicationByCodes(@PathVariable("honeypotCode") int honeypotCode,
+                                                                    @PathVariable("applicationCode") int applicationCode) {
+        ApprovalStatusDTO application = honeyPotService.findApplicationByHoneypotCodeAndApplicationCode(honeypotCode, applicationCode);
+        if (application != null) {
+            return ResponseEntity.ok(application);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // 승인, 미승인 수정하기
+    @PutMapping("/application/{honeypotCode}/{applicationCode}")
+    public ResponseEntity<ApprovalStatusDTO> updateApplicationData(
+            @PathVariable("honeypotCode") int honeypotCode,
+            @PathVariable("applicationCode") int applicationCode,
+            @RequestBody ApprovalStatusDTO updatedApplication) {
+
+        // 여기서는 ApprovalStatusDTO 객체에 있는 데이터를 기준으로 업데이트 작업을 수행할 수 있습니다.
+        ApprovalStatusDTO updatedData = honeyPotService.updateApplicationData(honeypotCode, applicationCode, updatedApplication);
+
+        if (updatedData != null) {
+            return ResponseEntity.ok(updatedData);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+
+
+
+
 
 
 

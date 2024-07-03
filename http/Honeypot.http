@@ -55,3 +55,32 @@ Content-Type: application/json
   "writingTime": "2024-07-01T12:00:02",
   "updateTime": null
 }
+
+### 참가신청 등록 테스트(참가승인으로 자동 등록)
+POST http://localhost:8081/honeypot/application
+Content-Type: application/json
+
+{
+  "honeypotCategory": {
+    "honeypotCode": 8
+  },
+  "userCategory": {
+    "userCode": 10
+  },
+  "applicationDate": "2024-07-11"
+}
+
+### 특정 허니팟의 참가신청 목록 조회
+GET http://localhost:8081/honeypot/application/8
+
+### 특정 허니팟의 참가신청 목록 개별 조회(참가신청 코드순)
+GET http://localhost:8081/honeypot/application/8/6
+
+### 승인여부 변경 테스트
+PUT http://localhost:8081/honeypot/application/8/6
+Content-Type: application/json
+
+{
+  "decisionStatus": "승인완료",
+  "decisionDate": "2024-07-05T10:00:00Z"
+}

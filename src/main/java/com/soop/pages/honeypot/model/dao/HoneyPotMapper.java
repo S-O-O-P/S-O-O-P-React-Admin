@@ -1,9 +1,6 @@
 package com.soop.pages.honeypot.model.dao;
 
-import com.soop.pages.honeypot.model.dto.CommentAndLinkBeeUserDTO;
-import com.soop.pages.honeypot.model.dto.CommentDTO;
-import com.soop.pages.honeypot.model.dto.HoneypotAndInterestAndLinkBeeUserDTO;
-import com.soop.pages.honeypot.model.dto.HoneypotDTO;
+import com.soop.pages.honeypot.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -44,7 +41,23 @@ public interface HoneyPotMapper {
     // 댓글 등록
     void insertComment(CommentDTO comment);
 
+    // 댓글 등록
     void registComment(CommentAndLinkBeeUserDTO newComment);
+
+    // 참가신청 등록
+    void insertApplication(ApplicationDTO newApplication);
+
+    // 참가신청 시 승인여부에 등록
+    void insertApprovalStatus(ApprovalStatusDTO approvalStatusDTO);
+
+
+    // 해당 허니팟 참가신청 목록 조회
+    List<ApplicationDTO> findApplicationsByHoneypotCode(int honeypotCode);
+
+    // 참가신청 코드로 상세조회
+    ApprovalStatusDTO findApplicationByHoneypotCodeAndApplicationCode(int honeypotCode, int applicationCode);
+
+    void updateApplicationData(int honeypotCode, int applicationCode, ApprovalStatusDTO updateApprovalStatus);
 }
 
 

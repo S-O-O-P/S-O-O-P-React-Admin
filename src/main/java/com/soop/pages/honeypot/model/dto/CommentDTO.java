@@ -1,7 +1,7 @@
 package com.soop.pages.honeypot.model.dto;
 
 import lombok.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -14,7 +14,7 @@ public class CommentDTO {
     private int honeypotCode;
     private int userCode;
     private String content;
-    private LocalDateTime writingTime;
-    private LocalDateTime updateTime;
+    private Date writingTime;
+    private Date updateTime;
 
 }

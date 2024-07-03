@@ -97,6 +97,7 @@
                 B.INTEREST_NAME,
                 A.HONEYPOT_TITLE,
                 A.HONEYPOT_CONTENT,
+                A.USER_CODE,
                 C.NICKNAME,
                 C.PROFILE_PIC,
                 C.USER_ROLE,
@@ -207,15 +208,6 @@
     </delete>
 
     <!-- 댓글 등록 -->
-<!--    <insert id="insertComment" parameterType="com.soop.pages.honeypot.model.dto.CommentDTO">-->
-<!--        INSERT-->
-<!--          INTO COMMENT-->
-<!--               (HONEYPOT_CODE, USER_CODE, CONTENT, WRITING_TIME, UPDATE_TIME)-->
-<!--        VALUES-->
-<!--               (#{honeypotCode}, #{userCode}, #{content}, #{writingTime}, #{updateTime});-->
-<!--    </insert>-->
-
-    <!-- 댓글 등록 테스트 -->
     <insert id="registComment" parameterType="com.soop.pages.honeypot.model.dto.CommentAndLinkBeeUserDTO">
         INSERT
           INTO
@@ -230,6 +222,102 @@
                     #{updateTime}
                 )
     </insert>
+
+    <!-- 참가신청 관련 ResultMap -->
+    <resultMap id="applicationResultMap" type="com.soop.pages.honeypot.model.dto.ApplicationDTO">
+        <id property="applicationCode" column="APPLICATION_CODE"/>
+        <result property="applicationDate" column="APPLICATION_DATE"/>
+        <association property="honeypotCategory" javaType="com.soop.pages.honeypot.model.dto.HoneypotDTO">
+            <id property="honeypotCode" column="HONEYPOT_CODE"/>
+            <result property="interestCode" column="INTEREST_CODE"/>
+            <result property="honeypotTitle" column="HONEYPOT_TITLE" />
+            <result property="honeypotContent" column="HONEYPOT_CONTENT" />
+            <result property="hostCode" column="USER_CODE"/>
+            <result property="poster" column="POSTER" />
+            <result property="region" column="REGION" />
+            <result property="totalMember" column="TOTAL_MEMBER" />
+            <result property="regDate" column="REG_DATE" />
+            <result property="eventDate" column="EVENT_DATE" />
+            <result property="endDate" column="END_DATE" />
+            <result property="visibilityStatus" column="VISIBILITY_STATUS" />
+            <result property="closureStatus" column="CLOSURE_STATUS" />
+            <result property="reportCount" column="REPORT_COUNT" />
+            <result property="seqNo" column="SEQ_NO"/>
+        </association>
+        <association property="userCategory" javaType="com.soop.pages.honeypot.model.dto.LinkBeeUserDTO">
+            <id property="userCode" column="USER_CODE"/>
+            <result property="nickname" column="NICKNAME"/>
+            <result property="email" column="EMAIL"/>
+            <result property="gender" column="GENDER"/>
+            <result property="profilePic" column="PROFILE_PIC"/>
+            <result property="userRole" column="USER_ROLE"/>
+            <result property="signupDate" column="SIGNUP_DATE"/>
+            <result property="signupPlatform" column="SIGNUP_PLATFORM"/>
+        </association>
+    </resultMap>
+
+    <!-- 참가신청 승인 관련 ResultMap -->
+    <resultMap id="approvalStatusResultMap" type="com.soop.pages.honeypot.model.dto.ApprovalStatusDTO">
+        <result property="decisionStatus" column="DECISION_STATUS"/>
+        <result property="decisionDate" column="DECISION_Date"/>
+        <association property="applicationCategory" javaType="com.soop.pages.honeypot.model.dto.ApplicationDTO">
+            <id property="applicationCode" column="APPLICATION_CODE"/>
+            <result property="honeypotCategory.honeypotCode" column="HONEYPOT_CODE"/>
+            <result property="userCategory.userCode" column="USER_CODE"/>
+        </association>
+    </resultMap>
+
+    <!-- 참가신청 등록 -->
+    <insert id="insertApplication" parameterType="com.soop.pages.honeypot.model.dto.ApplicationDTO">
+        INSERT INTO APPLICATION (HONEYPOT_CODE, USER_CODE, APPLICATION_DATE)
+        VALUES (#{honeypotCategory.honeypotCode}, #{userCategory.userCode}, #{applicationDate})
+    </insert>
+
+    <!-- 참가 신청 시 승인 상태 등록 -->
+    <insert id="insertApprovalStatus" parameterType="com.soop.pages.honeypot.model.dto.ApprovalStatusDTO">
+        INSERT INTO APPROVAL_STATUS (APPLICATION_CODE, DECISION_STATUS, DECISION_DATE)
+        VALUES (#{applicationCategory.applicationCode}, #{decisionStatus}, #{decisionDate})
+    </insert>
+
+    <!-- 참가신청 목록 조회 by 허니팟 코드 -->
+    <select id="findApplicationsByHoneypotCode" parameterType="int" resultMap="approvalStatusResultMap">
+        SELECT
+                A.DECISION_STATUS,
+                A.DECISION_DATE,
+                B.APPLICATION_CODE,
+                B.HONEYPOT_CODE,
+                B.USER_CODE
+        FROM APPROVAL_STATUS A
+        JOIN APPLICATION B ON A.APPLICATION_CODE = B.APPLICATION_CODE
+        WHERE B.HONEYPOT_CODE = #{honeypotCode}
+    </select>
+
+    <!-- 참가신청 목록 조회 by 허니팟 코드를 참가신청코드만 조회 -->
+    <select id="findApplicationByHoneypotCodeAndApplicationCode" parameterType="int" resultMap="approvalStatusResultMap">
+        SELECT A.DECISION_STATUS, A.DECISION_DATE,
+        B.APPLICATION_CODE, B.HONEYPOT_CODE, B.USER_CODE
+        FROM APPROVAL_STATUS A
+        JOIN APPLICATION B ON A.APPLICATION_CODE = B.APPLICATION_CODE
+        WHERE B.HONEYPOT_CODE = #{honeypotCode}
+        AND B.APPLICATION_CODE = #{applicationCode}
+    </select>
+
+    <!-- 승인/미승인 변경 -->
+    <update id="updateApplicationData" parameterType="com.soop.pages.honeypot.model.dto.ApprovalStatusDTO">
+        UPDATE APPROVAL_STATUS
+        SET DECISION_STATUS = #{updateApprovalStatus.decisionStatus},
+        DECISION_DATE = #{updateApprovalStatus.decisionDate}
+        WHERE APPLICATION_CODE = (
+        SELECT APPLICATION_CODE
+        FROM APPLICATION
+        WHERE HONEYPOT_CODE = #{honeypotCode}
+        AND APPLICATION_CODE = #{applicationCode}
+        )
+    </update>
+
+
+
+
 
 
 </mapper>

@@ -1,11 +1,9 @@
 package com.soop.pages.honeypot.model.service;
 
 import com.soop.pages.honeypot.model.dao.HoneyPotMapper;
-import com.soop.pages.honeypot.model.dto.CommentAndLinkBeeUserDTO;
-import com.soop.pages.honeypot.model.dto.CommentDTO;
-import com.soop.pages.honeypot.model.dto.HoneypotAndInterestAndLinkBeeUserDTO;
-import com.soop.pages.honeypot.model.dto.HoneypotDTO;
+import com.soop.pages.honeypot.model.dto.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -102,5 +100,45 @@ public class HoneyPotService {
     public CommentAndLinkBeeUserDTO registComment(CommentAndLinkBeeUserDTO newComment) {
         honeyPotMapper.registComment(newComment);
         return newComment;
+    }
+
+    // 참가신청 등록
+    @Transactional
+    public ApplicationDTO registApplication(ApplicationDTO newApplication) {
+        honeyPotMapper.insertApplication(newApplication);
+
+        ApprovalStatusDTO approvalStatusDTO = new ApprovalStatusDTO();
+        approvalStatusDTO.setApplicationCategory(newApplication);
+        approvalStatusDTO.setDecisionStatus("승인대기중");
+        approvalStatusDTO.setDecisionDate(null);
+
+        honeyPotMapper.insertApprovalStatus(approvalStatusDTO);
+
+        return newApplication;
+    }
+
+    // 해당 허니팟 참가신청 조회
+    @Transactional(readOnly = true)
+    public List<ApplicationDTO> findApplicationsByHoneypotCode(int honeypotCode) {
+        return honeyPotMapper.findApplicationsByHoneypotCode(honeypotCode);
+    }
+
+
+    public ApprovalStatusDTO findApplicationByHoneypotCodeAndApplicationCode(int honeypotCode, int applicationCode) {
+        return honeyPotMapper.findApplicationByHoneypotCodeAndApplicationCode(honeypotCode, applicationCode);
+    }
+
+    public ApprovalStatusDTO updateApplicationData(int honeypotCode, int applicationCode, ApprovalStatusDTO approvalStatusDTO) {
+        // 기존 신청 정보 가져오기
+        ApprovalStatusDTO updateApprovalStatus = honeyPotMapper.findApplicationByHoneypotCodeAndApplicationCode(honeypotCode, applicationCode);
+
+        // 수정할 항목들 설정
+        updateApprovalStatus.setDecisionStatus(approvalStatusDTO.getDecisionStatus());
+        updateApprovalStatus.setDecisionDate(approvalStatusDTO.getDecisionDate());
+
+        // 데이터베이스 업데이트
+        honeyPotMapper.updateApplicationData(honeypotCode, applicationCode, updateApprovalStatus);
+
+        return updateApprovalStatus;
     }
 }
