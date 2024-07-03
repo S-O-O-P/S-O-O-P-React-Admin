@@ -27,12 +27,12 @@ public class JWTUtil {
                 .getBody();
     }
 
-    public String getUsername(String token) {
-        return getClaims(token).get("username", String.class);
+    public String getSignupPlatform(String token) {
+        return getClaims(token).get("signupPlatform", String.class);
     }
 
-    public String getRole(String token) {
-        return getClaims(token).get("role", String.class);
+    public String getUserRole(String token) {
+        return getClaims(token).get("userRole", String.class);
     }
 
     public Boolean isExpired(String token) {
@@ -68,13 +68,13 @@ public class JWTUtil {
     }
 
     public String getRoleFromRefreshToken(String token) {
-        return getClaims(token).get("role", String.class);
+        return getClaims(token).get("userRole", String.class);
     }
 
     public String generateAccessToken(String username, String role) {
         return Jwts.builder()
                 .setSubject(username)
-                .claim("role", role)
+                .claim("userRole", role)
                 .claim("category", "access")
                 .setExpiration(new Date(System.currentTimeMillis() + 10 * 60 * 1000)) // 10분 유효기간
                 .signWith(secretKey)

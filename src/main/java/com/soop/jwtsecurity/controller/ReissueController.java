@@ -73,19 +73,19 @@ public class ReissueController {
             return;
         }
 
-        String username = jwtUtil.getUsername(refresh);
-        String role = jwtUtil.getRole(refresh);
+        String signupPlatform = jwtUtil.getSignupPlatform(refresh);
+        String role = jwtUtil.getUserRole(refresh);
 
         // 새로운 액세스 토큰 발급
-        String newAccess = jwtUtil.createJwt("access", username, role, 600L * 1000);
-        String newRefresh = jwtUtil.createJwt("refresh", username, role, 86400L * 1000);
+        String newAccess = jwtUtil.createJwt("access", signupPlatform, role, 600L * 1000);
+        String newRefresh = jwtUtil.createJwt("refresh", signupPlatform, role, 86400L * 1000);
 
         // DB에 리프레시 토큰 업데이트
-        String existingRefreshToken = userMapper.searchRefreshEntity(username);
+        String existingRefreshToken = userMapper.searchRefreshEntity(signupPlatform);
         if (existingRefreshToken != null) {
             userMapper.deleteByRefresh(existingRefreshToken);
         }
-        addRefreshEntity(username, newRefresh, 86400L * 1000);
+        addRefreshEntity(signupPlatform, newRefresh, 86400L * 1000);
 
         // 새 리프레시 토큰을 HTTP-Only 쿠키에 추가
         createAndAddCookie(response, "refresh", newRefresh);
@@ -98,11 +98,11 @@ public class ReissueController {
         System.out.println("newAccess = " + newAccess);
     }
 
-    private void addRefreshEntity(String username, String refresh, Long expiredMs) {
+    private void addRefreshEntity(String signupPlatform, String refresh, Long expiredMs) {
         Date date = new Date(System.currentTimeMillis() + expiredMs);
 
         RefreshEntity refreshEntity = new RefreshEntity();
-        refreshEntity.setUsername(username);
+        refreshEntity.setSignupPlatform(signupPlatform);
         refreshEntity.setRefresh(refresh);
         refreshEntity.setExpiration(date.toString());
 
