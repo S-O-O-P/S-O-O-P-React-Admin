@@ -1,7 +1,8 @@
+// CustomerDetail.js
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Box, Typography, Button, Grid, InputBase } from '@mui/material';
-import axios from 'axios';
+import { fetchCustomerDetail } from '../../apis/CustomerdetailAPI'; // API 호출 함수 임포트
 import './Customerdetail.css'; // CSS 파일 임포트
 
 // CustomerDetail 컴포넌트
@@ -14,10 +15,10 @@ function CustomerDetail() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/customer/${userCode}`)
-      .then(response => {
-        console.log('API Response:', response.data); // 디버깅을 위한 로그
-        setMember(response.data); // 응답 데이터를 단일 객체로 설정
+    fetchCustomerDetail(userCode)
+      .then(data => {
+        console.log('API Response:', data); // 디버깅을 위한 로그
+        setMember(data); // 응답 데이터를 단일 객체로 설정
         setLoading(false);
       })
       .catch(error => {

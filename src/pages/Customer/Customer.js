@@ -1,9 +1,9 @@
+// Customer.js
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import CustomerTable from '../../components/admin/CustomerTable';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, Button, InputBase, Typography } from '@mui/material';
-
+import { initializeCustomers } from '../../apis/CustomerAPI';
 
 function Customer() {
   const [members, setMembers] = useState([]);
@@ -20,14 +20,13 @@ function Customer() {
   const rowsPerPage = 5;
 
   useEffect(() => {
-    axios.get('http://localhost:8080/customer/')
-      .then(response => {
-        console.log('API Response:', response.data); // Debugging statement
-        const filteredUsers = response.data.usersInfo.filter(user => user.userRole !== 'ADMIN');
+    initializeCustomers()
+      .then(filteredUsers => {
+        console.log('Fetched members:', filteredUsers); // Debugging statement
         setMembers(filteredUsers);
         setFilteredMembers(filteredUsers);
       })
-      .catch(error => console.error('There was an error fetching the members!', error));
+      .catch(error => console.error('There was an error initializing the members!', error));
   }, []);
 
   useEffect(() => {

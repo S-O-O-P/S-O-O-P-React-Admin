@@ -1,7 +1,8 @@
+// HoneypotDetail.js
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
-import { Box, Typography, Button, Grid, Dialog, DialogActions, DialogContent, DialogContentText,InputBase } from '@mui/material';
+import { Box, Typography, Button, Grid, Dialog, DialogActions, DialogContent, DialogContentText, InputBase } from '@mui/material';
+import { fetchHoneypotDetail, toggleHoneypotStatus } from '../../apis/HoneypotdetailAPI'; // API 호출 함수 임포트
 import './Honeypotdetail.css'; // CSS 파일 임포트
 
 // HoneypotDetail 컴포넌트
@@ -15,19 +16,14 @@ function HoneypotDetail() {
 
   useEffect(() => {
     console.log(`honeypotCode: ${honeypotCode}`); // Add this line to debug honeypotCode
-    axios.get(`http://localhost:8080/honeypot/${honeypotCode}`)
-      .then(response => {
-        console.log('API Response:', response.data);
-        setRow(response.data); // Ensure the response data structure is correct
+    fetchHoneypotDetail(honeypotCode)
+      .then(data => {
+        console.log('API Response:', data);
+        setRow(data); // Ensure the response data structure is correct
         setLoading(false);
       })
       .catch(error => {
         console.error('There was an error fetching the honeypot data!', error);
-        if (error.response) {
-          console.error('Error response data:', error.response.data);
-          console.error('Error response status:', error.response.status);
-          console.error('Error response headers:', error.response.headers);
-        }
         setLoading(false);
       });
   }, [honeypotCode]);
@@ -53,25 +49,19 @@ function HoneypotDetail() {
     setOpen(false);
     const newStatus = row.visibilityStatus === '활성화' ? '비활성화' : '활성화';
 
-    axios.post(`http://localhost:8080/honeypot/${honeypotCode}/toggleStatus`, { newStatus })
-        .then(response => {
-            // 상태 변경이 성공하면 서버 응답에 따라 로컬 상태 업데이트
-            setRow(prevRow => ({ ...prevRow, visibilityStatus: newStatus }));
+    toggleHoneypotStatus(honeypotCode, newStatus)
+      .then(() => {
+        // 상태 변경이 성공하면 서버 응답에 따라 로컬 상태 업데이트
+        setRow(prevRow => ({ ...prevRow, visibilityStatus: newStatus }));
 
-            // 상태 변경 후 목록 페이지로 이동
-            const from = location.state?.from || '/honeypot';
-            navigate(from, { state: { toggleStatus: { honeypotCode: parseInt(honeypotCode, 10), newStatus }, searchTerm: location.state?.searchTerm } });
-        })
-        .catch(error => {
-            console.error('There was an error updating the honeypot status!', error);
-            if (error.response) {
-                console.error('Error response data:', error.response.data);
-                console.error('Error response status:', error.response.status);
-                console.error('Error response headers:', error.response.headers);
-            }
-        });
-};
- 
+        // 상태 변경 후 목록 페이지로 이동
+        const from = location.state?.from || '/honeypot';
+        navigate(from, { state: { toggleStatus: { honeypotCode: parseInt(honeypotCode, 10), newStatus }, searchTerm: location.state?.searchTerm } });
+      })
+      .catch(error => {
+        console.error('There was an error updating the honeypot status!', error);
+      });
+  };
 
   return (
     <Box className="honeypot-detail-container">
@@ -115,26 +105,22 @@ function HoneypotDetail() {
             <Typography className="detail-value">{row.honeypotTitle}</Typography>
           </Box>
         </Grid>
-
-        
       </Grid>
 
-
-        <Typography className="detail-label" component="div" sx={{marginBottom:'25px'}}>
-          내용 
-        </Typography>
+      <Typography className="detail-label" component="div" sx={{marginBottom:'25px'}}>
+        내용 
+      </Typography>
       <Box className="search-boxs">
-            <InputBase
-              multiline
-              rows={4}
-              className='detail-values'
-              defaultValue={row.honeypotContent}
-              variant="outlined"
-              fullWidth
-              readOnly // 읽기 전용 설정
-            />
-            </Box>
-
+        <InputBase
+          multiline
+          rows={4}
+          className='detail-values'
+          defaultValue={row.honeypotContent}
+          variant="outlined"
+          fullWidth
+          readOnly // 읽기 전용 설정
+        />
+      </Box>
 
       <Box className="honeypot-detail-buttons">
         <Button variant="outlined" className="cancel-button" onClick={handleBackClick}>

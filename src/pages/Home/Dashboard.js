@@ -1,7 +1,8 @@
-import axios from 'axios';
+// Dashboard.js
 import React, { useEffect, useState } from 'react';
 import { Box, Grid, Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import DashboardChart from '../../components/admin/DashboardChart'; // 이 컴포넌트는 이미 정의되어 있다고 가정합니다.
+import DashboardChart from '../../components/admin/DashboardChart';
+import { fetchDashboardData } from '../../apis/DashboardAPI'; // 전체 데이터를 가져오는 함수 임포트
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -19,69 +20,22 @@ const Dashboard = () => {
   const [notices, setNotices] = useState([]);
 
   useEffect(() => {
-    const sampleMonthlyHoneyCount = [
-      { month: '03월', honey_count: 1 },
-      { month: '04월', honey_count: 2 },
-      { month: '05월', honey_count: 2 },
-    ];
-    const sampleGenreHoneyCount = [
-      { genre: '공연', honey_count: 3 },
-      { genre: '행사/축제', honey_count: 4 },
-      { genre: '전시회', honey_count: 2 },
-      { genre: '뮤지컬', honey_count: 4 },
-    ];
-
-    axios.get('http://localhost:8080/dashboard/monthly-honey-count')
-    .then(response => {
-      const combinedData = [...response.data.monthlyHoneyCount, ...sampleMonthlyHoneyCount];
-      combinedData.sort((a, b) => parseInt(a.month) - parseInt(b.month));
-      setMonthlyHoneyCount(combinedData);
-    })
-    .catch(error => console.error("There was an error fetching the monthly honey count!", error));
-
-    axios.get('http://localhost:8080/dashboard/genre-honey-count')
-      .then(response => setGenreHoneyCount([...response.data.genreHoneyCount, ...sampleGenreHoneyCount]))
-      .catch(error => console.error("There was an error fetching the genre honey count!", error));
-
-    axios.get('http://localhost:8080/dashboard/today-matching-count')
-      .then(response => setTodayMatchingCount(response.data.todayMatchingCount))
-      .catch(error => console.error("There was an error fetching the today matching count!", error));
-
-    axios.get('http://localhost:8080/dashboard/total-matching-count')
-      .then(response => setTotalMatchingCount(response.data.totalMatchingCount))
-      .catch(error => console.error("There was an error fetching the today matching count!", error));
-
-    axios.get('http://localhost:8080/dashboard/today-inquiry-count')
-      .then(response => setTodayInquiryCount(response.data.todayInquiryCount))
-      .catch(error => console.error("There was an error fetching the today inquiry count!", error));
-
-    axios.get('http://localhost:8080/dashboard/total-inquiry-count')
-      .then(response => setTotalInquiryCount(response.data.totalInquiryCount))
-      .catch(error => console.error("There was an error fetching the today inquiry count!", error));
-
-    axios.get('http://localhost:8080/dashboard/today-honey-count')
-      .then(response => setTodayHoneyCount(response.data.todayHoneyCount))
-      .catch(error => console.error("There was an error fetching the today honey count!", error));
-
-    axios.get('http://localhost:8080/dashboard/total-report-count')
-      .then(response => setTotalReportCount(response.data.totalReportCount))
-      .catch(error => console.error("There was an error fetching the today matching count!", error));
-
-    axios.get('http://localhost:8080/dashboard/today-report-count')
-      .then(response => setTodayReportCount(response.data.todayReportCount))
-      .catch(error => console.error("There was an error fetching the today matching count!", error));
-
-    axios.get('http://localhost:8080/dashboard/reports')
-      .then(response => setReportData(response.data.reports))
-      .catch(error => console.error("There was an error fetching the reports!", error));
-
-    axios.get('http://localhost:8080/dashboard/inquiries')
-      .then(response => setInquiryData(response.data.inquiries))
-      .catch(error => console.error("There was an error fetching the inquiries!", error));
-
-    axios.get('http://localhost:8080/dashboard/notices')
-      .then(response => setNotices(response.data.notices))
-      .catch(error => console.error("There was an error fetching the notices!", error));
+    fetchDashboardData()
+      .then(data => {
+        setMonthlyHoneyCount(data.monthlyHoneyCount);
+        setGenreHoneyCount(data.genreHoneyCount);
+        setTodayMatchingCount(data.todayMatchingCount);
+        setTotalMatchingCount(data.totalMatchingCount);
+        setTodayInquiryCount(data.todayInquiryCount);
+        setTotalInquiryCount(data.totalInquiryCount);
+        setTodayHoneyCount(data.todayHoneyCount);
+        setTotalReportCount(data.totalReportCount);
+        setTodayReportCount(data.todayReportCount);
+        setReportData(data.reportData);
+        setInquiryData(data.inquiryData);
+        setNotices(data.notices);
+      })
+      .catch(error => console.error("There was an error fetching the dashboard data!", error));
   }, []);
 
   const monthlyChartData = {
@@ -122,7 +76,7 @@ const Dashboard = () => {
       </Box>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
-          <DashboardChart  title="월별 허니팟" chartData={monthlyChartData} />
+          <DashboardChart title="월별 허니팟" chartData={monthlyChartData} />
         </Grid>
         <Grid item xs={12} md={6}>
           <DashboardChart title="장르별 허니팟" chartData={genreChartData} />
@@ -176,35 +130,6 @@ const Dashboard = () => {
         <Grid item xs={12} md={6}>
           <Paper className="dashboard-table" sx={{ borderRadius: '20px', border: '1px solid #FFB755' }}>
             <Box className="table-title-container">
-              <Typography className="table-title" sx={{ backgroundColor: '#FFB755', color: 'white', margin: 'auto' }}>신고 접수 내역</Typography>
-            </Box>
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">no</TableCell>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">제목</TableCell>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">등록일자</TableCell>
-                    <TableCell sx={{ color: 'white' }} align="center">신고조회</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {reportData.map((row, index) => (
-                    <TableRow key={row.id}>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.honeypotCode}</TableCell>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.honeypotTitle}</TableCell>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.regDate}</TableCell>
-                      <TableCell sx={{ borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.reportCount}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Paper className="dashboard-table" sx={{ borderRadius: '20px', border: '1px solid #FFB755' }}>
-            <Box className="table-title-container">
               <Typography className="table-title" sx={{ backgroundColor: '#FFB755', color: 'white', margin: 'auto' }}>1:1문의 내역</Typography>
             </Box>
             <TableContainer>
@@ -231,6 +156,35 @@ const Dashboard = () => {
             </TableContainer>
           </Paper>
         </Grid>
+        <Grid item xs={12} md={6}>
+        <Paper className="dashboard-table" sx={{ borderRadius: '20px', border: '1px solid #FFB755' }}>
+          <Box className="table-title-container">
+            <Typography className="table-title" sx={{ backgroundColor: '#FFB755', color: 'white', margin: 'auto' }}>신고 접수 내역</Typography>
+          </Box>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">no</TableCell>
+                  <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">제목</TableCell>
+                  <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', color: 'white' }} align="center">등록일자</TableCell>
+                  <TableCell sx={{ color: 'white' }} align="center">신고조회</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {reportData.map((row, index) => (
+                  <TableRow key={row.id}>
+                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.honeypotCode}</TableCell>
+                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.honeypotTitle}</TableCell>
+                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.regDate}</TableCell>
+                    <TableCell sx={{ borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.reportCount}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </Grid>
       </Grid>
       <Grid container spacing={2} sx={{ mt: 2 }}>
         <Grid item xs={12}>
@@ -259,7 +213,6 @@ const Dashboard = () => {
               </Table>
             </TableContainer>
           </Paper>
-
         </Grid>
       </Grid>
       {/* Other dashboard components */}
