@@ -14,6 +14,19 @@ function EventTable({ events }) {
     navigate(`/events/edit/${id}`);
   };
 
+  // 카테고리 string으로 변환
+  const categoryString = (category) => {
+    let categoryString = "";
+    switch(category){
+      case(1) : categoryString = "팝업"; break;
+      case(2) : categoryString = "공연"; break;
+      case(3) : categoryString = "행사/축제"; break;
+      case(4) : categoryString = "전시회"; break;
+      case(5) : categoryString = "뮤지컬"; break;
+    }
+    return categoryString;
+  }
+
   return (
     <TableContainer component={Paper} className="table-container">
       <Table className="table">
@@ -28,14 +41,13 @@ function EventTable({ events }) {
         </TableHead>
         <TableBody>
           {events.map((event) => (
-            <TableRow key={event.id}>
-              <TableCell className="table-cell">{event.category}</TableCell>
-              <TableCell onClick={() => handleRowClick(event.id)} className="table-cell" style={{ cursor: 'pointer' }}>{event.title}</TableCell>
-              <TableCell className="table-cell">{event.ticketOpenDate}</TableCell>
-              <TableCell className="table-cell">{event.createdAt}</TableCell>
+            <TableRow key={event.earlyBirdCode}>
+              <TableCell className="table-cell">{categoryString(event.interestCode)}</TableCell>
+              <TableCell onClick={() => handleRowClick(event.earlyBirdCode)} className="table-cell" style={{ cursor: 'pointer' }}>{event.ebTitle}</TableCell>
+              <TableCell className="table-cell">{event.saleStartDate}</TableCell>
+              <TableCell className="table-cell">{event.dateWritten}</TableCell>
               <TableCell className="table-cell">
-                <Button variant="outlined" className="manage" onClick={() => handleRowClick(event.id)}>{event.manage}</Button>
-
+                <Button variant="outlined" className="manage" onClick={() => handleRowClick(event.earlyBirdCode)}>수정</Button>
               </TableCell>
             </TableRow>
           ))}

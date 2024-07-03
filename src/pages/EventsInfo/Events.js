@@ -1,21 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, InputBase, Pagination } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import EventTable from '../../components/admin/EventTable'; // EventTable 컴포넌트 임포트
+import EventsInfoApi from '../../apis/EventsInfoApi';
 
 
 // 초기 이벤트 목록
-const initialEvents = [
-  { id: 1, category: '뮤지컬', title: '뮤지컬 (디어 에반 헨슨) - 부산 (Dear Evan Hansen)', ticketOpenDate: '2024.08.20(화) 12:00', createdAt: '2024-04-12', manage: '수정' },
-  { id: 2, category: '전시회', title: '서울 아트쇼 800회 특별전', ticketOpenDate: '2024.08.20(화) 12:00', createdAt: '2024-04-10', manage: '수정' },
-  { id: 3, category: '행사지원', title: '2024 부산국제화랑제특별전', ticketOpenDate: '2024.08.20(화) 12:00', createdAt: '2024-04-10', manage: '수정' },
-];
+// const initialEvents = [
+//   { id: 1, category: '뮤지컬', title: '뮤지컬 (디어 에반 헨슨) - 부산 (Dear Evan Hansen)', ticketOpenDate: '2024.08.20(화) 12:00', createdAt: '2024-04-12', manage: '수정' },
+//   { id: 2, category: '전시회', title: '서울 아트쇼 800회 특별전', ticketOpenDate: '2024.08.20(화) 12:00', createdAt: '2024-04-10', manage: '수정' },
+//   { id: 3, category: '행사지원', title: '2024 부산국제화랑제특별전', ticketOpenDate: '2024.08.20(화) 12:00', createdAt: '2024-04-10', manage: '수정' },
+// ];
 
 function Events() {
-  const [events, setEvents] = useState(initialEvents); // 이벤트 상태 관리
+  const [events, setEvents] = useState([]); // 이벤트 상태 관리
   const [page, setPage] = useState(1); // 페이지 상태 관리
   const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태 관리
   const rowsPerPage = 10; // 페이지 당 행 수 설정
+
+  useEffect(
+    () => {
+      //얼리버드 공연/전시 리스트 전체 조회 api 호출
+      EventsInfoApi({setEvents});
+    },[]
+  );
 
   // 검색어 변경 핸들러
   const handleSearchChange = (event) => {
@@ -24,7 +32,7 @@ function Events() {
 
   // 검색 핸들러
   const handleSearch = () => {
-    const filtered = initialEvents.filter(event => 
+    const filtered = events.filter(event => 
       event.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setEvents(filtered);
