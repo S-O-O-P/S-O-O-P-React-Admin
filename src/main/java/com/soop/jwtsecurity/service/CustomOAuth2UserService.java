@@ -10,15 +10,13 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-    private final UserMapper userMapper;
+    private UserMapper userMapper;
 
     public CustomOAuth2UserService(UserMapper userMapper) {
-        this.userMapper = userMapper;
+        this.userMapper=userMapper;
     }
 
     @Override
@@ -27,51 +25,61 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
+
+        // 어디서 오는 정보인지 확인
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         OAuth2Response oAuth2Response = null;
 
         if (registrationId.equals("naver")) {
+
             oAuth2Response = new NaverResponse(oAuth2User.getAttributes());
         } else if (registrationId.equals("google")) {
+
             oAuth2Response = new GoogleResponse(oAuth2User.getAttributes());
+
         } else if (registrationId.equals("kakao")) {
+
             oAuth2Response = new KakaoResponse(oAuth2User.getAttributes());
         } else {
+
             return null;
         }
 
-        String signupPlatform = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
-        System.out.println("signupPlatform = " + signupPlatform);
-        UserEntity existData = userMapper.findBySignupPlatform(signupPlatform);
+        //리소스 서버에서 발급 받은 정보로 사용자를 특정할 아이디값을 만듬
+        String username = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
+        System.out.println("username = " + username);
+        UserEntity existData = userMapper.findByUsername(username);
 
         if (existData == null) {
+
             UserEntity userEntity = new UserEntity();
-            userEntity.setSignupPlatform(signupPlatform);
+
+            userEntity.setUsername(username);
             userEntity.setEmail(oAuth2Response.getEmail());
-            userEntity.setNickName(oAuth2Response.getNickName());
-            userEntity.setUserRole("ROLE_USER");
-            userEntity.setAboutMe(" ");
-            userEntity.setGender(oAuth2Response.getGender() != null ? oAuth2Response.getGender() : "");
-            userEntity.setProfilePic(oAuth2Response.getProfileImage() != null ? oAuth2Response.getProfileImage() : "default_profile_image_url"); // 기본 프로필 이미지 URL 설정
-            userEntity.setSignupDate(new Date());
+            userEntity.setName(oAuth2Response.getName());
+            userEntity.setRole("ROLE_USER");
 
             userMapper.saveUserEntity(userEntity);
 
             UserDTO userDTO = new UserDTO();
-            userDTO.setSignupPlatform(signupPlatform);
-            userDTO.setNickName(oAuth2Response.getNickName());
-            userDTO.setUserRole("ROLE_USER");
+            userDTO.setUsername(username);
+            userDTO.setName(oAuth2Response.getName());
+            userDTO.setRole("ROLE_USER");
 
             return new CustomOAuth2User(userDTO);
         } else {
+
             existData.setEmail(oAuth2Response.getEmail());
-            existData.setNickName(oAuth2Response.getNickName());
+            existData.setName(oAuth2Response.getName());
             UserDTO userDTO = new UserDTO();
 
             userDTO.setEmail(existData.getEmail());
-            userDTO.setNickName(existData.getNickName());
-            userDTO.setSignupPlatform(existData.getSignupPlatform());
-            userDTO.setUserRole(existData.getUserRole());
+            userDTO.setName(existData.getName());
+
+            userDTO.setUsername(existData.getUsername());
+            userDTO.setName(oAuth2Response.getName());
+            userDTO.setRole(existData.getRole());
+
 
             return new CustomOAuth2User(userDTO);
         }

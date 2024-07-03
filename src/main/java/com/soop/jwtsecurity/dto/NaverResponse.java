@@ -2,42 +2,35 @@ package com.soop.jwtsecurity.dto;
 
 import java.util.Map;
 
-public class NaverResponse implements OAuth2Response {
+public class NaverResponse implements OAuth2Response{
 
     private final Map<String, Object> attribute;
 
     public NaverResponse(Map<String, Object> attribute) {
+
         this.attribute = (Map<String, Object>) attribute.get("response");
     }
 
     @Override
     public String getProvider() {
+
         return "naver";
     }
-
     @Override
     public String getProviderId() {
-        return attribute != null && attribute.containsKey("id") ? attribute.get("id").toString() : null;
+
+        return attribute.get("id").toString();
     }
 
     @Override
     public String getEmail() {
-        return attribute != null && attribute.containsKey("email") ? attribute.get("email").toString() : null;
+
+        return attribute.get("email").toString();
     }
 
     @Override
-    public String getNickName() {
-        return attribute != null && attribute.containsKey("nickname") ? attribute.get("nickname").toString() : null;
-    }
+    public String getName() {
 
-    @Override
-    public String getProfileImage() {
-        return attribute != null && attribute.containsKey("profile_image") ? attribute.get("profile_image").toString() : null;
+        return attribute.get("name").toString();
     }
-
-    @Override
-    public String getGender() {
-        return attribute != null && attribute.containsKey("gender") ? attribute.get("gender").toString() : null;
-    }
-
 }

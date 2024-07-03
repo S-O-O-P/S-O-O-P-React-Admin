@@ -32,7 +32,7 @@ public class CustomOAuth2User implements OAuth2User {
             @Override
             public String getAuthority() {
 
-                return userDTO.getUserRole();
+                return userDTO.getRole();
             }
         });
 
@@ -42,11 +42,11 @@ public class CustomOAuth2User implements OAuth2User {
     @Override
     public String getName() {
 
-        return userDTO.getNickName();
+        return userDTO.getName();
     }
 
     public String getUsername() {
 
-        return userDTO.getSignupPlatform();
+        return userDTO.getUsername();
     }
 }

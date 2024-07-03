@@ -1,7 +1,5 @@
 package com.soop.jwtsecurity.dto;
 
-import java.util.Date;
-
 public interface OAuth2Response {
 
     //제공자 (Ex. naver, google, ...)
@@ -11,11 +9,5 @@ public interface OAuth2Response {
     //이메일
     String getEmail();
     //사용자 실명 (설정한 이름)
-    String getNickName();
-
-    String getGender();
-
-    String getProfileImage();
-
-
+    String getName();
 }

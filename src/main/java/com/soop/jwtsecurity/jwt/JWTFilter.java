@@ -65,12 +65,12 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        String signupPlatform = jwtUtil.getSignupPlatform(accessToken);
-        String userRole = jwtUtil.getUserRole(accessToken);
+        String username = jwtUtil.getUsername(accessToken);
+        String role = jwtUtil.getRole(accessToken);
 
         UserDTO userDTO = new UserDTO();
-        userDTO.setSignupPlatform(signupPlatform);
-        userDTO.setUserRole(userRole);
+        userDTO.setUsername(username);
+        userDTO.setRole(role);
 
         CustomOAuth2User customOAuth2User = new CustomOAuth2User(userDTO);
         Authentication authToken = new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities());

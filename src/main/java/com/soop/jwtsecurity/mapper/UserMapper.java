@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface UserMapper {
 
-    UserEntity findBySignupPlatform(String signupPlatform);
+    UserEntity findByUsername(String username);
 
     Boolean existsByRefresh(@Param("refresh") String refresh);
 
@@ -18,5 +18,5 @@ public interface UserMapper {
 
     void saveRefreshEntity(RefreshEntity refreshEntity);
 
-    String searchRefreshEntity(String signupPlatform);
+    String searchRefreshEntity(String username);
 }

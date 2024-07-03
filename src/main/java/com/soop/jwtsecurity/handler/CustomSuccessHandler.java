@@ -1,9 +1,7 @@
 package com.soop.jwtsecurity.handler;
 
 import com.soop.jwtsecurity.dto.CustomOAuth2User;
-import com.soop.jwtsecurity.dto.UserDTO;
 import com.soop.jwtsecurity.entityDTO.RefreshEntity;
-import com.soop.jwtsecurity.entityDTO.UserEntity;
 import com.soop.jwtsecurity.jwt.JWTUtil;
 import com.soop.jwtsecurity.mapper.UserMapper;
 import jakarta.servlet.ServletException;
@@ -41,7 +39,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String access = jwtUtil.createJwt("access", username, role, 6L * 1000); // 10분 (600초)
+        String access = jwtUtil.createJwt("access", username, role, 600L * 1000); // 10분 (600초)
         String existingRefreshToken = userMapper.searchRefreshEntity(username);
 
         if (existingRefreshToken != null) {
@@ -57,22 +55,15 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // 리프레시 토큰을 HTTP-Only 쿠키로 저장
         createAndAddCookie(response, "refresh", refresh);
 
-        UserEntity userEntity = new UserEntity();
-        // 최초 가입 확인
-//        if(existingRefreshToken != null){
-            // 액세스 토큰을 쿼리 스트링으로 전달
-            response.sendRedirect("http://localhost:3000/login?token=" + access);
-//        }else {
-//            response.sendRedirect("http://localhost:3000/signup?token=" + access);
-//        }
-
+        // 액세스 토큰을 쿼리 스트링으로 전달
+        response.sendRedirect("http://localhost:3000/login?token=" + access);
     }
 
-    private void addRefreshEntity(String signupPlatform, String refresh, Long expiredMs) {
+    private void addRefreshEntity(String username, String refresh, Long expiredMs) {
         Date date = new Date(System.currentTimeMillis() + expiredMs);
 
         RefreshEntity refreshEntity = new RefreshEntity();
-        refreshEntity.setSignupPlatform(signupPlatform);
+        refreshEntity.setUsername(username);
         refreshEntity.setRefresh(refresh);
         refreshEntity.setExpiration(date.toString());
         userMapper.saveRefreshEntity(refreshEntity);

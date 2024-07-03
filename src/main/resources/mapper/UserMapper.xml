@@ -6,95 +6,82 @@
 <mapper namespace="com.soop.jwtsecurity.mapper.UserMapper">
 
     <resultMap id="user" type="com.soop.jwtsecurity.entityDTO.UserEntity">
-        <id property="userCode" column="USER_CODE"/>
-        <result property="nickName" column="NICKNAME"/>
-        <result property="email" column="EMAIL"/>
-        <result property="gender" column="GENDER"/>
-        <result property="profilePic" column="PROFILE_PIC"/>
-        <result property="aboutMe" column="ABOUTME"/>
-        <result property="userRole" column="USER_ROLE"/>
-        <result property="signupDate" column="SIGNUP_DATE"/>
-        <result property="signupPlatform" column="SIGNUP_PLATFORM"/>
+        <id property="id" column="id"/>
+        <result property="email" column="email"/>
+        <result property="name" column="name"/>
+        <result property="role" column="role"/>
+        <result property="username" column="username"/>
     </resultMap>
 
     <resultMap id="refresh" type="com.soop.jwtsecurity.entityDTO.RefreshEntity">
-        <id property="userCode" column="USER_CODE"/>
-        <result property="signupPlatform" column="SIGNUP_PLATFORM"/>
-        <result property="refresh" column="REFRESH"/>
-        <result property="expiration" column="EXPIRATION"/>
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="refresh" column="refresh"/>
+        <result property="expiration" column="expiration"/>
     </resultMap>
 
-    <select id="findBySignupPlatform" resultMap="user">
+    <select id="findByUsername" resultType="com.soop.jwtsecurity.entityDTO.UserEntity">
         select
-            USER_CODE,
-            NICKNAME,
-            EMAIL,
-            GENDER,
-            PROFILE_PIC,
-            ABOUTME,
-            USER_ROLE,
-            SIGNUP_DATE,
-            SIGNUP_PLATFORM
-        from LINKBEE_USER
-        where SIGNUP_PLATFORM = #{signupPlatform}
+            username
+        from userentity
+        where username = #{username}
     </select>
 
+
     <insert id="saveUserEntity" parameterType="com.soop.jwtsecurity.entityDTO.UserEntity">
-        INSERT INTO LINKBEE_USER
+        INSERT INTO userentity
         (
-        NICKNAME,
-        EMAIL,
-        GENDER,
-        PROFILE_PIC,
-        ABOUTME,
-        USER_ROLE,
-        SIGNUP_DATE,
-        SIGNUP_PLATFORM
+           email
+        ,   name
+        ,   role
+        ,   username
         )
         values
         (
-        #{nickName},
-        #{email},
-        #{gender},
-        #{profilePic},
-        #{aboutMe},
-        #{userRole},
-        #{signupDate},
-        #{signupPlatform}
+           #{email}
+        ,   #{name}
+        ,   #{role}
+        ,   #{username}
         )
     </insert>
 
     <insert id="saveRefreshEntity" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">
-        INSERT INTO REFRESHENTITY (SIGNUP_PLATFORM, REFRESH, EXPIRATION)
-        VALUES
-            (
-            #{signupPlatform},
-            #{refresh},
-            #{expiration}
-            )
-            ON DUPLICATE KEY UPDATE
-            REFRESH = VALUES(refresh),
-        EXPIRATION = VALUES(expiration);
+        INSERT INTO refreshentity (username, refresh, expiration)
+        VALUES (
+              #{username}
+            , #{refresh}
+            , #{expiration}
+        )
+        ON DUPLICATE KEY UPDATE
+        refresh = VALUES
+        (
+        refresh
+        ),
+        expiration = VALUES
+        (
+        expiration
+        )
     </insert>
+
 
     <select id="searchRefreshEntity" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">
         select
-                A.REFRESH
-            from REFRESHENTITY A
-            join LINKBEE_USER B on A.SIGNUP_PLATFORM = B.SIGNUP_PLATFORM
-        where A.SIGNUP_PLATFORM = #{signupPlatform}
+            A.refresh
+            from refreshentity A
+            join userentity B on A.username = B.username
+            where A.username = #{username}
     </select>
 
     <select id="existsByRefresh" parameterType="String" resultType="Boolean">
         select
             case when count(*) > 0 then true else false end
-            from REFRESHENTITY
-        where REFRESH = #{refresh}
+            from refreshentity
+            where refresh = #{refresh}
     </select>
 
     <delete id="deleteByRefresh" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">
-        delete from REFRESHENTITY
-        where REFRESH = #{refresh}
+        delete from refreshentity
+           where refresh = #{refresh}
     </delete>
 
 </mapper>
