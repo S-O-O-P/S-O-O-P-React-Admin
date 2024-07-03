@@ -125,6 +125,20 @@ public class HoneyPotController {
 
     }
 
+    //댓글 등록
+//    @PostMapping("/comment")
+//    public ResponseEntity<CommentDTO> registerComment(@RequestBody CommentDTO comment) {
+//        CommentDTO savedComment = honeyPotService.insertComment(comment);
+//        return ResponseEntity.ok(savedComment);
+//    }
+
+    // 댓글 등록 테스트
+    @PostMapping("/comment")
+    public ResponseEntity<CommentAndLinkBeeUserDTO> registComment(@RequestBody CommentAndLinkBeeUserDTO newComment) {
+        CommentAndLinkBeeUserDTO registComment = honeyPotService.registComment(newComment);
+        return ResponseEntity.ok(registComment);
+    }
+
     // 댓글 전체 조회
     @GetMapping("/comment")
     public ResponseEntity<HoneypotResponseMessage> findAllComment() {

@@ -40,6 +40,11 @@ public interface HoneyPotMapper {
 
     // 댓글 삭제
     void deleteCommentByCommentCode(int commentCode);
+
+    // 댓글 등록
+    void insertComment(CommentDTO comment);
+
+    void registComment(CommentAndLinkBeeUserDTO newComment);
 }
 
 

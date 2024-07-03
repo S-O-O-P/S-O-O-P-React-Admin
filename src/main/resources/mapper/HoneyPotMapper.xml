@@ -206,5 +206,30 @@
          WHERE COMMENT_CODE = #{commentCode}
     </delete>
 
+    <!-- 댓글 등록 -->
+<!--    <insert id="insertComment" parameterType="com.soop.pages.honeypot.model.dto.CommentDTO">-->
+<!--        INSERT-->
+<!--          INTO COMMENT-->
+<!--               (HONEYPOT_CODE, USER_CODE, CONTENT, WRITING_TIME, UPDATE_TIME)-->
+<!--        VALUES-->
+<!--               (#{honeypotCode}, #{userCode}, #{content}, #{writingTime}, #{updateTime});-->
+<!--    </insert>-->
+
+    <!-- 댓글 등록 테스트 -->
+    <insert id="registComment" parameterType="com.soop.pages.honeypot.model.dto.CommentAndLinkBeeUserDTO">
+        INSERT
+          INTO
+        COMMENT
+                (HONEYPOT_CODE, USER_CODE, CONTENT, WRITING_TIME, UPDATE_TIME)
+        VALUES
+                (
+                    #{honeypotCode},
+                    #{writerInfo.userCode},
+                    #{content},
+                    #{writingTime},
+                    #{updateTime}
+                )
+    </insert>
+
 
 </mapper>

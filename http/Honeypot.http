@@ -27,17 +27,31 @@ Content-Type: application/json
 GET http://localhost:8081/honeypot/comment
 
 ### 댓글코드로 댓글 조회 테스트
-GET http://localhost:8081/honeypot/comment/1
+GET http://localhost:8081/honeypot/comment/30
 
 ### 댓글 수정 테스트
-PUT http://localhost:8081/honeypot/comment/1
+PUT http://localhost:8081/honeypot/comment/27
 Content-Type: application/json
 
 {
-  "commentCode": 1,
+  "commentCode": 27,
   "content": "수정된 댓글 내용입니다.",
   "updateTime": "2024-07-03T15:30:00"
 }
 
 ### 댓글 삭제 테스트
 DELETE http://localhost:8081/honeypot/comment/1
+
+### 댓글 등록 테스트
+POST http://localhost:8081/honeypot/comment
+Content-Type: application/json
+
+{
+  "honeypotCode": 3,
+  "writerInfo": {
+    "userCode": 10
+  },
+  "content": "테스트 댓글입니다.",
+  "writingTime": "2024-07-01T12:00:02",
+  "updateTime": null
+}

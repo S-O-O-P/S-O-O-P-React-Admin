@@ -87,7 +87,20 @@ public class HoneyPotService {
 
     }
 
+    // 댓글 삭제
     public void deleteCommentByCommentCode(int commentCode) {
         honeyPotMapper.deleteCommentByCommentCode(commentCode);
+    }
+
+    // 댓글 등록
+    public CommentDTO insertComment(CommentDTO comment) {
+        honeyPotMapper.insertComment(comment);
+        return comment;
+    }
+
+    // 댓글 등록 테스트
+    public CommentAndLinkBeeUserDTO registComment(CommentAndLinkBeeUserDTO newComment) {
+        honeyPotMapper.registComment(newComment);
+        return newComment;
     }
 }
