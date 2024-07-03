@@ -49,7 +49,7 @@ function Notice() {
         <Box className="search-box">
           <InputBase
             className="search-input"
-            placeholder='공지 사항 제목 검색'
+            placeholder='제목 검색'
             value={searchTerm}
             onChange={handleSearchChange}
             onKeyPress={handleKeyPress}

@@ -16,15 +16,15 @@ function Login({ setUser }) {
   const handleLogin = async () => {
     // 입력 필드 유효성 검사
     if (!nickname && !userCode) {
-      setModalMessage('닉네임과 유저코드를 입력해주세요.');
+      setModalMessage('아이디와 비밀번호를 입력해주세요.');
       setShowModal(true);
       return;
     } else if (!nickname) {
-      setModalMessage('닉네임을 입력해주세요.');
+      setModalMessage('아이디를 입력해주세요.');
       setShowModal(true);
       return;
     } else if (!userCode) {
-      setModalMessage('유저코드를 입력해주세요.');
+      setModalMessage('비밀번호를 입력해주세요.');
       setShowModal(true);
       return;
     }

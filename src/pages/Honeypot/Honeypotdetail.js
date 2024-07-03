@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { Box, Typography, Button, Grid, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
+import { Box, Typography, Button, Grid, Dialog, DialogActions, DialogContent, DialogContentText,InputBase } from '@mui/material';
 import './Honeypotdetail.css'; // CSS 파일 임포트
 
 // HoneypotDetail 컴포넌트
@@ -109,21 +109,39 @@ function HoneypotDetail() {
             <Typography className="detail-value">{row.interestCode}</Typography>
           </Box>
         </Grid>
+        <Grid item xs={7} sm={5}>
+          <Box className="detail-group">
+            <Typography className="detail-label">제목</Typography>
+            <Typography className="detail-value">{row.honeypotTitle}</Typography>
+          </Box>
+        </Grid>
+
+        
       </Grid>
-      <Box className="honeypot-detail-divider">
-        <Typography className="detail-label" component="div" sx={{marginBottom:'15px'}}>
-          게시물 상세 
+
+
+        <Typography className="detail-label" component="div" sx={{marginBottom:'25px'}}>
+          내용 
         </Typography>
-      </Box>
-      <Typography variant="body1" className="honeypot-detail-description">
-        {row.honeypotContent}
-      </Typography>
+      <Box className="search-boxs">
+            <InputBase
+              multiline
+              rows={4}
+              className='detail-values'
+              defaultValue={row.honeypotContent}
+              variant="outlined"
+              fullWidth
+              readOnly // 읽기 전용 설정
+            />
+            </Box>
+
+
       <Box className="honeypot-detail-buttons">
-        <Button variant="outlined" className="honeypot-action-button-outline" onClick={handleBackClick}>
+        <Button variant="outlined" className="cancel-button" onClick={handleBackClick}>
           목록
         </Button>
         <Box className="honeypot-right-buttons">
-          <Button variant="outlined" className="honeypot-action-button-outline" onClick={handleBackClick}>
+          <Button variant="outlined" className="cancel-button" onClick={handleBackClick}>
             취소
           </Button>
           <Button variant="contained" className="honeypot-action-button-contained" onClick={handleClickOpen}>

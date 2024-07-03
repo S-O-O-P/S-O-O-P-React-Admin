@@ -112,7 +112,7 @@ function Inquiry() {
           <Box className="search-box">
             <InputBase
               className="search-input"
-              placeholder='회원 이름 검색'
+              placeholder='제목 검색'
               value={searchTerm}
               onChange={handleSearchChange}
               onKeyPress={handleKeyPress}

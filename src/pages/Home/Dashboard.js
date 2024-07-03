@@ -20,9 +20,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     const sampleMonthlyHoneyCount = [
-      { month: '07월', honey_count: 3 },
-      { month: '08월', honey_count: 2 },
-      { month: '09월', honey_count: 4 },
+      { month: '03월', honey_count: 1 },
+      { month: '04월', honey_count: 2 },
+      { month: '05월', honey_count: 2 },
     ];
     const sampleGenreHoneyCount = [
       { genre: '공연', honey_count: 3 },
@@ -32,8 +32,12 @@ const Dashboard = () => {
     ];
 
     axios.get('http://localhost:8080/dashboard/monthly-honey-count')
-      .then(response => setMonthlyHoneyCount([...response.data.monthlyHoneyCount, ...sampleMonthlyHoneyCount]))
-      .catch(error => console.error("There was an error fetching the monthly honey count!", error));
+    .then(response => {
+      const combinedData = [...response.data.monthlyHoneyCount, ...sampleMonthlyHoneyCount];
+      combinedData.sort((a, b) => parseInt(a.month) - parseInt(b.month));
+      setMonthlyHoneyCount(combinedData);
+    })
+    .catch(error => console.error("There was an error fetching the monthly honey count!", error));
 
     axios.get('http://localhost:8080/dashboard/genre-honey-count')
       .then(response => setGenreHoneyCount([...response.data.genreHoneyCount, ...sampleGenreHoneyCount]))
