@@ -87,21 +87,21 @@ function NoticeRegistPage() {
                     <p className={style.inputCount} >{inputCount}/500</p>
                 </div>
 
-                <div className="preview_box">
-                    <p className="attached_file_count">이미지 파일</p>
-                    <ul className="preview_list">
+                <div className={style.preview_box}>
+                    <p className={style.attached_file_count}>이미지 파일</p>
+                    <ul className={style.preview_list}>
                         {postImg &&
-                            (<li className="preview_img">
+                            (<li className={style.preview_img}>
                                 <img src={postImg} alt="preview image" />
-                                <span className="remove_preview_btn" onClick={clearImg} >×</span>
+                                <span className={style.remove_preview_btn} onClick={clearImg} >×</span>
                             </li>)
                         }
 
                         {!postImg &&
-                            (<li className="upload_img_btn">
-                                <label className="file_upload_box preview" name="upload">
-                                    <span className="upload_btn">＋</span>
-                                    <input type="file" accept="image/*" onChange={saveImgFile} name="upload" className="file_upload_input" />
+                            (<li className={style.upload_img_btn}>
+                                <label className={style.file_upload_box} name="upload">
+                                    <span className={style.upload_btn}>＋</span>
+                                    <input type="file" accept="image/*" onChange={saveImgFile} name="upload" className={style.file_upload_input} />
                                 </label>
                             </li>)
                         }
@@ -121,7 +121,7 @@ function NoticeRegistPage() {
                             <img src='/images/serviceCenter/check.png' alt='확인' width={45} />
                             <p className={style.modalTitle}>1:1문의가 접수 되었습니다.</p>
                             <p className={style.modalContext}>문의 내용에 따라 답변이 늦어질 수 있습니다.</p>
-                            <a href="/help">
+                            <a href="/notice">
                                 <button className={style.modalButton} onClick={closeBtn}>확인</button>
                             </a>
                         </div>
@@ -140,7 +140,7 @@ function NoticeRegistPage() {
                     <div className={style.back}>
                         <div className={style.modal}>
                             <img src='/images/commons/icon_alert.png' alt='경고' width={45} />
-                            <p className={style.modalTitle}>1:1문의 작성을 취소하시겠습니까?</p>
+                            <p className={style.modalTitle}>공지사항 등록을 취소하시겠습니까?</p>
                             <p className={style.modalContext}>작성 취소된 내용은 되돌릴 수 없습니다.</p>
                             <div className={style.modalButtonBox}>
                                 <button className={style.modalButton} onClick={() => setCheckModal(false)}>취소</button>
