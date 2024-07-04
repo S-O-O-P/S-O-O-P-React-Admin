@@ -129,7 +129,9 @@
                HONEYPOT_CONTENT = #{honeypotContent},
                EVENT_DATE = #{eventDate},
                END_DATE = #{endDate},
-               TOTAL_MEMBER = #{totalMember}
+               TOTAL_MEMBER = #{totalMember},
+               CLOSURE_STATUS = #{closureStatus}
+
          WHERE HONEYPOT_CODE = #{honeypotCode}
     </update>
 
@@ -258,12 +260,15 @@
 
     <!-- 참가신청 승인 관련 ResultMap -->
     <resultMap id="approvalStatusResultMap" type="com.soop.pages.honeypot.model.dto.ApprovalStatusDTO">
+        <id property="applicationCode" column="APPLICATION_CODE"/>
         <result property="decisionStatus" column="DECISION_STATUS"/>
         <result property="decisionDate" column="DECISION_Date"/>
         <association property="applicationCategory" javaType="com.soop.pages.honeypot.model.dto.ApplicationDTO">
             <id property="applicationCode" column="APPLICATION_CODE"/>
             <result property="honeypotCategory.honeypotCode" column="HONEYPOT_CODE"/>
             <result property="userCategory.userCode" column="USER_CODE"/>
+            <result property="userCategory.nickname" column="NICKNAME"/>
+            <result property="userCategory.profilePic" column="PROFILE_PIC"/>
         </association>
     </resultMap>
 
@@ -282,13 +287,16 @@
     <!-- 참가신청 목록 조회 by 허니팟 코드 -->
     <select id="findApplicationsByHoneypotCode" parameterType="int" resultMap="approvalStatusResultMap">
         SELECT
-                A.DECISION_STATUS,
-                A.DECISION_DATE,
-                B.APPLICATION_CODE,
-                B.HONEYPOT_CODE,
-                B.USER_CODE
+        A.DECISION_STATUS,
+        A.DECISION_DATE,
+        B.APPLICATION_CODE,
+        B.HONEYPOT_CODE,
+        B.USER_CODE,
+        C.NICKNAME,
+        C.PROFILE_PIC
         FROM APPROVAL_STATUS A
         JOIN APPLICATION B ON A.APPLICATION_CODE = B.APPLICATION_CODE
+        JOIN LINKBEE_USER C ON B.USER_CODE = C.USER_CODE
         WHERE B.HONEYPOT_CODE = #{honeypotCode}
     </select>
 

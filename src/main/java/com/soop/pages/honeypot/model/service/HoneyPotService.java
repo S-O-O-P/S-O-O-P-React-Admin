@@ -49,6 +49,7 @@ public class HoneyPotService {
         modifyHoneypot.setEventDate(honeypotDTO.getEventDate());
         modifyHoneypot.setEndDate(honeypotDTO.getEndDate());
         modifyHoneypot.setTotalMember(honeypotDTO.getTotalMember());
+        modifyHoneypot.setClosureStatus(honeypotDTO.getClosureStatus());
 
         honeyPotMapper.modifyHoneypot(modifyHoneypot);
 
@@ -119,7 +120,7 @@ public class HoneyPotService {
 
     // 해당 허니팟 참가신청 조회
     @Transactional(readOnly = true)
-    public List<ApplicationDTO> findApplicationsByHoneypotCode(int honeypotCode) {
+    public List<ApprovalStatusDTO> findApplicationsByHoneypotCode(int honeypotCode) {
         return honeyPotMapper.findApplicationsByHoneypotCode(honeypotCode);
     }
 

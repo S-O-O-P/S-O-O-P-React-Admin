@@ -52,7 +52,7 @@ public interface HoneyPotMapper {
 
 
     // 해당 허니팟 참가신청 목록 조회
-    List<ApplicationDTO> findApplicationsByHoneypotCode(int honeypotCode);
+    List<ApprovalStatusDTO> findApplicationsByHoneypotCode(int honeypotCode);
 
     // 참가신청 코드로 상세조회
     ApprovalStatusDTO findApplicationByHoneypotCodeAndApplicationCode(int honeypotCode, int applicationCode);

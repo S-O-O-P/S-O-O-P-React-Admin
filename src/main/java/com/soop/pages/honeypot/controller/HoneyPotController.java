@@ -243,8 +243,9 @@ public class HoneyPotController {
 
     // 해당 허니팟의 참가신청 목록 조회
     @GetMapping("/application/{honeypotCode}")
-    public ResponseEntity<List<ApplicationDTO>> findApplications(@PathVariable("honeypotCode") int honeypotCode) {
-        List<ApplicationDTO> applications = honeyPotService.findApplicationsByHoneypotCode(honeypotCode);
+    public ResponseEntity<List<ApprovalStatusDTO>> findApplications(@PathVariable("honeypotCode") int honeypotCode) {
+        List<ApprovalStatusDTO> applications = honeyPotService.findApplicationsByHoneypotCode(honeypotCode);
+        applications.forEach(app -> System.out.println(app));
         return ResponseEntity.ok(applications);
     }
 
