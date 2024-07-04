@@ -86,3 +86,6 @@ Content-Type: application/json
   "decisionStatus": "승인완료",
   "decisionDate": "2024-07-05T10:00:00Z"
 }
+
+### 참가인원 카운터 테스트
+GET http://localhost:8081/honeypot/listandapproved

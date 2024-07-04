@@ -323,6 +323,63 @@
         )
     </update>
 
+    <!-- 참가인원 카운트 테스트 ResultMap-->
+    <resultMap id="honeyPotAndApprovedResultMap" type="com.soop.pages.honeypot.model.dto.HoneypotAndApplicationAndApprovalStatusDTO">
+        <id column="HONEYPOT_CODE" property="honeypotCode"/>
+        <result column="INTEREST_CODE" property="interestCode"/>
+        <result column="HONEYPOT_TITLE" property="honeypotTitle"/>
+        <result column="HONEYPOT_CONTENT" property="honeypotContent"/>
+        <result column="USER_CODE" property="userCode"/>
+        <result column="POSTER" property="poster"/>
+        <result column="REGION" property="region"/>
+        <result column="TOTAL_MEMBER" property="totalMember"/>
+        <result column="REG_DATE" property="regDate"/>
+        <result column="EVENT_DATE" property="eventDate"/>
+        <result column="END_DATE" property="endDate"/>
+        <result column="VISIBILITY_STATUS" property="visibilityStatus"/>
+        <result column="CLOSURE_STATUS" property="closureStatus"/>
+        <result column="REPORT_COUNT" property="reportCount"/>
+        <result column="SEQ_NO" property="seqNo"/>
+        <result column="APPROVED_COUNT" property="approvedCount"/>
+        <result property="hostNickname" column="NICKNAME"/>
+        <result property="hostProfilePic" column="PROFILE_PIC"/>
+        <result property="interestName" column="INTEREST_NAME"/>
+    </resultMap>
+
+    <select id="getHoneyPotApprovedList" resultMap="honeyPotAndApprovedResultMap">
+        SELECT
+                A.HONEYPOT_CODE,
+                A.INTEREST_CODE,
+                A.HONEYPOT_TITLE,
+                A.HONEYPOT_CONTENT,
+                A.USER_CODE,
+                A.POSTER,
+                A.REGION,
+                A.TOTAL_MEMBER,
+                A.REG_DATE,
+                A.EVENT_DATE,
+                A.END_DATE,
+                A.VISIBILITY_STATUS,
+                A.CLOSURE_STATUS,
+                A.REPORT_COUNT,
+                A.SEQ_NO,
+                COUNT(B.APPLICATION_CODE) AS APPROVED_COUNT,
+                D.NICKNAME,
+                D.PROFILE_PIC,
+                E.INTEREST_NAME
+          FROM HONEYPOT A
+        LEFT JOIN APPLICATION B ON A.HONEYPOT_CODE = B.HONEYPOT_CODE
+        LEFT JOIN APPROVAL_STATUS C ON B.APPLICATION_CODE = C.APPLICATION_CODE
+        LEFT JOIN LINKBEE_USER D ON A.USER_CODE = D.USER_CODE
+        LEFT JOIN INTEREST E ON A.INTEREST_CODE = E.INTEREST_CODE
+        GROUP BY
+        A.HONEYPOT_CODE, A.INTEREST_CODE, A.HONEYPOT_TITLE, A.HONEYPOT_CONTENT,
+        A.USER_CODE, A.POSTER, A.REGION, A.TOTAL_MEMBER, A.REG_DATE,
+        A.EVENT_DATE, A.END_DATE, A.VISIBILITY_STATUS, A.CLOSURE_STATUS,
+        A.REPORT_COUNT, A.SEQ_NO, D.NICKNAME, D.PROFILE_PIC, E.INTEREST_NAME;
+    </select>
+
+
 
 
 

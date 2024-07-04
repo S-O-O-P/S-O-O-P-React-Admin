@@ -142,4 +142,8 @@ public class HoneyPotService {
 
         return updateApprovalStatus;
     }
+
+    public List<HoneypotAndApplicationAndApprovalStatusDTO> getHoneyPotApprovedList() {
+        return honeyPotMapper.getHoneyPotApprovedList();
+    }
 }

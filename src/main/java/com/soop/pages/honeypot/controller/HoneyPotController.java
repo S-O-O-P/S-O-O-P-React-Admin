@@ -278,6 +278,14 @@ public class HoneyPotController {
         }
     }
 
+    // 참가 인원 수 조회하기(허니팟 리스트 + 승인상태) 아마 이게 성공하면 허니팟 전체조회는 대체 가능
+    @GetMapping("/listandapproved")
+    public ResponseEntity<List<HoneypotAndApplicationAndApprovalStatusDTO>> getHoneyPotApprovedList() {
+        List<HoneypotAndApplicationAndApprovalStatusDTO> honeyPotApprovedList = honeyPotService.getHoneyPotApprovedList();
+
+        return ResponseEntity.ok(honeyPotApprovedList);
+    }
+
 
 
 

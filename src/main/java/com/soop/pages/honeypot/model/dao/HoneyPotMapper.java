@@ -58,6 +58,8 @@ public interface HoneyPotMapper {
     ApprovalStatusDTO findApplicationByHoneypotCodeAndApplicationCode(int honeypotCode, int applicationCode);
 
     void updateApplicationData(int honeypotCode, int applicationCode, ApprovalStatusDTO updateApprovalStatus);
+
+    List<HoneypotAndApplicationAndApprovalStatusDTO> getHoneyPotApprovedList();
 }
 
 
