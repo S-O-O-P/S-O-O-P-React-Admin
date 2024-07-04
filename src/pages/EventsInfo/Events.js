@@ -21,7 +21,8 @@ function Events() {
   useEffect(
     () => {
       //얼리버드 공연/전시 리스트 전체 조회 api 호출
-      EventsInfoApi({setEvents});
+      // EventsInfoApi({setEvents});
+      EventsInfoApi({setEvents}, "all");
     },[]
   );
 
@@ -64,9 +65,9 @@ function Events() {
   return (
     <Box className="common-container">
       <Box className="header-container">
-        <Typography variant="h5" className="table-titles">공연/전시 정보 전체 조회</Typography>
+        <Typography variant="h5" className="table-titles">얼리버드 공연/전시</Typography>
          <Box className="actions-container">
-          <Button variant="outlined" className="register-button" onClick={() => navigate('/events/register/0')}>등록</Button>
+          <Button variant="outlined" className="register-button" onClick={() => navigate(`/events/new`, {state: "register"})}>등록</Button>
           <Box className="search-box">
             <InputBase
               className="search-input"

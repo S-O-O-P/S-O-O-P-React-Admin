@@ -2,12 +2,14 @@ import { useNavigate } from 'react-router-dom';
 import '../../pages/EventsInfo/EventsDetail.css';
 import { useEffect, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
+import EventsInfoApi from '../../apis/EventsInfoApi';
 
 export default function EventForm(){
   const [open, setOpen] = useState(false); // 팝업 활성화 여부 - 비활성화 초기화
   const [dialogText, setDialogText] = useState("해당 공연/전시 정보가 등록되었습니다."); // 등록버튼 클릭시, 팝업 텍스트 설정
   const [popIconUrl, setPopIconUrl] = useState("/images/commons/icon_alert.png"); // 등록버튼 클릭시, 팝업 텍스트 설정
   const [processInsert, setProcessInsert] = useState(false); // 등록 진행 여부
+  const [events, setEvents] = useState({}); // 등록한 공연/전시 정보 
 
   // Dialog 열기 핸들러
   const handleClickOpen = () => {
@@ -19,9 +21,42 @@ export default function EventForm(){
     setOpen(false);
   };
 
+  // 카테고리 Number로 변환
+  const categoryNumber = (category) => {
+    let categoryString = "";
+    switch(category){
+      case("팝업") : categoryString = 1; break;
+      case("공연") : categoryString = 2; break;
+      case("행사/축제") : categoryString = 3; break;
+      case("전시회") : categoryString = 4; break;
+      case("뮤지컬") : categoryString = 5; break;
+    }
+    return categoryString;
+  }
+
   // 등록 요청 Insert api 호출
   const callInsertApi = () => {
-    console.log("등록 요청 api 호출");
+    const eventData = {
+      interestCode: categoryNumber(category),
+      ebTitle: earlyTitle,
+      ebContent: detailInfo.replaceAll("\r\n", "<br>").replaceAll("\n", "<br>").replaceAll("\r", "<br>"),
+      region: region,
+      poster: imgUrl,
+      seller: whereToBuy,
+      sellerLink: buyUrl,
+      regularPrice: price,
+      discountPrice: earlyPrice,
+      saleStartDate: startBuy,
+      saleEndDate: endBuy,
+      usageStartDate: startUse,
+      usageEndDate: endUse,
+      ageLimit: age,
+      dateWritten: new Date().toISOString().split('T')[0],
+      place: place,
+    };
+    console.log("info to be registerd : ",eventData);
+
+    EventsInfoApi({ setEvents }, "register", null, eventData);
   };
 
   // 입력 내용 누락 확인
@@ -263,7 +298,7 @@ export default function EventForm(){
         <ul className="btn_list flex_between">
           {/* <li><a href="#" className="negative_btn">목록</a></li> */}
           <li>          
-            <a href="#" className="negative_btn cancel" onClick={() => navigate(-1)}>취소</a>
+            <a href="#" className="negative_btn cancel" onClick={() => navigate(`/events`)}>취소</a>
           </li>
           <li>          
             <button type="button" className="register_btn" onClick={() => validateHandler()}>등록</button>

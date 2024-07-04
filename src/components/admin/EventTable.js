@@ -6,12 +6,12 @@ import '../admin/Table.css'// CSS 파일 임포트
 function EventTable({ events }) {
   const navigate = useNavigate(); // 페이지 이동을 위한 네비게이트 함수
 
-  const handleRowClick = (id) => {
-    navigate(`/events/detail/${id}`);
+  const handleRowClick = (id, type) => {
+    navigate(`/events/${id}`, {state: {type}});
   };
   // 수정 버튼 클릭 핸들러
-  const handleUpdateClick = (id) => {
-    navigate(`/events/edit/${id}`);
+  const handleUpdateClick = (id, type) => {
+    navigate(`/events/${id}`, {state: {type}});
   };
 
   // 카테고리 string으로 변환
@@ -25,6 +25,21 @@ function EventTable({ events }) {
       case(5) : categoryString = "뮤지컬"; break;
     }
     return categoryString;
+  }
+
+  // 날짜 형식 변경
+  function formatDate(date) {
+    var writtenDate = new Date(date),
+      month = '' + (writtenDate.getMonth() + 1),
+      day = '' + writtenDate.getDate(),
+      year = writtenDate.getFullYear();
+
+    if (month.length < 2) 
+      month = '0' + month;
+    if (day.length < 2) 
+      day = '0' + day;
+
+    return [year, month, day].join('.');
   }
 
   return (
@@ -43,11 +58,11 @@ function EventTable({ events }) {
           {events.map((event) => (
             <TableRow key={event.earlyBirdCode}>
               <TableCell className="table-cell">{categoryString(event.interestCode)}</TableCell>
-              <TableCell onClick={() => handleRowClick(event.earlyBirdCode)} className="table-cell" style={{ cursor: 'pointer' }}>{event.ebTitle}</TableCell>
-              <TableCell className="table-cell">{event.saleStartDate}</TableCell>
-              <TableCell className="table-cell">{event.dateWritten}</TableCell>
+              <TableCell onClick={() => handleRowClick(event.earlyBirdCode, "detail")} className="table-cell" style={{ cursor: 'pointer' }}>{event.ebTitle}</TableCell>
+              <TableCell className="table-cell">{formatDate(event.saleStartDate)}</TableCell>
+              <TableCell className="table-cell">{formatDate(event.dateWritten)}</TableCell>
               <TableCell className="table-cell">
-                <Button variant="outlined" className="manage" onClick={() => handleRowClick(event.earlyBirdCode)}>수정</Button>
+                <Button variant="outlined" className="manage" onClick={() => handleUpdateClick(event.earlyBirdCode,"edit")}>수정</Button>
               </TableCell>
             </TableRow>
           ))}
