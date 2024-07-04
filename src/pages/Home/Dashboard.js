@@ -20,7 +20,6 @@ const Dashboard = () => {
   const [notices, setNotices] = useState([]);
   const [todayDate, setTodayDate] = useState('');
 
-
   useEffect(() => {
     fetchDashboardData()
       .then(data => {
@@ -46,8 +45,6 @@ const Dashboard = () => {
       });
       setTodayDate(currentDate);
   }, []);
-
-
 
   const monthlyChartData = {
     labels: monthlyHoneyCount.map(item => item.month),
@@ -158,12 +155,12 @@ const Dashboard = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {inquiryData.map((row, index) => (
+                  {inquiryData.slice(0, 5).map((row, index) => (
                     <TableRow key={row.id}>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.inquiryCode}</TableCell>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.title}</TableCell>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.category}</TableCell>
-                      <TableCell sx={{ borderBottom: index === inquiryData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.answerStatus}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.inquiryCode}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.title}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.category}</TableCell>
+                      <TableCell sx={{ borderBottom: index === inquiryData.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.answerStatus}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -187,12 +184,12 @@ const Dashboard = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {reportData.map((row, index) => (
+                {reportData.slice(0, 5).map((row, index) => (
                   <TableRow key={row.id}>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.honeypotCode}</TableCell>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.honeypotTitle}</TableCell>
-                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.regDate}</TableCell>
-                    <TableCell sx={{ borderBottom: index === reportData.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.reportCount}</TableCell>
+                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.honeypotCode}</TableCell>
+                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.honeypotTitle}</TableCell>
+                    <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === reportData.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.regDate}</TableCell>
+                    <TableCell sx={{ borderBottom: index === reportData.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.reportCount}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -217,11 +214,11 @@ const Dashboard = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {notices.map((notice, index) => (
+                  {notices.slice(0, 5).map((notice, index) => (
                     <TableRow key={notice.id}>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === notices.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.noticeCode}</TableCell>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === notices.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.title}</TableCell>
-                      <TableCell sx={{ borderBottom: index === notices.length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.regDate}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === notices.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.noticeCode}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === notices.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.title}</TableCell>
+                      <TableCell sx={{ borderBottom: index === notices.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.regDate}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

@@ -29,7 +29,7 @@ function InquiryTable({ inquiries, rowsPerPage, onInquiryClick }) {
                 </Box>
               </TableCell>
               <TableCell className="table-cell">
-  <Box className={`answer ${inquiry.answerStatus === '답변대기' ? 'inactive-status' : ''}`}>
+  <Box onClick={() => onInquiryClick(inquiry)} style={{ cursor: 'pointer' }} className={`answer ${inquiry.answerStatus === '답변대기' ? 'inactive-status' : ''}`}>
     {inquiry.answerStatus === '답변완료' ? '-' : '답변작성'}
   </Box>
 </TableCell>

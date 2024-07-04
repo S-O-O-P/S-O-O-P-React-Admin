@@ -151,7 +151,7 @@
     border-radius:48px !important; 
     border:1px solid var(--main-color) !important; 
     color: var(--main-color) !important;
-    font-size: 15.5px !important; 
+    font-size: 15.4px !important; 
     font-weight: var(--semiBold) !important; 
     transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out, color 200ms ease-in-out !important; 
     background-color: var(--main-color) !important; 
@@ -161,7 +161,7 @@
 
   .answer {
     line-height: 48px !important; 
-    font-size: 15.5px !important; 
+    font-size: 15.4px !important; 
     font-weight: var(--semiBold) !important; 
   }
 
@@ -196,5 +196,5 @@
   }
 
   .notAnswer-status {
-    color: red;
+    color: #D83030;
   }
