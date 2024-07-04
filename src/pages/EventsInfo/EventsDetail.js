@@ -19,8 +19,10 @@ function EventsDetail() {
         <div className="contents_cont">
           <div className="event_sec_box">
             <div className="event_sec">
-              <p className="sec_tit">얼리버드 공연/전시 정보 {type == "detail" ? null : type == "edit" ? "수정" : "등록"}</p>
-              {type == "detail" ? EventInfo(id) : type == "edit" ? EventEdit(id) : EventForm()}
+              <p className="sec_tit">얼리버드 공연/전시 정보 {type === "detail" ? null : type === "edit" ? "수정" : "등록"}</p>
+              {type === "detail" && <EventInfo id={id} />}
+              {type === "edit" && <EventEdit id={id} />}
+              {type === "register" && <EventForm />}
               {/* // 공연/전시 정보 등록 form */}
               
             </div>

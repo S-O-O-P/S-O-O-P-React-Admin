@@ -4,7 +4,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from 
 import { useEffect, useState } from 'react';
 import EventsInfoApi from '../../apis/EventsInfoApi';
 
-export default function EventInfo(id){
+export default function EventInfo({id}){
   const [open, setOpen] = useState(false); // 팝업 활성화 여부 - 비활성화 초기화
   const [events, setEvents] = useState({});
   const [detailInfo, setDetailInfo] = useState(""); // 상세 정보

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import EventsInfoApi from '../../apis/EventsInfoApi';
 
-export default function EventEdit(id){
+export default function EventEdit({id}){
   const [open, setOpen] = useState(false);
   const [events, setEvents] = useState({});
 
@@ -192,7 +192,7 @@ export default function EventEdit(id){
             <div className="genre_filter_list">
               <span className="selected_filter flex_between"><span className="selected_option">{category}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_bottom_main_color.png`} alt="arrow direction bottom icon" className="filter_arrow_icon"/></span>
               <ul>
-                <li className="genre_option">전시</li>
+                <li className="genre_option">전시회</li>
                 <li className="genre_option">공연</li>
                 <li className="genre_option">뮤지컬</li>
                 <li className="genre_option">행사/축제</li>
@@ -330,8 +330,7 @@ export default function EventEdit(id){
           </DialogContentText>
         </DialogContent>
         <DialogActions className="custom-dialog-actions">
-          {/*  navigate("/events"); */}
-          <Button onClick={() => {handleClose();}} className="custom-confirm-button one_button" autoFocus>
+          <Button onClick={() => {handleClose(); navigate("/events");}} className="custom-confirm-button one_button" autoFocus>
             확인
           </Button>
         </DialogActions>

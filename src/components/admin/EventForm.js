@@ -172,7 +172,7 @@ export default function EventForm(){
             <div className="genre_filter_list">
               <span className="selected_filter flex_between"><span className="selected_option">{category}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_bottom_main_color.png`} alt="arrow direction bottom icon" className="filter_arrow_icon"/></span>
               <ul>
-                <li className="genre_option">전시</li>
+                <li className="genre_option">전시회</li>
                 <li className="genre_option">공연</li>
                 <li className="genre_option">뮤지컬</li>
                 <li className="genre_option">행사/축제</li>
