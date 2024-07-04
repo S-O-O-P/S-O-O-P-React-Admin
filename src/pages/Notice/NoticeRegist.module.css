@@ -18,7 +18,7 @@
 }
 
 .customSelect {
-    width: 100%;
+    width: 400px;
     height: 53px;
     border: 1px solid var(--main-color);
     border-radius: 12px;
@@ -86,13 +86,6 @@
 }
 
 /* 이미지 */
-
-.upload_box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
 
 .file_upload_box {
     display: flex;
@@ -200,7 +193,7 @@
     display: none;
 }
 
-.file_upload_box.preview {
+.file_upload_box {
     display: flex;
     justify-content: center;
     padding: 20px;
@@ -211,7 +204,7 @@
     cursor: pointer;
 }
 
-.file_upload_box.preview .upload_btn {
+.file_upload_box .upload_btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -223,6 +216,46 @@
     font-size: 24px;
     font-weight: var(--bold);
     color: var(--main-color);
+}
+
+/* 버튼 */
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+
+    padding-top: 20px;
+}
+
+.cancelButton {
+    width: 96px;
+    height: 48px;
+    background-color: #fff;
+    border: 1px solid var(--main-color);
+    border-radius: 48px;
+    font: var(--semiBold) 16px;
+    color: var(--main-color);
+    margin-right: 20px;
+}
+
+.cancelButton:active {
+    border-color: var(--point-color);
+    transition: 50ms;
+}
+
+.submitButton {
+    width: 96px;
+    height: 48px;
+    background-color: var(--main-color);
+    border: 0px;
+    border-radius: 48px;
+    font: var(--semiBold) 16px;
+    color: #fff;
+}
+
+.submitButton:active {
+    background-color: var(--point-color);
+    transition: 50ms;
 }
 
 /* 모달창 */
