@@ -16,7 +16,7 @@ function NoticeTable({ notices }) {
             <TableCell className="table-head-cell">No</TableCell>
             <TableCell className="table-head-cell">제목</TableCell>
             <TableCell className="table-head-cell">등록일자</TableCell>
-            <TableCell className="table-head-cell">조회</TableCell>
+            {/* <TableCell className="table-head-cell">조회</TableCell> */}
             <TableCell className="table-head-cell">관리</TableCell>
           </TableRow>
         </TableHead>
@@ -26,7 +26,7 @@ function NoticeTable({ notices }) {
               <TableCell className="table-cell">{index + 1}</TableCell>
               <TableCell className="table-cell">{notice.title}</TableCell>
               <TableCell className="table-cell">{notice.regDate}</TableCell>
-              <TableCell className="table-cell">{notice.userCode}</TableCell>
+              {/* <TableCell className="table-cell">{notice.views}</TableCell> */}
               <TableCell className="table-cell">
                 <Button
                   variant="outlined"
@@ -45,4 +45,3 @@ function NoticeTable({ notices }) {
 }
 
 export default NoticeTable;
-
