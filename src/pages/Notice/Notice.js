@@ -44,22 +44,24 @@ function Notice() {
       <Box className="header-container">
         <Typography variant="h5" className="table-titles">공지 사항 전체 조회</Typography>
         <Box className="actions-container">
-          <Button variant="outlined" className="register-button">등록</Button>
-       
-        <Box className="search-box">
-          <InputBase
-            className="search-input"
-            placeholder='제목 검색'
-            value={searchTerm}
-            onChange={handleSearchChange}
-            onKeyPress={handleKeyPress}
-          />
-          <Button onClick={handleSearch}>
-            <img src="/images/admin/icon_search.png" alt="search" />
-          </Button>
+          <a href='/noticeregist'>
+            <Button variant="outlined" className="register-button">등록</Button>
+          </a>
+
+          <Box className="search-box">
+            <InputBase
+              className="search-input"
+              placeholder='제목 검색'
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onKeyPress={handleKeyPress}
+            />
+            <Button onClick={handleSearch}>
+              <img src="/images/admin/icon_search.png" alt="search" />
+            </Button>
+          </Box>
         </Box>
       </Box>
-    </Box>
       <NoticeTable notices={displayedNotices} rowsPerPage={rowsPerPage} />
       <Pagination
         count={Math.ceil(notices.length / rowsPerPage)}

@@ -14,7 +14,7 @@ import '../src/pages/Home/Dashboard.css';
 import '../src/pages/Customer/Customerdetail.css';
 import '../src/pages/Honeypot/Honeypotdetail.css';
 import './pages/EventsInfo/EventsDetail.css'
-import  GlobalStyles  from './styles/GlobalStyles';
+import GlobalStyles from './styles/GlobalStyles';
 import Layout from './layouts/Layout'; // Layout 경로 추가
 import Login from './components/admin/Login';
 import NoticeRegistPage from './pages/Notice/NoticeRegist';
