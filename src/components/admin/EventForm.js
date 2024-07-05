@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import EventsInfoApi from '../../apis/EventsInfoApi';
 
+
 export default function EventForm(){
   const [open, setOpen] = useState(false); // 팝업 활성화 여부 - 비활성화 초기화
   const [dialogText, setDialogText] = useState("해당 공연/전시 정보가 등록되었습니다."); // 등록버튼 클릭시, 팝업 텍스트 설정

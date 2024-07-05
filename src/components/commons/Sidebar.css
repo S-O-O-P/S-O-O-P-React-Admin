@@ -10,17 +10,20 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-left: 140px; 
 }
 
 
 
 .sidebar {
-  position: relative;
+  position: fixed;
   top: 0;
   width: 140px; 
   height: 100%;
   background-color: #FFF; 
 }
+
+
 
 .sidebar-header {
   display: flex;
