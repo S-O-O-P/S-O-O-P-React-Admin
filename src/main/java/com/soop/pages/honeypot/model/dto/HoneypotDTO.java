@@ -28,6 +28,7 @@ public class HoneypotDTO {
 //    private String closureStatus;           // 마감 여부
 //    private int reportCount;                // 신고 횟수
 
+    private int honeypotCode;
     private int interestCode;
     private String honeypotTitle;
     private String honeypotContent;
