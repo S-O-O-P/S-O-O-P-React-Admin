@@ -57,6 +57,11 @@ function Events() {
     handleSearch();
   };
 
+  // 등록 버튼 클릭 핸들러
+  const handleRegisterClick = (id, type) => {
+    navigate(`/events/${id}`, {state: {type}});
+  };
+
   const navigate = useNavigate();
 
   // 현재 페이지에 표시할 이벤트 계산
@@ -67,7 +72,8 @@ function Events() {
       <Box className="header-container">
         <Typography variant="h5" className="table-titles">얼리버드 공연/전시</Typography>
          <Box className="actions-container">
-          <Button variant="outlined" className="register-button" onClick={() => navigate(`/events/new`, {state: "register"})}>등록</Button>
+          <Button variant="outlined" className="register-button" onClick={() => handleRegisterClick("new","register")}>등록</Button>
+          {/* navigate(`/events/new`, {state: "register"}) */}
           <Box className="search-box">
             <InputBase
               className="search-input"
