@@ -57,7 +57,7 @@ function Events() {
     handleSearch();
   };
 
-  // 수정 버튼 클릭 핸들러
+  // 등록 버튼 클릭 핸들러
   const handleRegisterClick = (id, type) => {
     navigate(`/events/${id}`, {state: {type}});
   };
