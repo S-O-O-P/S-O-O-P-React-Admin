@@ -69,7 +69,7 @@ function NoticeRegistPage() {
             // console.log("img : ", postImg);
             setModalOpen(true);
 
-            axios.post('http://localhost:8080/noticeregist', data)
+            axios.post('http://localhost:8080/notice/noticeregist', data)
                 .then(response => {
                     console.log("response", response);
                 })
