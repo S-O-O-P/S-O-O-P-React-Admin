@@ -144,10 +144,10 @@ function HoneypotDetail() {
           </DialogContentText>
         </DialogContent>
         <DialogActions className="custom-dialog-actions">
-          <Button onClick={handleClose} className="custom-cancel-button">
+          <Button onClick={handleClose} className="cancel-button">
             취소
           </Button>
-          <Button onClick={handleToggleStatus} className="custom-confirm-button" autoFocus>
+          <Button onClick={handleToggleStatus} className="confirm-button" autoFocus>
             확인
           </Button>
         </DialogActions>
