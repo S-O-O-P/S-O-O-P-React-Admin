@@ -3,6 +3,7 @@ import '../../pages/EventsInfo/EventsDetail.css';
 import { useEffect, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import EventsInfoApi from '../../apis/EventsInfoApi';
+import ScrollToTop from './ScrolltoTop';
 
 export default function EventEdit({id}){
   const [open, setOpen] = useState(false);
@@ -185,6 +186,7 @@ export default function EventEdit({id}){
   
   return(
     <>
+     <ScrollToTop />
       <form className="fill_in_box">
         <ul className="fill_list">
           <li className="genre_category">

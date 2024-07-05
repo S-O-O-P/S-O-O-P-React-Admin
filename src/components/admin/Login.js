@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import style from "../../pages/Inquiry/InquiryAnswer.module.css"
 
-
-
 function Login({ setUser }) {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
@@ -58,6 +56,12 @@ function Login({ setUser }) {
     }
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleLogin();
+    }
+  };
+
   const closeBtn = () => {
     setShowModal(false);
   };
@@ -79,6 +83,7 @@ function Login({ setUser }) {
                 placeholder="아이디를 입력하세요" 
                 value={id}
                 onChange={(e) => setId(e.target.value)}
+                onKeyPress={handleKeyPress}
               />
             </div>
             <div className="input-group">
@@ -89,6 +94,7 @@ function Login({ setUser }) {
                 placeholder="비밀번호를 입력하세요" 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyPress={handleKeyPress}
               />
             </div>
             <button className="login-button" onClick={handleLogin}>로그인</button>

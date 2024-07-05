@@ -18,6 +18,7 @@ import GlobalStyles from './styles/GlobalStyles';
 import Layout from './layouts/Layout'; // Layout 경로 추가
 import Login from './components/admin/Login';
 import NoticeDetail from './pages/Notice/NoticeDetail';
+import ScrollToTop from './components/admin/ScrolltoTop';
 
 export default function App() {
   const [user, setUser] = useState(null); // 사용자 정보 상태
@@ -26,6 +27,7 @@ export default function App() {
     <>
       <GlobalStyles />
       <BrowserRouter>
+      <ScrollToTop />
         <Routes>
           <Route path="/" element={<Login setUser={setUser} />} />
           <Route

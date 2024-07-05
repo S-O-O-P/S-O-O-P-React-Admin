@@ -121,13 +121,19 @@
   }
 
   .manage {
-    display: inline-block;
-    border: 2px solid #FFB755 !important;
-    border-radius: 15px !important;
-    padding: 5px 15px !important;
-    color: #FFB755 !important;
-    font-weight: bold !important;
-    text-align: center !important;
+    width: 96px !important; 
+    height: 48px !important; 
+    padding: 0 20px !important; 
+    border-radius:48px !important; 
+    border:1px solid var(--main-color) !important; 
+    color: var(--main-color) !important;
+    line-height: 48px !important; 
+    font-size: 16px !important; 
+    font-weight: var(--semiBold) !important; 
+    text-align: center !important; 
+    transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out, color 200ms ease-in-out !important; 
+    background-color: var(--main-color) !important; 
+    color: #ffffff !important;
   }
 
 
@@ -192,9 +198,10 @@
   }
 
   .answer-status {
-    color: #FFB755;
+    color: #0CCE4E;
   }
 
   .notAnswer-status {
     color: #D83030;
   }
+

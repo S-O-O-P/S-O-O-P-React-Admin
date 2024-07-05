@@ -21,7 +21,7 @@ function Notice() {
     try {
       const response = await axios.get('http://localhost:8080/notice/');
       if (Array.isArray(response.data.noticeInfo)) {
-        setNotices(response.data.noticeIn);
+        setNotices(response.data.noticeInfo);
         setFilteredNotices(response.data.noticeInfo); // Initialize filtered notices
       } else {
         console.error('Data is not an array:', response.data);

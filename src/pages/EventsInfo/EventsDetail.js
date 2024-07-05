@@ -7,6 +7,8 @@ import EventInfo from '../../components/admin/EventInfo';
 import EventForm from '../../components/admin/EventForm';
 import EventEdit from '../../components/admin/EventEdit';
 
+
+
 function EventsDetail() {
   const { id } = useParams();
   const location = useLocation();

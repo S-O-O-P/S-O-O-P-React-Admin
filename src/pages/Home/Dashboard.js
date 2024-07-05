@@ -4,6 +4,7 @@ import { Box, Grid, Paper, Typography, Table, TableBody, TableCell, TableContain
 import DashboardChart from '../../components/admin/DashboardChart';
 import { fetchDashboardData } from '../../apis/DashboardAPI'; // 전체 데이터를 가져오는 함수 임포트
 import './Dashboard.css';
+import '../../components/admin/Table.css'
 
 const Dashboard = () => {
   const [monthlyHoneyCount, setMonthlyHoneyCount] = useState([]);
@@ -160,7 +161,11 @@ const Dashboard = () => {
                       <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.inquiryCode}</TableCell>
                       <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.title}</TableCell>
                       <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.category}</TableCell>
-                      <TableCell sx={{ borderBottom: index === inquiryData.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.answerStatus}</TableCell>
+                      <TableCell>
+                        <Box className={`answer-status ${row.answerStatus === '답변대기' ? 'notAnswer-status' : ''}`} sx={{textAlign:'center'}}>
+                          {row.answerStatus}
+                        </Box>
+                    </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
