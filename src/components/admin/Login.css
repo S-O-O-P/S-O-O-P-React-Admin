@@ -135,11 +135,11 @@ main {
   border:1px solid var(--main-color) !important;
 }
 
-#nickname::placeholder {
+#id::placeholder {
   color: var(--main-color) !important;
 }
 
-#userCode::placeholder {
+#password::placeholder {
   color: var(--main-color) !important;
 }
 

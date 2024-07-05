@@ -7,23 +7,23 @@ import style from "../../pages/Inquiry/InquiryAnswer.module.css"
 
 
 function Login({ setUser }) {
-  const [nickname, setNickname] = useState('');
-  const [userCode, setUserCode] = useState('');
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async () => {
     // 입력 필드 유효성 검사
-    if (!nickname && !userCode) {
+    if (!id && !password) {
       setModalMessage('아이디와 비밀번호를 입력해주세요.');
       setShowModal(true);
       return;
-    } else if (!nickname) {
+    } else if (!id) {
       setModalMessage('아이디를 입력해주세요.');
       setShowModal(true);
       return;
-    } else if (!userCode) {
+    } else if (!password) {
       setModalMessage('비밀번호를 입력해주세요.');
       setShowModal(true);
       return;
@@ -31,8 +31,8 @@ function Login({ setUser }) {
 
     try {
       const response = await axios.post('http://localhost:8080/', {
-        nickname,
-        userCode,
+        id,
+        password,
       });
 
       console.log(response.data); // 응답 데이터 확인
@@ -40,8 +40,9 @@ function Login({ setUser }) {
       if (response.data.userRole === 'ADMIN') {
         console.log('Admin login successful');
         const userData = {
-          nickname: response.data.nickname,
+          id: response.data.id,
           userRole: response.data.userRole,
+          nickname: response.data.nickname
         };
         setUser(userData);
         localStorage.setItem('user', JSON.stringify(userData));
@@ -73,21 +74,21 @@ function Login({ setUser }) {
             <div className="input-group">
               <input 
                 type="text" 
-                id="nickname" 
-                name="nickname" 
+                id="id" 
+                name="id" 
                 placeholder="아이디를 입력하세요" 
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
+                value={id}
+                onChange={(e) => setId(e.target.value)}
               />
             </div>
             <div className="input-group">
               <input 
-                type="text" 
-                id="userCode" 
-                name="userCode" 
+                type="password" 
+                id="password" 
+                name="password" 
                 placeholder="비밀번호를 입력하세요" 
-                value={userCode}
-                onChange={(e) => setUserCode(e.target.value)}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <button className="login-button" onClick={handleLogin}>로그인</button>
