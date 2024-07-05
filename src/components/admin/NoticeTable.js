@@ -1,11 +1,20 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import './Table.css'; // 공통 CSS 파일 임포트
+import { useNavigate } from 'react-router-dom';
 
 function NoticeTable({ notices }) {
-  const handleRowClick = (noticeCode) => {
-    // Handle row click if needed
-    console.log(`Row clicked: ${noticeCode}`);
+
+  const navigate = useNavigate();
+
+  // 상세페이지 클릭 핸들러
+  const handleRowClick = (id, type) => {
+    navigate(`/notice/${id}`, { state: { type } });
+  };
+
+  // 수정 버튼 클릭 핸들러
+  const handleUpdateClick = (id, type) => {
+    navigate(`/notice/${id}`, { state: { type } });
   };
 
   return (
@@ -24,14 +33,14 @@ function NoticeTable({ notices }) {
           {notices.map((notice, index) => (
             <TableRow key={notice.noticeCode} className="table-row">
               <TableCell className="table-cell">{index + 1}</TableCell>
-              <TableCell className="table-cell">{notice.title}</TableCell>
+              <TableCell onClick={() => handleRowClick(notice.noticeCode, "detail")} className="table-cell">{notice.title}</TableCell>
               <TableCell className="table-cell">{notice.regDate}</TableCell>
               {/* <TableCell className="table-cell">{notice.views}</TableCell> */}
               <TableCell className="table-cell">
                 <Button
                   variant="outlined"
                   className='manage'
-                  onClick={() => handleRowClick(notice.noticeCode)}
+                  onClick={() => handleUpdateClick(notice.noticeCode, "edit")}
                 >
                   수정
                 </Button>

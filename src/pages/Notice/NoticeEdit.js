@@ -1,19 +1,48 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import style from './NoticeRegist.module.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function NoticeRegistPage() {
-
-    const [selected, setSelected] = useState("공지사항");
+function NoticeEdit() {
+    const [notice, setNotice] = useState({});
+    const [selected, setSelected] = useState("");
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const [inputCount, setInputCount] = useState(0);
     const [postImg, setPostImg] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [writerModal, setWriterModal] = useState(false);
     const [checkModal, setCheckModal] = useState(false);
     const navigate = useNavigate();
+    const { id } = useParams();
+    const [inputCount, setInputCount] = useState(0);
+
+    useEffect(() => {
+        async function fetchNotice() {
+            try {
+
+                const res = await axios.get(`http://localhost:8080/notice/${id}`);
+
+                console.log(res)
+                setNotice(res.data.noticeFileDTO);
+                console.log(res.data.noticeFileDTO);
+            } catch (error) {
+                console.error('공지사항 불러오기 실패.', error);
+            }
+        }
+        fetchNotice();
+    }, []);
+
+    useEffect(() => {
+        setSelected(notice.category || '');
+        setTitle(notice.title || '');
+        setContent(notice.content || '');
+    }, [notice]);
+
+    useEffect(() => {
+        if (notice && notice.content) {
+            setInputCount(notice.content.length);
+        }
+    }, [notice]);
 
 
     const handleSelect = (e) => {
@@ -43,17 +72,25 @@ function NoticeRegistPage() {
     }
 
     const handleCancel = () => {
-        if (title !== "" || content !== "") {
-            setCheckModal(true);
+        if (title === notice.title && content === notice.content && selected === notice.category) {
+            navigate("/notice");
         } else {
-            navigate("/notice")
+            setCheckModal(true);
+            console.log("유형", selected);
+            console.log("제목:", title);
+            console.log("내용:", content);
+
+            console.log("category", notice.category);
+            console.log("title:", notice.title);
+            console.log("content:", notice.content);
         }
-    }
+    };
+
 
     const handleSubmit = () => {
         const today = new Date();
 
-        if (title !== "" && content !== "") {
+        if (title === notice.title || content === notice.content || selected === notice.category) {
             const data = {
                 "category": selected,
                 "title": title,
@@ -66,10 +103,15 @@ function NoticeRegistPage() {
             console.log("유형", selected);
             console.log("제목:", title);
             console.log("내용:", content);
+
+            console.log("category", notice.category);
+            console.log("title:", notice.title);
+            console.log("content:", notice.content);
+
             // console.log("img : ", postImg);
             setModalOpen(true);
 
-            axios.post('http://localhost:8080/notice', data)
+            axios.post('http://localhost:8080/notice/new', data)
                 .then(response => {
                     console.log("response", response);
                 })
@@ -82,16 +124,16 @@ function NoticeRegistPage() {
     return (
         <div className={style.wapper}>
             <div className={style.content}>
-                <p className={style.pageTitle}>공지사항 등록</p>
-                <select className={style.customSelect} onChange={handleSelect} value={selected}>
+                <p className={style.pageTitle}>공지사항 수정</p>
+                <select className={style.customSelect} onChange={handleSelect} defaultValue={notice.category}>
                     <option value="공지사항">공지사항</option>
                     <option value="이벤트">이벤트</option>
                 </select>
 
-                <input className={style.titleInput} onChange={handleTitleChange} placeholder='제목을 입력해주세요.'></input>
+                <input className={style.titleInput} onChange={handleTitleChange} placeholder='제목을 입력해주세요.' defaultValue={notice.title}></input>
 
                 <div className={style.contextInputBox}>
-                    <textarea className={style.contextInput} onChange={handleCount} placeholder='내용을 입력해주세요.' maxLength={500}></textarea>
+                    <textarea className={style.contextInput} onChange={handleCount} placeholder='내용을 입력해주세요.' maxLength={500} defaultValue={notice.content}></textarea>
                     <p className={style.inputCount} >{inputCount}/500</p>
                 </div>
 
@@ -114,7 +156,7 @@ function NoticeRegistPage() {
                 </div>
                 <div className={style.buttons}>
                     <button type='button' className={style.cancelButton} onClick={() => { handleCancel() }}>목록으로</button>
-                    <button type='submit' className={style.submitButton} onClick={() => { handleSubmit() }}>등록</button>
+                    <button type='submit' className={style.submitButton} onClick={() => { handleSubmit() }}>수정</button>
                 </div>
 
 
@@ -122,7 +164,7 @@ function NoticeRegistPage() {
                     <div className={style.back}>
                         <div className={style.modal}>
                             <img src='/images/commons/icon_confirm.png' alt='확인' width={45} />
-                            <p className={style.modalTitle}>공지사항이 등록되었습니다.</p>
+                            <p className={style.modalTitle}>공지사항이 수정되었습니다.</p>
                             <a href="/notice">
                                 <button className={style.modalButton} onClick={closeBtn}>확인</button>
                             </a>
@@ -142,7 +184,7 @@ function NoticeRegistPage() {
                     <div className={style.back}>
                         <div className={style.modal}>
                             <img src='/images/commons/icon_alert.png' alt='경고' width={45} />
-                            <p className={style.modalTitle}>공지사항 등록을 취소하시겠습니까?</p>
+                            <p className={style.modalTitle}>공지사항 수정을 취소하시겠습니까?</p>
                             <p className={style.modalContext}>작성 취소된 내용은 되돌릴 수 없습니다.</p>
                             <div className={style.modalButtonBox}>
                                 <button className={style.modalButton} onClick={() => setCheckModal(false)}>취소</button>
@@ -160,4 +202,4 @@ function NoticeRegistPage() {
 
 }
 
-export default NoticeRegistPage;
+export default NoticeEdit;

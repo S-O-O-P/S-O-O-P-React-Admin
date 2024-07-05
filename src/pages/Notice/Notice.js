@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, InputBase, Pagination } from '@mui/material';
 import NoticeTable from '../../components/admin/NoticeTable';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Notice() {
   const [notices, setNotices] = useState([]);
@@ -9,6 +10,8 @@ function Notice() {
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const rowsPerPage = 5;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchNotices();
@@ -50,6 +53,11 @@ function Notice() {
     }
   };
 
+  // 등록 버튼 클릭 핸들러
+  const handleRegisterClick = (id, type) => {
+    navigate(`/notice/${id}`, { state: { type } });
+  };
+
   const displayedNotices = Array.isArray(filteredNotices) ? filteredNotices.slice((page - 1) * rowsPerPage, page * rowsPerPage) : [];
 
   return (
@@ -57,9 +65,7 @@ function Notice() {
       <Box className="header-container">
         <Typography variant="h5" className="table-titles">공지 사항 전체 조회</Typography>
         <Box className="actions-container">
-          <a href='/noticeregist'>
-            <Button variant="outlined" className="register-button">등록</Button>
-          </a>
+          <Button variant="outlined" className="register-button" onClick={() => handleRegisterClick("new", "register")}>등록</Button>
 
           <Box className="search-box">
             <InputBase
