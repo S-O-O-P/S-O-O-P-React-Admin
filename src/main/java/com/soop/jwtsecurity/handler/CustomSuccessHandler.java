@@ -48,8 +48,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             userMapper.deleteByRefresh(existingRefreshToken);
         }
 
-        String refresh = jwtUtil.createJwt("refresh", username, role, 86400L * 1000); // 24시간 (86400000밀리초)
-        addRefreshEntity(username, refresh, 86400L * 1000);
+        String refresh = jwtUtil.createJwt("refresh", username, role, 86400L *1000); // 24시간 (86400000밀리초)
+        addRefreshEntity(username, refresh, 86400L*1000);
 
         System.out.println("access = " + access);
         System.out.println("refresh = " + refresh);
@@ -57,22 +57,16 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // 리프레시 토큰을 HTTP-Only 쿠키로 저장
         createAndAddCookie(response, "refresh", refresh);
 
-        UserEntity userEntity = userMapper.findBySignupPlatform(username);
+        UserEntity userEntity = new UserEntity();
 
-        // 최초 가입 확인 (aboutMe 유무에 따라 나누기)
-        if (userEntity.getAboutMe() == null || userEntity.getAboutMe().isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_OK);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write("{\"accessToken\":\"" + access + "\", \"username\":\"" + username + "\", \"isNewUser\":true}");
-        } else {
-            response.setStatus(HttpServletResponse.SC_OK);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write("{\"accessToken\":\"" + access + "\", \"username\":\"" + username + "\", \"isNewUser\":false}");
+        //최초 가입 확인(aboutMe 유무에 따라 나누기)
+        if(userMapper.findAboutMe(username) == null){
+        //액세스 토큰을 쿼리 스트링으로 전달
+            response.sendRedirect("http://localhost:3000/signup?token=" + access +"&username=" + username);
+        }else {
+            response.sendRedirect("http://localhost:3000/login?token=" + access);
         }
 
-        response.getWriter().flush();
     }
 
     private void addRefreshEntity(String signupPlatform, String refresh, Long expiredMs) {
@@ -100,7 +94,6 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 String.format("%s=%s; Max-Age=%d; Domain=%s; Path=%s; HttpOnly; SameSite=Strict",
                         key, value, 24 * 60 * 60, "localhost", "/"));
     }
+
 }
-
-
 
