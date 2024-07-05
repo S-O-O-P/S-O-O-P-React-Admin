@@ -33,7 +33,7 @@
 .event_detail_saved::-webkit-scrollbar{ width: 16px;} 
 .event_detail_saved::-webkit-scrollbar-track{ width: 10px; background-color: rgba(255, 183, 85,.3); border-radius: 10px;} 
 .event_detail_saved::-webkit-scrollbar-thumb{ width: 5px;  border-radius: 10px; background-color: var(--main-color); border: 2px solid rgba(255, 183, 85,.3);} 
-.event_detail_text {padding-bottom: 20px; font-size: 16px;}
+.event_detail_text {padding-bottom: 20px; font-size: 16px; white-space: pre-line;}
 .event_detail_saved::-webkit-scrollbar-button:vertical:start:decrement, .event_detail_saved::-webkit-scrollbar-button:vertical:start:increment{display: block; height: 10px;} 
 .event_detail_saved::-webkit-scrollbar-button:vertical:end:decrement{display: block; width: 10px;} 
 
