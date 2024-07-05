@@ -17,7 +17,7 @@ import './pages/EventsInfo/EventsDetail.css'
 import GlobalStyles from './styles/GlobalStyles';
 import Layout from './layouts/Layout'; // Layout 경로 추가
 import Login from './components/admin/Login';
-import NoticeRegistPage from './pages/Notice/NoticeRegist';
+import NoticeDetail from './pages/Notice/NoticeDetail';
 
 export default function App() {
   const [user, setUser] = useState(null); // 사용자 정보 상태
@@ -40,10 +40,10 @@ export default function App() {
                   <Route path="honeypot/:honeypotCode" element={<HoneypotDetail />} />
                   <Route path="inquiry/:inquiryCode" element={<InquiryAnswer />} />
                   <Route path="notice" element={<Notice />} />
+                  <Route path="notice/:id" element={<NoticeDetail />} />
                   <Route path="inquiry" element={<Inquiry />} />
                   <Route path="events" element={<Events />} />
                   <Route path="events/:id" element={<EventsDetail/>} />
-                  <Route path='noticeregist' element={<NoticeRegistPage/>}/>
                 </Routes>
               </Layout>
             }
