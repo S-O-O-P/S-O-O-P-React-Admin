@@ -1,3 +1,4 @@
+
 package com.soop.jwtsecurity.handler;
 
 import com.soop.jwtsecurity.dto.CustomOAuth2User;
@@ -95,3 +96,4 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
 
 }
+

@@ -37,6 +37,7 @@
             SIGNUP_PLATFORM
         from LINKBEE_USER
         where SIGNUP_PLATFORM = #{signupPlatform}
+
     </select>
 
 <!--    <insert id="saveAboutMe" parameterType="com.soop.jwtsecurity.entityDTO.UserEntity">-->
@@ -89,6 +90,7 @@
     </insert>
 
     <insert id="saveRefreshEntity" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">
+
         INSERT INTO REFRESHENTITY (SIGNUP_PLATFORM, REFRESH, EXPIRATION)
         VALUES
             (

@@ -1,3 +1,4 @@
+
 package com.soop.jwtsecurity.dto;
 
 import com.soop.jwtsecurity.entityDTO.UserEntity;
