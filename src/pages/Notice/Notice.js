@@ -1,29 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, InputBase, Pagination } from '@mui/material';
 import NoticeTable from '../../components/admin/NoticeTable';
-
-const initialNotices = [
-  { id: 1, title: '공지사항 1', date: '2024-07-16', views: 34, manage: '수정' },
-  { id: 2, title: '공지사항 2', date: '2024-07-16', views: 28, manage: '수정' },
-  { id: 3, title: '공지사항 3', date: '2024-07-16', views: 22, manage: '수정' },
-  // Add more notices as needed
-];
+import axios from 'axios';
 
 function Notice() {
-  const [notices, setNotices] = useState(initialNotices);
+  const [notices, setNotices] = useState([]);
+  const [filteredNotices, setFilteredNotices] = useState([]);
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
-  const rowsPerPage = 10;
+  const rowsPerPage = 5;
+
+  useEffect(() => {
+    fetchNotices();
+  }, []);
+
+  const fetchNotices = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/notice/');
+      if (Array.isArray(response.data.noticeInfo)) {
+        setNotices(response.data.noticeIn);
+        setFilteredNotices(response.data.noticeInfo); // Initialize filtered notices
+      } else {
+        console.error('Data is not an array:', response.data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch notices:', error);
+    }
+  };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
   const handleSearch = () => {
-    const filtered = initialNotices.filter(notice =>
+    const filtered = notices.filter(notice =>
       notice.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setNotices(filtered);
+    setFilteredNotices(filtered);
     setPage(1);
   };
 
@@ -37,7 +50,7 @@ function Notice() {
     }
   };
 
-  const displayedNotices = notices.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+  const displayedNotices = Array.isArray(filteredNotices) ? filteredNotices.slice((page - 1) * rowsPerPage, page * rowsPerPage) : [];
 
   return (
     <Box className="common-container">
@@ -62,9 +75,9 @@ function Notice() {
           </Box>
         </Box>
       </Box>
-      <NoticeTable notices={displayedNotices} rowsPerPage={rowsPerPage} />
+      <NoticeTable notices={displayedNotices} />
       <Pagination
-        count={Math.ceil(notices.length / rowsPerPage)}
+        count={Math.ceil(filteredNotices.length / rowsPerPage)}
         page={page}
         onChange={handlePageChange}
         className='pagination'
@@ -83,3 +96,4 @@ function Notice() {
 }
 
 export default Notice;
+

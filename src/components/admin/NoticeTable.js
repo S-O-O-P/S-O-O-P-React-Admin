@@ -1,10 +1,11 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
-import '../admin/Table.css'// 공통 CSS 파일 임포트
+import './Table.css'; // 공통 CSS 파일 임포트
 
 function NoticeTable({ notices }) {
-  const handleRowClick = (id) => {
+  const handleRowClick = (noticeCode) => {
     // Handle row click if needed
+    console.log(`Row clicked: ${noticeCode}`);
   };
 
   return (
@@ -12,7 +13,7 @@ function NoticeTable({ notices }) {
       <Table className="table">
         <TableHead>
           <TableRow>
-            <TableCell className="table-head-cell">no</TableCell>
+            <TableCell className="table-head-cell">No</TableCell>
             <TableCell className="table-head-cell">제목</TableCell>
             <TableCell className="table-head-cell">등록일자</TableCell>
             <TableCell className="table-head-cell">조회</TableCell>
@@ -20,14 +21,20 @@ function NoticeTable({ notices }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {notices.map((notice) => (
-            <TableRow key={notice.id} className="table-row">
-              <TableCell className="table-cell">{notice.id}</TableCell>
+          {notices.map((notice, index) => (
+            <TableRow key={notice.noticeCode} className="table-row">
+              <TableCell className="table-cell">{index + 1}</TableCell>
               <TableCell className="table-cell">{notice.title}</TableCell>
-              <TableCell className="table-cell">{notice.date}</TableCell>
-              <TableCell className="table-cell">{notice.views}</TableCell>
+              <TableCell className="table-cell">{notice.regDate}</TableCell>
+              <TableCell className="table-cell">{notice.userCode}</TableCell>
               <TableCell className="table-cell">
-                <Button variant="outlined" className='manage' onClick={() => handleRowClick(notice.id)}>{notice.manage}</Button>
+                <Button
+                  variant="outlined"
+                  className='manage'
+                  onClick={() => handleRowClick(notice.noticeCode)}
+                >
+                  수정
+                </Button>
               </TableCell>
             </TableRow>
           ))}
@@ -38,3 +45,4 @@ function NoticeTable({ notices }) {
 }
 
 export default NoticeTable;
+
