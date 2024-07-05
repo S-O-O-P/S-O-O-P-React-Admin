@@ -41,7 +41,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
 
         String signupPlatform = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
-        System.out.println("signupPlatform = " + signupPlatform);
+//        System.out.println("signupPlatform = " + signupPlatform);
         UserEntity existData = userMapper.findBySignupPlatform(signupPlatform);
 
         if (existData == null) {
@@ -50,14 +50,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             userEntity.setEmail(oAuth2Response.getEmail());
             userEntity.setNickName(oAuth2Response.getNickName());
             userEntity.setUserRole("ROLE_USER");
-            userEntity.setAboutMe(" ");
-            userEntity.setGender(oAuth2Response.getGender() != null ? oAuth2Response.getGender() : "");
             userEntity.setProfilePic(oAuth2Response.getProfileImage() != null ? oAuth2Response.getProfileImage() : "default_profile_image_url"); // 기본 프로필 이미지 URL 설정
+            userEntity.setAboutMe(null);
+            userEntity.setGender(convertGender(oAuth2Response.getGender() != null ? oAuth2Response.getGender() : "구글일 경우 성별 입력받기 메소드 추가가 될 자리"));
             userEntity.setSignupDate(new Date());
 
             userMapper.saveUserEntity(userEntity);
 
-            UserDTO userDTO = new UserDTO();
+            UserEntity userDTO = new UserEntity();
             userDTO.setSignupPlatform(signupPlatform);
             userDTO.setNickName(oAuth2Response.getNickName());
             userDTO.setUserRole("ROLE_USER");
@@ -66,7 +66,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         } else {
             existData.setEmail(oAuth2Response.getEmail());
             existData.setNickName(oAuth2Response.getNickName());
-            UserDTO userDTO = new UserDTO();
+            UserEntity userDTO = new UserEntity();
 
             userDTO.setEmail(existData.getEmail());
             userDTO.setNickName(existData.getNickName());
@@ -74,6 +74,21 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             userDTO.setUserRole(existData.getUserRole());
 
             return new CustomOAuth2User(userDTO);
+        }
+    }
+    private String convertGender(String gender) {
+        if (gender == null) {
+            return "구글일 경우 성별 입력받기 메소드 추가가 될 자리";
+        }
+        switch (gender.toLowerCase()) {
+            case "m":
+            case "male":
+                return "남자";
+            case "f":
+            case "female":
+                return "여자";
+            default:
+                return "구글일 경우 성별 입력받기 메소드 추가가 될 자리";
         }
     }
 }

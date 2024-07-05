@@ -1,5 +1,6 @@
 package com.soop.jwtsecurity.dto;
 
+import com.soop.jwtsecurity.entityDTO.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -9,9 +10,9 @@ import java.util.Map;
 
 public class CustomOAuth2User implements OAuth2User {
 
-    private final UserDTO userDTO;
+    private final UserEntity userDTO;
 
-    public CustomOAuth2User(UserDTO userDTO) {
+    public CustomOAuth2User(UserEntity userDTO) {
 
         this.userDTO = userDTO;
     }

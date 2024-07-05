@@ -80,4 +80,13 @@ public class JWTUtil {
                 .signWith(secretKey)
                 .compact();
     }
+
+    public boolean validateToken(String token) {
+        try {
+            getClaims(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

@@ -1,7 +1,7 @@
 package com.soop.jwtsecurity.jwt;
 
 import com.soop.jwtsecurity.dto.CustomOAuth2User;
-import com.soop.jwtsecurity.dto.UserDTO;
+import com.soop.jwtsecurity.entityDTO.UserEntity;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -68,7 +68,7 @@ public class JWTFilter extends OncePerRequestFilter {
         String signupPlatform = jwtUtil.getSignupPlatform(accessToken);
         String userRole = jwtUtil.getUserRole(accessToken);
 
-        UserDTO userDTO = new UserDTO();
+        UserEntity userDTO = new UserEntity();
         userDTO.setSignupPlatform(signupPlatform);
         userDTO.setUserRole(userRole);
 

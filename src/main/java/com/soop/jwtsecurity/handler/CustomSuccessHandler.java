@@ -1,7 +1,6 @@
 package com.soop.jwtsecurity.handler;
 
 import com.soop.jwtsecurity.dto.CustomOAuth2User;
-import com.soop.jwtsecurity.dto.UserDTO;
 import com.soop.jwtsecurity.entityDTO.RefreshEntity;
 import com.soop.jwtsecurity.entityDTO.UserEntity;
 import com.soop.jwtsecurity.jwt.JWTUtil;
@@ -41,7 +40,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String access = jwtUtil.createJwt("access", username, role, 6L * 1000); // 10분 (600초)
+        String access = jwtUtil.createJwt("access", username, role, 600L * 1000); // 10분 (600초)
         String existingRefreshToken = userMapper.searchRefreshEntity(username);
 
         if (existingRefreshToken != null) {
@@ -58,13 +57,14 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         createAndAddCookie(response, "refresh", refresh);
 
         UserEntity userEntity = new UserEntity();
-        // 최초 가입 확인
-//        if(existingRefreshToken != null){
-            // 액세스 토큰을 쿼리 스트링으로 전달
+
+        //최초 가입 확인(aboutMe 유무에 따라 나누기)
+        if(userEntity.getAboutMe() == null){
+        //액세스 토큰을 쿼리 스트링으로 전달
+            response.sendRedirect("http://localhost:3000/signup?token=" + access);
+        }else {
             response.sendRedirect("http://localhost:3000/login?token=" + access);
-//        }else {
-//            response.sendRedirect("http://localhost:3000/signup?token=" + access);
-//        }
+        }
 
     }
 

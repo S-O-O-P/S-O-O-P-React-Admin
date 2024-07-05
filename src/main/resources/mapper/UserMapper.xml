@@ -39,6 +39,30 @@
         where SIGNUP_PLATFORM = #{signupPlatform}
     </select>
 
+<!--    <insert id="saveAboutMe" parameterType="com.soop.jwtsecurity.entityDTO.UserEntity">-->
+<!--        INSERT INTO LINKBEE_USER-->
+<!--        (-->
+<!--        ABOUTME-->
+<!--        )-->
+<!--        values-->
+<!--        (-->
+<!--        #{aboutMe}-->
+<!--        )-->
+<!--    </insert>-->
+
+<!--    <insert id="googleGender" parameterType="com.soop.jwtsecurity.entityDTO.UserEntity">-->
+<!--        INSERT INTO LINKBEE_USER-->
+<!--        (-->
+<!--        ABOUTME-->
+<!--        )-->
+<!--        GENDER-->
+<!--        (-->
+<!--        #{gender}-->
+<!--        )-->
+<!--    </insert>-->
+
+
+
     <insert id="saveUserEntity" parameterType="com.soop.jwtsecurity.entityDTO.UserEntity">
         INSERT INTO LINKBEE_USER
         (
@@ -96,5 +120,22 @@
         delete from REFRESHENTITY
         where REFRESH = #{refresh}
     </delete>
+
+    <update id="saveAboutMe" parameterType="com.soop.jwtsecurity.entityDTO.UserEntity">
+        update linkbee_user
+        set ABOUTME = #{aboutme},
+            NICKNAME = #{nickname}
+        where SIGNUP_PLATFORM = #{signupPlatform};
+    </update>
+
+<!--    <insert id="">-->
+<!--        -->
+<!--    </insert>-->
+
+<!--    <update id="saveNickName" parameterType="com.soop.jwtsecurity.entityDTO.UserEntity">-->
+<!--        update linkbee_user-->
+<!--        set NICKNAME = #{nickName}-->
+<!--        where SIGNUP_PLATFORM = #{signupPlatform};-->
+<!--    </update>-->
 
 </mapper>

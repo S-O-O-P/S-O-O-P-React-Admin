@@ -19,4 +19,7 @@ public interface UserMapper {
     void saveRefreshEntity(RefreshEntity refreshEntity);
 
     String searchRefreshEntity(String signupPlatform);
+
+    String googleGender(String gender);
+    void saveAboutMe(@Param("aboutme") String aboutme, @Param("signupPlatform") String signupPlatform,@Param("nickname") String nickname);
 }
