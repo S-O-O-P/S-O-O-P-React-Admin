@@ -2,9 +2,42 @@ import { useNavigate } from 'react-router-dom';
 import '../../pages/EventsInfo/EventsDetail.css';
 import { useEffect, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
+import EventsInfoApi from '../../apis/EventsInfoApi';
 
-export default function EventEdit(){
+export default function EventEdit({id}){
   const [open, setOpen] = useState(false);
+  const [events, setEvents] = useState({});
+
+  useEffect(
+    () => {
+      //얼리버드 공연/전시 상세 조회 api 호출
+      EventsInfoApi({setEvents}, "detail", id);
+    },[]
+  );
+
+  useEffect(
+    () => {
+      // events 상태가 업데이트될 때마다 다른 상태 값들을 업데이트
+      if (events && Object.keys(events).length > 0) {
+        setCategory(categoryString(events?.interestCode));
+        setStartBuy(formatDate(events?.saleStartDate));
+        setEndBuy(formatDate(events?.saleEndDate));
+        setRegion(events?.region);
+        setPlace(events?.place);
+        setEarlyPrice(events?.discountPrice);
+        setPrice(events?.regularPrice);
+        setAge(events?.ageLimit);
+        setStartUse(formatDate(events?.usageStartDate));
+        setEndUse(formatDate(events?.usageEndDate));
+        setWhereToBuy(events?.seller);
+        setBuyUrl(events?.sellerLink);
+        setEarlyTitle(events?.ebTitle);
+        setDetailInfo((events?.ebContent).replaceAll("<br>", "\r\n").replaceAll("<br>", "\n").replaceAll("<br>", "\r"));
+        setImgUrl(events?.poster);
+        setCurrentTextLength(events?.ebContent?.length || 0);
+      }
+    },[events]
+  );
 
   // Dialog 열기 핸들러
   const handleClickOpen = () => {
@@ -16,70 +49,133 @@ export default function EventEdit(){
     setOpen(false);
   };
 
+  // 카테고리 Number로 변환
+  const categoryNumber = (category) => {
+    let categoryString = "";
+    switch(category){
+      case("팝업") : categoryString = 1; break;
+      case("공연") : categoryString = 2; break;
+      case("행사/축제") : categoryString = 3; break;
+      case("전시회") : categoryString = 4; break;
+      case("뮤지컬") : categoryString = 5; break;
+    }
+    return categoryString;
+  }
+
+  // 카테고리 string으로 변환
+  const categoryString = (category) => {
+    let categoryString = "";
+    switch(category){
+      case(1) : categoryString = "팝업"; break;
+      case(2) : categoryString = "공연"; break;
+      case(3) : categoryString = "행사/축제"; break;
+      case(4) : categoryString = "전시회"; break;
+      case(5) : categoryString = "뮤지컬"; break;
+    }
+    return categoryString;
+  }
+
+  // 날짜 형식 변경
+  function formatDate(date) {
+    var writtenDate = new Date(date),
+      month = '' + (writtenDate.getMonth() + 1),
+      day = '' + writtenDate.getDate(),
+      year = writtenDate.getFullYear();
+
+    if (month.length < 2) 
+      month = '0' + month;
+    if (day.length < 2) 
+      day = '0' + day;
+
+    return [year, month, day].join('-');
+  }
+
+  // db 저장용 날짜 데이터 형식
+  function formatDBDate(date) {
+    if (!date) return null; // 날짜가 없을 경우 처리
+    
+    var writtenDate = new Date(date);
+    var formattedDate = writtenDate.toISOString(); // ISO 문자열로 변환
+    return formattedDate;
+  }
+
   // 수정 요청 Update api 호출
   const callUpdateApi = () => {
-    console.log("수정 요청 api 호출");
+    console.log("date type : " + typeof startBuy);
+    const eventData = {
+      interestCode: categoryNumber(category),
+      ebTitle: earlyTitle,
+      ebContent: detailInfo.replaceAll("\r\n", "<br>").replaceAll("\n", "<br>").replaceAll("\r", "<br>"),
+      // ebContent: detailInfo.replaceAll("\r\n", "<br>").replaceAll("\n", "<br>").replaceAll("\r", "<br>"),
+      region: region,
+      poster: imgUrl,
+      seller: whereToBuy,
+      sellerLink: buyUrl,
+      regularPrice: price,
+      discountPrice: earlyPrice,
+      saleStartDate: formatDBDate(startBuy),
+      saleEndDate: formatDBDate(endBuy),
+      usageStartDate: formatDBDate(startUse),
+      usageEndDate: formatDBDate(endUse),
+      ageLimit: age,
+      dateWritten: new Date().toISOString().split('T')[0],
+      place: place,
+    };
+    console.log("info to be edit : ",eventData);
+
+    EventsInfoApi({ setEvents }, "edit", id, eventData);
   };
   const navigate = useNavigate();
   // 입력 내용 State
-  const [category, setCategory] = useState("concert");
+  const [category, setCategory] = useState('');
   //const [[]] // 얼리버드 티켓 예매 시작 / 마감
-  const [startBuy, setStartBuy] = useState("2024-05-23");
-  const [endBuy, setEndBuy] = useState("2024-07-11");
-  const [region, setRegion] = useState("서울"); // 지역
-  const [place, setPlace] = useState("롯데뮤지엄"); // 관람 장소
-  const [earlyPrice, setEarlyPrice] = useState(9000); //얼리버드 가격
-  const [price, setPrice] = useState(20000); //일반 가격
-  const [age, setAge] = useState("전체관람가"); // 관람 연령
+  const [startBuy, setStartBuy] = useState('');
+  const [endBuy, setEndBuy] = useState('');
+  const [region, setRegion] = useState(''); // 지역
+  const [place, setPlace] = useState(''); // 관람 장소
+  const [earlyPrice, setEarlyPrice] = useState(''); //얼리버드 가격
+  const [price, setPrice] = useState(''); //일반 가격
+  const [age, setAge] = useState(''); // 관람 연령
   //const [] // 얼리버드 티켓 사용 기간 시작 / 마감
-  const [startUse, setStartUse] = useState("2024-07-12");
-  const [endUse, setEndUse] = useState("2024-08-11");
-  const [whereToBuy, setWhereToBuy] = useState("인터파크 티켓"); // 예매처 명
-  const [buyUrl, setBuyUrl] = useState("https://tickets.interpark.com/goods/24007290"); // 예매처 링크
-  const [earlyTitle, setEarlyTitle] = useState("서양 미술사 800년展"); // 제목
-  const [detailInfo, setDetailInfo] = useState(`공연시간 정보
-운영시간: 오전 10:30 - 오후 07:00 (입장 및 발권 마감 : 오후 06:30)
-* 휴관일: 월 1회 휴관 (8/19(월))
-* 홈페이지 참조 https://www.lottemuseum.com/
-공지사항
-※ 판매기간: 24. 05. 23.(목) - 07. 11.(목) 23:59 까지
-※ 사용기간: 24. 07. 12.(금) - 08. 11.(일)
-※ 취소 및 환불 기한: 티켓구매일 ~ 24. 08. 10.(토) 23:59까지 (사용기한 D-1 까지 취소 가능, 이후 취소 불가)
+  const [startUse, setStartUse] = useState('');
+  const [endUse, setEndUse] = useState('');
+  const [whereToBuy, setWhereToBuy] = useState(''); // 예매처 명
+  const [buyUrl, setBuyUrl] = useState(''); // 예매처 링크
+  const [earlyTitle, setEarlyTitle] = useState(''); // 제목
+  const [detailInfo, setDetailInfo] = useState(''); // 상세 정보
+  const [imgUrl, setImgUrl] = useState(''); // 이미지 url
+  // const [thumbnail, setThumbnaill] = useState("https://ticketimage.interpark.com/Play/image/etc/24/24007290-02.jpg"); // 썸네일 이미지 url
 
-※ 휴관 안내 : 월 1회 휴관 (8/19(월)) / 롯데뮤지엄 홈페이지 참조 (www.lottemuseum.com)
-※ 문화가 있는 날 : 매월 마지막 주 수요일 현장할인 (중복할인 불가)`); // 상세 정보
-  const [imgUrl, setImgUrl] = useState("https://ticketimage.interpark.com/Play/image/etc/24/24007290-02.jpg"); // 이미지 url
-  const [thumbnail, setThumbnaill] = useState("https://ticketimage.interpark.com/Play/image/etc/24/24007290-02.jpg"); // 썸네일 이미지 url
-
-  const [currentTextLength, setCurrentTextLength] = useState(detailInfo.length); // 상세 정보 입력 글자 실시간 확인
+  const [currentTextLength, setCurrentTextLength] = useState(0); // 상세 정보 입력 글자 실시간 확인
 
   useEffect(
     () => { 
       
       // 카테고리 리스트
-      const genreFilter = document.querySelector(".selected_filter");
+      const genreFilter = document.querySelectorAll(".selected_filter");
 
       // 카테고리 리스트 아이템 클릭이벤트 
       const genreFilterItem = document.querySelectorAll(".genre_filter_list > ul > li");
       
-      genreFilter.addEventListener('click', (e)=>{ // 클릭 이벤트 추가
-        e.currentTarget.classList.contains("active") ? e.currentTarget.classList.remove("active") : e.currentTarget.classList.add("active"); // 클릭한 버튼의 활성화 여부에 따라 active 클래스 추가 또는 삭제
-        e.currentTarget.nextElementSibling.classList.contains("active") ? e.currentTarget.nextElementSibling.classList.remove("active") : e.currentTarget.nextElementSibling.classList.add("active"); // 클릭한 버튼 > 필터링 리스트의 active 클래스 추가 또는 삭제
-      })
+      genreFilter.forEach(genreBtn => {
+        genreBtn.addEventListener('click', (e)=>{ // 클릭 이벤트 추가
+          e.currentTarget.classList.contains("active") ? e.currentTarget.classList.remove("active") : e.currentTarget.classList.add("active"); // 클릭한 버튼의 활성화 여부에 따라 active 클래스 추가 또는 삭제
+          e.currentTarget.nextElementSibling.classList.contains("active") ? e.currentTarget.nextElementSibling.classList.remove("active") : e.currentTarget.nextElementSibling.classList.add("active"); // 클릭한 버튼 > 필터링 리스트의 active 클래스 추가 또는 삭제
+        })
+      })      
 
       genreFilterItem.forEach(detailItem => { // 카테고리 필터링 리스트 아이템 각각에
         detailItem.addEventListener('click', (e)=>{ // 클릭 이벤트 추가
           e.currentTarget.closest("ul").classList.remove("active"); // 카테고리 필터링 리스트 비활성화
-          genreFilter.classList.remove("active"); // 카테고리 필터링 리스트 비활성화
-          // e.currentTarget.closest("ul").previousElementSibling.childNodes[0].innerText = e.currentTarget.innerText;
-          setCategory(e.currentTarget.innerText);
+          e.currentTarget.closest("ul").previousElementSibling.childNodes[0].innerText = e.currentTarget.innerText;
+          e.currentTarget.classList.contains("area_option")? setRegion(e.currentTarget.innerText) : setCategory(e.currentTarget.innerText);
         })
       });
 
-      const detailInfoTxt = document.querySelector('.event_detail_txt');
-
       return () => {
-        genreFilter.removeEventListener('click', ()=>{});
+        genreFilter.forEach(genreBtn => {        
+          genreBtn.removeEventListener('click', ()=>{});
+        })
         genreFilterItem.forEach(detailItem => { // 카테고리 필터링 리스트 아이템 각각에
           detailItem.removeEventListener('click', ()=>{})
         });
@@ -96,7 +192,7 @@ export default function EventEdit(){
             <div className="genre_filter_list">
               <span className="selected_filter flex_between"><span className="selected_option">{category}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_bottom_main_color.png`} alt="arrow direction bottom icon" className="filter_arrow_icon"/></span>
               <ul>
-                <li className="genre_option">전시</li>
+                <li className="genre_option">전시회</li>
                 <li className="genre_option">공연</li>
                 <li className="genre_option">뮤지컬</li>
                 <li className="genre_option">행사/축제</li>
@@ -108,7 +204,28 @@ export default function EventEdit(){
   
           <li className="event_place">
             <span className="fill_item_tit">지역</span>
-            <input type="text" placeholder="지역을 입력하세요." value={region} onChange={(e) => setRegion(e.target.value)}/>
+            <div className="genre_filter_list">
+              <span className="selected_filter flex_between"><span className="selected_option">{region}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_bottom_main_color.png`} alt="arrow direction bottom icon" className="filter_arrow_icon"/></span>
+              <ul>
+                <li className='area_option'>서울</li>
+                <li className='area_option'>인천</li>
+                <li className='area_option'>부산</li>
+                <li className='area_option'>경기</li>
+                <li className='area_option'>충북</li>
+                <li className='area_option'>충남</li>
+                <li className='area_option'>경남</li>
+                <li className='area_option'>경북</li>
+                <li className='area_option'>대구</li>
+                <li className='area_option'>대전</li>
+                <li className='area_option'>광주</li>
+                <li className='area_option'>세종</li>
+                <li className='area_option'>울산</li>
+                <li className='area_option'>강원</li>
+                <li className='area_option'>전남</li>
+                <li className='area_option'>전북</li>
+                <li className='area_option'>제주</li>
+              </ul>
+            </div>
           </li>
           {/* // 공연/전시 지역 */}
   
