@@ -10,7 +10,7 @@ function HoneypotTable({ row, handleRowClick }) {
       <TableCell className="table-cell">{row.regDate}</TableCell>
       <TableCell className="table-cell">{row.reportCount}</TableCell>
       <TableCell className="table-cell">
-        <Box className={`status-cell ${row.visibilityStatus === '비활성화' ? 'inactive-status' : ''}`}>
+        <Box className={`answer-status ${row.visibilityStatus === '비활성화' ? 'notAnswer-status' : ''}`}>
           {row.visibilityStatus}
         </Box>
       </TableCell>

@@ -63,33 +63,45 @@ main {
 }
 
 .login-box {
-  border: 1px solid #DCDCDC;
-  width: 500px;
-  height: 400px;
+  border: 1px solid #ccc;
+  width: 450px;
+  height: 350px;
   border-radius: 20px;
   padding: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  border:1px solid var(--main-color) !important; 
 }
 
 .login-box p {
   margin-bottom: 20px;
   font-size: 18px;
+  color: var(--main-color) !important;
+
 }
 
 .login-box button {
-  display: block;
-  width: 400px;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 10px;
-  height: 50px;
+  width: 300px;
   cursor: pointer;
-  font-size: 16px;
-  border: 1px solid #ccc;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+  display: block !important; 
+  padding: 0 20px !important; 
+  border-radius:48px !important; 
+  border:1px solid var(--main-color) !important; 
+  color: var(--main-color) !important;
+  line-height: 48px !important; 
+  font-size: 16px !important; 
+  font-weight: var(--semiBold) !important; 
+  text-align: center !important; 
+  transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out, color 200ms ease-in-out !important; 
+  background-color: var(--main-color) !important; 
+  color: #ffffff !important;
+
+
+
+
 }
 
 
@@ -101,6 +113,8 @@ main {
 .input-group {
   margin-bottom: 20px;
   width: 100%;
+  
+
 }
 
 .input-group label {
@@ -111,12 +125,22 @@ main {
 }
 
 .input-group input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
+  width: 300px;
+  height: 48px;
+  padding: 20px;
+  border-radius: 48px;
   border: 1px solid #ccc;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
   font-size: 16px;
+  border:1px solid var(--main-color) !important;
+}
+
+#nickname::placeholder {
+  color: var(--main-color) !important;
+}
+
+#userCode::placeholder {
+  color: var(--main-color) !important;
 }
 
 .login-button {
@@ -129,6 +153,7 @@ main {
   cursor: pointer;
   font-size: 16px;
   border: 1px solid #ccc;
+  background-color:#FFB755;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
 }
 

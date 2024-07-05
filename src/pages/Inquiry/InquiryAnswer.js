@@ -1,6 +1,7 @@
+// InquiryAnswer.js
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { fetchInquiryDetails, postInquiryAnswer, updateInquiryStatus } from '../../apis/InquiryAnswerAPI'; // API 호출 함수 임포트
 import style from "../Inquiry/InquiryAnswer.module.css";
 
 function InquiryAnswer() {
@@ -23,18 +24,13 @@ function InquiryAnswer() {
   const searchTerm = location.state?.searchTerm || '';
 
   useEffect(() => {
-    fetchInquiryDetails();
-  }, []);
-
-  const fetchInquiryDetails = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8080/inquiry/${inquiryCode}`);
-      setInquiry(response.data);
-      setAnswer(response.data.answer || ""); // Set existing answer if any
-    } catch (error) {
-      console.error("There was an error fetching the inquiry details!", error);
-    }
-  };
+    fetchInquiryDetails(inquiryCode)
+      .then(data => {
+        setInquiry(data);
+        setAnswer(data.answer || ""); // Set existing answer if any
+      })
+      .catch(error => console.error('There was an error fetching the inquiry details!', error));
+  }, [inquiryCode]);
 
   const handleAnswer = (e) => {
     setAnswer(e.target.value);
@@ -43,9 +39,7 @@ function InquiryAnswer() {
   const handleSubmit = async () => {
     if (answer.trim() !== "") {
       try {
-        await axios.post(`http://localhost:8080/inquiry/${inquiryCode}/answer`, {
-          answer: answer
-        });
+        await postInquiryAnswer(inquiryCode, answer);
         setInquiry(prevInquiry => ({ ...prevInquiry, answer })); // Update inquiry state with the new answer and status
         setModalOpen(true);
       } catch (error) {
@@ -58,9 +52,7 @@ function InquiryAnswer() {
 
   const confirmBtn = async () => {
     try {
-      await axios.patch(`http://localhost:8080/inquiry/${inquiryCode}/status`, {
-        answerStatus: "답변완료"
-      });
+      await updateInquiryStatus(inquiryCode, "답변완료");
       navigate('/inquiry', { state: { page: currentPage, searchTerm, updatedInquiry: {answerStatus: "답변완료" } } });
     } catch (error) {
       console.error("There was an error updating the answer status!", error);

@@ -1,7 +1,8 @@
+// CustomerDetail.js
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Box, Typography, Button, Grid, InputBase } from '@mui/material';
-import axios from 'axios';
+import { fetchCustomerDetail } from '../../apis/CustomerdetailAPI'; // API 호출 함수 임포트
 import './Customerdetail.css'; // CSS 파일 임포트
 
 // CustomerDetail 컴포넌트
@@ -14,10 +15,10 @@ function CustomerDetail() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/customer/${userCode}`)
-      .then(response => {
-        console.log('API Response:', response.data); // 디버깅을 위한 로그
-        setMember(response.data); // 응답 데이터를 단일 객체로 설정
+    fetchCustomerDetail(userCode)
+      .then(data => {
+        console.log('API Response:', data); // 디버깅을 위한 로그
+        setMember(data); // 응답 데이터를 단일 객체로 설정
         setLoading(false);
       })
       .catch(error => {
@@ -47,7 +48,7 @@ function CustomerDetail() {
       <Typography className="nickname-info" variant="h4" component="div" sx={{ marginBottom: '30px' }}>
         {member.nickname} 님의 회원 정보
       </Typography>
-      <Grid container spacing={2} className="customer-detail-grid">
+      <Grid container spacing={-20} className="customer-detail-grid">
         <Grid item xs={12} sm={6}>
           <div className="detail-group">
             <Typography className="detail-label">성별</Typography>
@@ -84,7 +85,8 @@ function CustomerDetail() {
             </Box>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
+        </Grid>
+        <Grid item xs={12} >
           <Typography className="detail-label" sx={{ marginBottom: '25px' }}>자기소개</Typography>
           <Box className="search-boxs">
             <InputBase
@@ -102,7 +104,7 @@ function CustomerDetail() {
           <Button variant="outlined" className="cancel-button" onClick={() => navigate(-1)}>취소</Button>
           <Button variant="outlined" className="confirm-button" onClick={handleConfirmClick}>확인</Button>
         </Grid>
-      </Grid>
+      
     </Box>
   );
 }

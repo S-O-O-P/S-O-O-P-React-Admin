@@ -1,9 +1,9 @@
+// Honeypot.js
 import React, { useState, useEffect } from 'react';
 import HoneypotTable from '../../components/admin/HoneypotTable'; // HoneypotTable 컴포넌트 임포트
 import { useNavigate, useLocation } from 'react-router-dom';
-
-import { Box, Typography, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination, InputAdornment, Button, InputBase } from '@mui/material';
-import axios from 'axios';
+import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination, Button, InputBase } from '@mui/material';
+import { fetchHoneypots } from '../../apis/HoneypotAPI'; // API 호출 함수 임포트
 
 function Honeypot() {
   const navigate = useNavigate(); // 페이지 이동을 위한 네비게이트 함수
@@ -20,12 +20,12 @@ function Honeypot() {
   const [searchTerm, setSearchTerm] = useState(location.state?.searchTerm || ''); // 검색어 상태 관리
 
   useEffect(() => {
-    axios.get('http://localhost:8080/honeypot/')
-      .then(response => {
-        console.log('API Response:', response.data); // 디버깅을 위한 로그
-        setRows(response.data.honeypotInfo || []); // honeypotInfo가 null일 경우 빈 배열로 설정
-        setFilteredRows(response.data.honeypotInfo || []);
-        console.log('Fetched Rows:', response.data.honeypotInfo); // Log the fetched data
+    fetchHoneypots()
+      .then(data => {
+        console.log('API Response:', data); // 디버깅을 위한 로그
+        setRows(data); // honeypotInfo가 null일 경우 빈 배열로 설정
+        setFilteredRows(data);
+        console.log('Fetched Rows:', data); // Log the fetched data
       })
       .catch(error => console.error('There was an error fetching the honeypot data!', error));
   }, []);
@@ -141,23 +141,22 @@ function Honeypot() {
           </Table>
         </TableContainer>
         <Box className="honeypot-pagination">
-<Pagination
-        count={Math.ceil(filteredRows.length / rowsPerPage)}
-        page={page}
-        onChange={handleChangePage}
-        className='pagination'
-        sx={{
-          '.MuiPaginationItem-root': {
-            color: '#FFB755',
-          },
-          '.Mui-selected': {
-            backgroundColor: '#FFB755',
-            color: '#fff',
-          },
-        }}
-      />
+          <Pagination
+            count={Math.ceil(filteredRows.length / rowsPerPage)}
+            page={page}
+            onChange={handleChangePage}
+            className='pagination'
+            sx={{
+              '.MuiPaginationItem-root': {
+                color: '#FFB755',
+              },
+              '.Mui-selected': {
+                backgroundColor: '#FFB755',
+                color: '#fff',
+              },
+            }}
+          />
         </Box>
-      
     </Box>
   );
 }

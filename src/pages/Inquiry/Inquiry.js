@@ -1,8 +1,9 @@
+// Inquiry.js
 import React, { useState, useEffect } from 'react';
 import { Box, Button, Typography, InputBase, Pagination } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import InquiryTable from '../../components/admin/InquiryTable';
-import axios from 'axios';
+import { fetchInquiries } from '../../apis/InquiryAPI'; // API 호출 함수 임포트
 
 function Inquiry() {
   const location = useLocation();
@@ -19,8 +20,17 @@ function Inquiry() {
   const rowsPerPage = 5;
 
   useEffect(() => {
-    fetchInquiries();
-  }, []);
+    fetchInquiries()
+      .then(data => {
+        setInquiries(data);
+        if (location.state?.searchTerm) {
+          handleSearch(location.state.searchTerm, data);
+        } else {
+          setFilteredInquiries(data);
+        }
+      })
+      .catch(error => console.error('Error fetching inquiries:', error));
+  }, [location.state?.searchTerm]);
 
   useEffect(() => {
     if (location.state?.updatedInquiry) {
@@ -43,20 +53,6 @@ function Inquiry() {
     }
     setPage(currentPage);
   }, [currentPage, location.state?.searchTerm, location.state?.updatedInquiry, inquiries]);
-
-  const fetchInquiries = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/inquiry/'); // API 엔드포인트를 설정합니다.
-      setInquiries(response.data.inquiryInfo); // Adjusted to match the response structure
-      if (location.state?.searchTerm) {
-        handleSearch(location.state.searchTerm, response.data.inquiryInfo);
-      } else {
-        setFilteredInquiries(response.data.inquiryInfo);
-      }
-    } catch (error) {
-      console.error('Error fetching inquiries:', error);
-    }
-  };
 
   const handlePageChange = (event, value) => {
     setPage(value);

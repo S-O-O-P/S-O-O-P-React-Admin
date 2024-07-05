@@ -18,7 +18,8 @@
   .table-head-cell, .table-cell {
     border-right: 1px solid rgba(224, 224, 224, 1);
     text-align: center !important;
-
+    line-height: 48px !important; 
+  
   }
   
   .table-head-cell {
@@ -143,20 +144,33 @@
   }
   
   .inactive-status {
-    display: inline-block;
-    padding: 5px 15px;
-    border: 2px solid #FFB755 !important;
-    border-radius: 15px;
-    color: #9BB0A5 !important;
-    font-weight: bold !important;
-    text-align: center;
+    display: inline-block !important; 
+    width: 96px !important; 
+    height: 48px !important; 
+    padding: 0 20px !important; 
+    border-radius:48px !important; 
+    border:1px solid var(--main-color) !important; 
+    color: var(--main-color) !important;
+    font-size: 15.4px !important; 
+    font-weight: var(--semiBold) !important; 
+    transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out, color 200ms ease-in-out !important; 
+    background-color: var(--main-color) !important; 
+    color: #ffffff !important;
+    
+  }
+
+  .answer {
+    line-height: 48px !important; 
+    font-size: 15.4px !important; 
+    font-weight: var(--semiBold) !important; 
   }
 
 
   .table-cells {
     border-right: 1px solid rgba(224, 224, 224, 1);
     text-align: center !important;
-    padding: 23px !important;/* Adjust the padding to increase the size of the cells */
+    /* padding: 23px !important; */
+    line-height: 48px !important;
   }
 
 
@@ -175,4 +189,12 @@
   .search-input {
     margin-left: 8px;
     flex: 1;
+  }
+
+  .answer-status {
+    color: #FFB755;
+  }
+
+  .notAnswer-status {
+    color: #D83030;
   }
