@@ -30,6 +30,17 @@ public class SignUpController {
         return userSignUpDTO;
     }
 
+//    @GetMapping("/user")
+//    public UserEntity getUser(@RequestHeader("Authorization") String token) {
+//        String decodedToken = token.replace("Bearer ", "");
+//        String signupPlatform = jwtUtil.getSignupPlatformFromToken(decodedToken);
+//        System.out.println("Decoded signupPlatform from token: " + signupPlatform);  // 디버깅을 위해 추가
+//        return userMapper.findBySignupPlatform(signupPlatform);
+//    }
+
+
+
+
 //    @GetMapping("/getSignupPlatform")
 //    public String signupPlatform(UserEntity userSignUpDTO){
 //

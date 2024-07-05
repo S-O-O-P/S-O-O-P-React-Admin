@@ -130,6 +130,13 @@
         where SIGNUP_PLATFORM = #{signupPlatform};
     </update>
 
+    <select id="findAboutMe" resultMap="user">
+        select
+         ABOUTME
+        from LINKBEE_USER
+        where SIGNUP_PLATFORM = #{signupPlatform}
+    </select>
+
 <!--    <insert id="">-->
 <!--        -->
 <!--    </insert>-->

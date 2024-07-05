@@ -44,10 +44,10 @@ public class JWTUtil {
         return getClaims(token).get("category", String.class);
     }
 
-    public String createJwt(String category, String username, String role, Long expiredMs) {
+    public String createJwt(String category, String signupPlatform, String role, Long expiredMs) {
         return Jwts.builder()
                 .claim("category", category)
-                .claim("username", username)
+                .claim("signupPlatform", signupPlatform)
                 .claim("role", role)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiredMs))
@@ -81,6 +81,10 @@ public class JWTUtil {
                 .signWith(secretKey)
                 .compact();
     }
+    public String getSignupPlatformFromToken(String token) {
+        return getClaims(token).get("signupPlatform", String.class);
+    }
+
 
     public boolean validateToken(String token) {
         try {
