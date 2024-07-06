@@ -65,15 +65,12 @@ export const fetchNotices = async () => {
 
 export const fetchDashboardData = async () => {
   const sampleMonthlyHoneyCount = [
-    { month: '03월', honey_count: 1 },
-    { month: '04월', honey_count: 2 },
-    { month: '05월', honey_count: 2 },
+    { month: '04월', honey_count: 6 },
+    { month: '05월', honey_count: 8 },
+    { month: '06월', honey_count: 10 },
   ];
   const sampleGenreHoneyCount = [
-    { genre: '공연', honey_count: 3 },
     { genre: '행사/축제', honey_count: 4 },
-    { genre: '전시회', honey_count: 2 },
-    { genre: '뮤지컬', honey_count: 4 },
   ];
 
   try {
