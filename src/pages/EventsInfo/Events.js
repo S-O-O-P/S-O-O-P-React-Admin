@@ -34,7 +34,11 @@ function Events() {
       );
       setEvents(filtered);
       setPage(1); // 검색 시 페이지를 첫 페이지로 설정
-      navigate('/events', { state: { searchTerm } });
+      if (page === 1) {
+        navigate('/events', { state: { searchTerm } });
+      } else {
+        navigate(`/events?page=${page}`, { state: { searchTerm } });
+      }
     }
   };
 
