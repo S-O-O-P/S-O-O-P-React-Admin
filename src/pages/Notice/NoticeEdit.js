@@ -71,6 +71,14 @@ function NoticeEdit() {
         setWriterModal(false);
     }
 
+    const goNotice = () => {
+        setModalOpen(false);
+        setWriterModal(false);
+        navigate("/notice");
+    }
+
+
+
     const handleCancel = () => {
         if (title === notice.title && content === notice.content && selected === notice.category) {
             navigate("/notice");
@@ -92,21 +100,22 @@ function NoticeEdit() {
 
         if (title === notice.title || content === notice.content || selected === notice.category) {
             const data = {
-                category: selected,
-                title: title,
-                content: content
-            };
+                "category": selected,
+                "title": title,
+                "content": content,
+                "userCode": 7,
+                "regDate": today,
+                // "postImg": postImg
+            }
 
+            console.log("유형", selected);
+            console.log("제목:", title);
+            console.log("내용:", content);
 
             console.log("category", notice.category);
             console.log("title:", notice.title);
             console.log("content:", notice.content);
 
-            console.log("수정 후");
-
-            console.log("유형", selected);
-            console.log("제목:", title);
-            console.log("내용:", content);
             // console.log("img : ", postImg);
             setModalOpen(true);
 
@@ -164,9 +173,9 @@ function NoticeEdit() {
                         <div className={style.modal}>
                             <img src='/images/commons/icon_confirm.png' alt='확인' width={45} />
                             <p className={style.modalTitle}>공지사항이 수정되었습니다.</p>
-                            <a href="/notice">
-                                <button className={style.modalButton} onClick={closeBtn}>확인</button>
-                            </a>
+
+                            <button className={style.modalButton} onClick={goNotice}>확인</button>
+
                         </div>
                     </div>
                 )}
@@ -187,9 +196,9 @@ function NoticeEdit() {
                             <p className={style.modalContext}>작성 취소된 내용은 되돌릴 수 없습니다.</p>
                             <div className={style.modalButtonBox}>
                                 <button className={style.modalButton} onClick={() => setCheckModal(false)}>취소</button>
-                                <a href='/notice'>
-                                    <button className={style.modalButton}>확인</button>
-                                </a>
+
+                                <button className={style.modalButton} onClick={goNotice}>확인</button>
+
                             </div>
                         </div>
                     </div>

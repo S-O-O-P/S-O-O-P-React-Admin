@@ -42,6 +42,12 @@ function NoticeRegistPage() {
         setWriterModal(false);
     }
 
+    const goNotice = () => {
+        setModalOpen(false);
+        setWriterModal(false);
+        navigate("/notice");
+    }
+
     const handleCancel = () => {
         if (title !== "" || content !== "") {
             setCheckModal(true);
@@ -71,7 +77,7 @@ function NoticeRegistPage() {
             // console.log("img : ", postImg);
             setModalOpen(true);
 
-            axios.post('http://localhost:8080/notice', data)
+            axios.post('http://localhost:8080/notice/new', data)
                 .then(response => {
                     console.log("response", response);
                 })
@@ -125,9 +131,7 @@ function NoticeRegistPage() {
                         <div className={style.modal}>
                             <img src='/images/commons/icon_confirm.png' alt='확인' width={45} />
                             <p className={style.modalTitle}>공지사항이 등록되었습니다.</p>
-                            <a href="/notice">
-                                <button className={style.modalButton} onClick={closeBtn}>확인</button>
-                            </a>
+                            <button className={style.modalButton} onClick={goNotice}>확인</button>
                         </div>
                     </div>
                 )}
@@ -148,9 +152,7 @@ function NoticeRegistPage() {
                             <p className={style.modalContext}>작성 취소된 내용은 되돌릴 수 없습니다.</p>
                             <div className={style.modalButtonBox}>
                                 <button className={style.modalButton} onClick={() => setCheckModal(false)}>취소</button>
-                                <a href='/notice'>
-                                    <button className={style.modalButton}>확인</button>
-                                </a>
+                                <button className={style.modalButton} onClick={goNotice}>확인</button>
                             </div>
                         </div>
                     </div>
