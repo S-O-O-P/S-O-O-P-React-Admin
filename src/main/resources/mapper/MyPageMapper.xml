@@ -3,6 +3,185 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.soop.pages.mypage.model.dto.SampleDTO">
+<mapper namespace="com.soop.pages.mypage.model.dao.MyPageMapper">
+
+    <!-- 로그인한 유저평점 관련 ResultMap -->
+    <resultMap id="userRatingResultMap" type="com.soop.pages.mypage.model.dto.UserRatingDTO">
+        <id property="userCode" column="USER_CODE"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="profilePic" column="PROFILE_PIC"/>
+        <result property="aboutme" column="ABOUTME"/>
+        <result property="userRatingCode" column="USER_RATING_CODE"/>
+        <result property="honeypotCode" column="HONEYPOT_CODE"/>
+        <result property="rateeCode" column="RATEE_CODE"/>
+        <result property="rateeNickname" column="RATEE_NICKNAME"/>
+        <result property="ratingCode" column="RATING_CODE"/>
+        <result property="ratingName" column="RATING_NAME"/>
+        <result property="score" column="SCORE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="averageScore" column="AVERAGE_SCORE"/>
+    </resultMap>
+
+    <select id="getLoggedInUserRating" resultMap="userRatingResultMap">
+        SELECT
+        A.USER_CODE,
+        A.NICKNAME,
+        A.PROFILE_PIC,
+        A.ABOUTME,
+        B.USER_RATING_CODE,
+        B.HONEYPOT_CODE,
+        B.RATEE_CODE,
+        D.NICKNAME AS RATEE_NICKNAME,
+        B.RATING_CODE,
+        C.RATING_NAME,
+        C.SCORE,
+        C.CONTENT,
+        AVG_C.AVERAGE_SCORE
+        FROM LINKBEE_USER A
+        LEFT JOIN USER_RATING B ON A.USER_CODE = B.RATER_CODE
+        LEFT JOIN RATING C ON B.RATING_CODE = C.RATING_CODE
+        LEFT JOIN LINKBEE_USER D ON B.RATEE_CODE = D.USER_CODE
+        LEFT JOIN
+        (SELECT
+        RATER_CODE,
+        AVG(SCORE) AS AVERAGE_SCORE
+        FROM
+        USER_RATING
+        LEFT JOIN
+        RATING ON USER_RATING.RATING_CODE = RATING.RATING_CODE
+        GROUP BY
+        RATER_CODE) AVG_C ON A.USER_CODE = AVG_C.RATER_CODE
+        ORDER BY B.HONEYPOT_CODE;
+    </select>
+
+    <!-- 유저평가 항목 관련 ResultMap -->
+    <resultMap id="ratingResultMap" type="com.soop.pages.mypage.model.dto.RatingDTO">
+        <id property="ratingCode" column="RATING_CODE"/>
+        <result property="ratingName" column="RATING_NAME"/>
+        <result property="score" column="SCORE"/>
+        <result property="content" column="CONTENT"/>
+    </resultMap>
+
+    <!-- 유저평가 항목 조회 -->
+    <select id="getRatingList" resultMap="ratingResultMap">
+        SELECT * FROM RATING
+    </select>
+
+    <!-- 유저평가 등록 관련 ResultMap -->
+    <resultMap id="evaluateUserRatingResultMap" type="com.soop.pages.mypage.model.dto.EvaluateUserRatingDTO">
+        <id property="userRatingCode" column="USER_RATING_CODE"/>
+        <result property="honeypotCode" column="HONEYPOT_CODE"/>
+        <result property="raterCode" column="RATER_CODE"/>
+        <result property="rateeCode" column="RATEE_CODE"/>
+        <result property="ratingCode" column="RATING_CODE"/>
+    </resultMap>
+
+    <!-- 유저평가 등록 -->
+    <insert id="evaluateUserRating" parameterType="com.soop.pages.mypage.model.dto.UserRatingDTO">
+        INSERT
+        INTO USER_RATING
+        (HONEYPOT_CODE, RATER_CODE, RATEE_CODE, RATING_CODE)
+        VALUES
+        (#{honeypotCode}, #{raterCode}, #{rateeCode}, #{ratingCode})
+    </insert>
+
+    <!-- 내가만든 허니팟 관련 ResultMap -->
+    <resultMap id="myHoneypotResultMap" type="com.soop.pages.mypage.model.dto.MyHoneypotDTO">
+        <id property="hostCode" column="HOST_CODE"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="interestCode" column="INTEREST_CODE"/>
+        <result property="interestName" column="INTEREST_NAME"/>
+        <result property="honeypotCode" column="HONEYPOT_CODE"/>
+        <result property="honeypotTitle" column="HONEYPOT_TITLE"/>
+        <result property="eventDate" column="EVENT_DATE"/>
+        <result property="region" column="REGION"/>
+        <result property="approvedCount" column="APPROVED_COUNT"/>
+        <result property="totalMember" column="TOTAL_MEMBER"/>
+        <result property="closureStatus" column="CLOSURE_STATUS"/>
+    </resultMap>
+
+    <!-- 내가만든 허니팟 조회 -->
+    <select id="getMyHoneypotList" resultMap="myHoneypotResultMap">
+        SELECT
+                A.USER_CODE AS HOST_CODE,
+                A.NICKNAME,
+                B.INTEREST_CODE,
+                C.INTEREST_NAME,
+                B.HONEYPOT_CODE,
+                B.HONEYPOT_TITLE,
+                B.EVENT_DATE,
+                B.REGION,
+                COUNT(D.APPLICATION_CODE) AS APPROVED_COUNT,
+                B.TOTAL_MEMBER,
+                B.VISIBILITY_STATUS,
+                B.CLOSURE_STATUS
+        FROM LINKBEE_USER A
+        LEFT JOIN HONEYPOT B ON B.USER_CODE = A.USER_CODE
+        LEFT JOIN INTEREST C ON C.INTEREST_CODE = B.INTEREST_CODE
+        LEFT JOIN APPLICATION D ON D.HONEYPOT_CODE = B.HONEYPOT_CODE
+        WHERE A.USER_CODE = 8
+        GROUP BY A.USER_CODE, A.NICKNAME, B.INTEREST_CODE, C.INTEREST_NAME, B.HONEYPOT_CODE,
+        B.HONEYPOT_TITLE, B.EVENT_DATE, B.REGION, B.TOTAL_MEMBER, B.VISIBILITY_STATUS, B.CLOSURE_STATUS;
+    </select>
+
+    <!-- 참여중인 허니팟 관련 ResultMap -->
+    <resultMap id="participatingHoneypotResultMap" type="com.soop.pages.mypage.model.dto.ParticipatingHoneypotDTO">
+        <id property="applicationCode" column="APPLICATION_CODE"/>
+        <result property="honeypotCode" column="HONEYPOT_CODE"/>
+        <result property="honeypotTitle" column="HONEYPOT_TITLE"/>
+        <result property="eventDate" column="EVENT_DATE"/>
+        <result property="region" column="REGION"/>
+        <result property="approvedCount" column="APPROVED_COUNT"/>
+        <result property="totalMember" column="TOTAL_MEMBER"/>
+        <result property="userCode" column="USER_CODE"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="decisionStatus" column="DECISION_STATUS"/>
+        <result property="decisionDate" column="DECISION_DATE"/>
+    </resultMap>
+    <!-- 참여중인 허니팟 조회 -->
+    <select id="getParticipatingHoneypotList" resultMap="participatingHoneypotResultMap">
+        SELECT
+        A.APPLICATION_CODE,
+        A.HONEYPOT_CODE,
+        C.HONEYPOT_TITLE,
+        C.EVENT_DATE,
+        C.REGION,
+        COUNT(A.APPLICATION_CODE) AS APPROVED_COUNT,
+        C.TOTAL_MEMBER,
+        A.USER_CODE,
+        D.NICKNAME,
+        B.DECISION_STATUS,
+        B.DECISION_DATE
+        FROM APPLICATION A
+        LEFT JOIN APPROVAL_STATUS B ON B.APPLICATION_CODE = A.APPLICATION_CODE
+        LEFT JOIN HONEYPOT C ON C.HONEYPOT_CODE = A.HONEYPOT_CODE
+        LEFT JOIN LINKBEE_USER D ON D.USER_CODE = A.USER_CODE
+        GROUP BY A.APPLICATION_CODE, A.HONEYPOT_CODE, C.HONEYPOT_TITLE, C.EVENT_DATE, C.REGION,
+        A.USER_CODE, C.TOTAL_MEMBER, D.NICKNAME, B.DECISION_STATUS, B.DECISION_DATE;
+    </select>
+
+    <!-- 유저 프로필 관련 ResultMap -->
+    <resultMap id="userProfileResultMap" type="com.soop.pages.mypage.model.dto.UserProfileDTO">
+        <id property="userCode" column="USER_CODE"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="profilePic" column="PROFILE_PIC"/>
+        <result property="aboutme" column="ABOUTME"/>
+        <result property="interestCode" column="INTEREST_CODE"/>
+        <result property="interestName" column="INTEREST_NAME"/>
+    </resultMap>
+    <!-- 유저 프로필 조회 -->
+    <select id="getUserProfile" resultMap="userProfileResultMap">
+        SELECT
+        A.USER_CODE,
+        A.NICKNAME,
+        A.PROFILE_PIC,
+        A.ABOUTME,
+        B.INTEREST_CODE,
+        C.INTEREST_NAME
+        FROM LINKBEE_USER A
+        LEFT JOIN INTEREST_OF_USER B ON B.USER_CODE = A.USER_CODE
+        LEFT JOIN INTEREST C ON C.INTEREST_CODE = B.INTEREST_CODE;
+    </select>
 
 </mapper>
+
