@@ -66,6 +66,8 @@ function NoticeRegistPage() {
             console.log("유형", selected);
             console.log("제목:", title);
             console.log("내용:", content);
+            console.log("날짜:", today);
+
             // console.log("img : ", postImg);
             setModalOpen(true);
 

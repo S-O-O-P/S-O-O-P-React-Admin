@@ -92,26 +92,25 @@ function NoticeEdit() {
 
         if (title === notice.title || content === notice.content || selected === notice.category) {
             const data = {
-                "category": selected,
-                "title": title,
-                "content": content,
-                "userCode": 7,
-                "regDate": today,
-                // "postImg": postImg
-            }
+                category: selected,
+                title: title,
+                content: content
+            };
 
-            console.log("유형", selected);
-            console.log("제목:", title);
-            console.log("내용:", content);
 
             console.log("category", notice.category);
             console.log("title:", notice.title);
             console.log("content:", notice.content);
 
+            console.log("수정 후");
+
+            console.log("유형", selected);
+            console.log("제목:", title);
+            console.log("내용:", content);
             // console.log("img : ", postImg);
             setModalOpen(true);
 
-            axios.post('http://localhost:8080/notice/new', data)
+            axios.put(`http://localhost:8080/notice/${id}`, data)
                 .then(response => {
                     console.log("response", response);
                 })
