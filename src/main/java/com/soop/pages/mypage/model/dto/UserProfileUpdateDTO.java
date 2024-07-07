@@ -9,12 +9,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserProfileDTO {
+public class UserProfileUpdateDTO {
 
-    private Integer userCode;
     private String nickname;
-    private String profilePic;
     private String aboutme;
-    private List<InterestDTO> interests;
+    private String profilePic;
+    private List<Integer> interests;
 
 }

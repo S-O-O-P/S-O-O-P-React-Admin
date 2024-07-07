@@ -1,5 +1,6 @@
 package com.soop.pages.mypage.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.util.Date;
@@ -14,6 +15,9 @@ public class ParticipatingHoneypotDTO {
     private int applicationCode;
     private int honeypotCode;
     private String honeypotTitle;
+    private String closureStatus;
+    private String interestName;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date eventDate;
     private String region;
     private int approvedCount;
@@ -21,6 +25,7 @@ public class ParticipatingHoneypotDTO {
     private int userCode;
     private String nickname;
     private String decisionStatus;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date decisionDate;
 
 }

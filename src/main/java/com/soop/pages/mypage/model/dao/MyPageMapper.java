@@ -9,7 +9,7 @@ import java.util.List;
 public interface MyPageMapper {
 
     // 유저 평가 (평점 포함) 데이터 조회
-    List<UserRatingDTO> getLoggedInUserRating();
+    List<UserRatingDTO> getLoggedInUserRating(int userCode);
 
     // 유저 평가하기
     void evaluateUserRating(EvaluateUserRatingDTO newEvaluate);
@@ -22,5 +22,19 @@ public interface MyPageMapper {
 
     List<ParticipatingHoneypotDTO> getParticipatingHoneypotList();
 
-    List<UserProfileDTO> getUserProfile();
+    List<MyCommentDTO> getMyComments();
+
+    List<MyInquiryDTO> getMyInquiry();
+
+    List<FinishedHoneypotDTO> getFinishedHoneypot();
+
+    List<InterestDTO> getInterest();
+
+    UserProfileDTO getUserProfile(Integer userCode);
+
+    void updateUserProfile(Integer userCode, String nickname, String aboutme, String profilePic);
+
+    void deleteUserInterests(Integer userCode);
+
+    void insertUserInterests(Integer userCode, List<Integer> interests);
 }

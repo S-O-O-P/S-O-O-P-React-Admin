@@ -2,6 +2,7 @@ package com.soop.pages.mypage.controller;
 
 import com.soop.pages.mypage.model.dto.*;
 import com.soop.pages.mypage.model.service.MyPageService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,12 +19,10 @@ public class MyPageController {
     }
 
     // 유저평가 조회
-    @GetMapping("/userratring")
-    public ResponseEntity<List<UserRatingDTO>> getLoggedInUserRating() {
-        List<UserRatingDTO> loggedInUserRatingList = myPageService.getLoggedInUserRating();
-
+    @GetMapping("/rating/{userCode}")
+    public ResponseEntity<List<UserRatingDTO>> getLoggedInUserRating(@PathVariable int userCode) {
+        List<UserRatingDTO> loggedInUserRatingList = myPageService.getLoggedInUserRating(userCode);
         return ResponseEntity.ok(loggedInUserRatingList);
-
     }
 
     // 평점 항목 조회
@@ -56,11 +55,55 @@ public class MyPageController {
     }
 
     // 유저 프로필 조회(닉네임, 사진, 자기소개, 관심사)
-    @GetMapping("/profile")
-    public ResponseEntity<List<UserProfileDTO>> getUserProfile() {
-        List<UserProfileDTO> userProfileList = myPageService.getUserProfile();
-        return ResponseEntity.ok(userProfileList);
+    @GetMapping("/{userCode}")
+    public ResponseEntity<UserProfileDTO> getUserProfile(@PathVariable Integer userCode) {
+//        try {
+            UserProfileDTO userProfile = myPageService.getUserProfile(userCode);
+            return ResponseEntity.ok(userProfile);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//        }
     }
+    // 유저 프로필 수정(닉네임, 사진, 자기소개, 관심사)
+    @PutMapping("/{userCode}")
+    public ResponseEntity<String> updateUserProfile(@PathVariable Integer userCode, @RequestBody UserProfileUpdateDTO dto) {
+        try {
+            myPageService.updateUserProfile(userCode, dto);
+            return ResponseEntity.ok("프로필이 업데이트되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("프로필 업데이트에 실패했습니다.");
+        }
+    }
+
+
+    // 관심사 항목 조회
+    @GetMapping("/interest")
+    public ResponseEntity<List<InterestDTO>> getInterest() {
+        List<InterestDTO> interestList = myPageService.getInterest();
+        return ResponseEntity.ok(interestList);
+    }
+
+    // 댓글 조회
+    @GetMapping("/mycomment")
+    public ResponseEntity<List<MyCommentDTO>> getMyComments() {
+        List<MyCommentDTO> myCommentList = myPageService.getMyComments();
+        return ResponseEntity.ok(myCommentList);
+    }
+
+    // 문의 내역 조회
+    @GetMapping("/myinquiry")
+    public ResponseEntity<List<MyInquiryDTO>> getMyInquiry() {
+        List<MyInquiryDTO> myInquiryList = myPageService.getMyInquiry();
+        return ResponseEntity.ok(myInquiryList);
+    }
+
+    // 진행완료된 허니팟 조회(유저평가멤버조회)
+    @GetMapping("/finished")
+    public ResponseEntity<List<FinishedHoneypotDTO>> getFinishedHoneypot() {
+        List<FinishedHoneypotDTO> finishedHoneypotList = myPageService.getFinishedHoneypot();
+        return ResponseEntity.ok(finishedHoneypotList);
+    }
+
 
 
 

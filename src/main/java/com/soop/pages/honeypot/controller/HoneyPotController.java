@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import javax.print.attribute.standard.Media;
@@ -286,6 +287,11 @@ public class HoneyPotController {
         return ResponseEntity.ok(honeyPotApprovedList);
     }
 
+    // 허니팟 Status 변경(모임날짜가 지났을 때 진행완료로 변경)
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void updateClosureStatus() {
+        honeyPotService.updateClosureStatus();
+    }
 
 
 
