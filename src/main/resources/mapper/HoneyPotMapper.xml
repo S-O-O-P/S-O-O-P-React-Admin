@@ -68,7 +68,12 @@
         INSERT
           INTO
         HONEYPOT
-                 (INTEREST_CODE, HONEYPOT_TITLE, HONEYPOT_CONTENT, USER_CODE, POSTER, REGION, TOTAL_MEMBER, REG_DATE, EVENT_DATE, END_DATE, VISIBILITY_STATUS, CLOSURE_STATUS, REPORT_COUNT, SEQ_NO)
+                 (INTEREST_CODE,
+                  HONEYPOT_TITLE,
+                  HONEYPOT_CONTENT,
+                  USER_CODE,
+                  POSTER,
+                  REGION, TOTAL_MEMBER, REG_DATE, EVENT_DATE, END_DATE, VISIBILITY_STATUS, CLOSURE_STATUS, REPORT_COUNT, SEQ_NO)
         VALUES
                  ( #{interestCode}, #{honeypotTitle}, #{honeypotContent}, #{hostCode}, #{poster}, #{region}, #{totalMember}, #{regDate}, #{eventDate}, #{endDate}, #{visibilityStatus}, #{closureStatus}, #{reportCount}, #{seqNo});
     </insert>

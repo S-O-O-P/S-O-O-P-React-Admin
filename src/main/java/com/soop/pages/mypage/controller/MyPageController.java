@@ -2,6 +2,7 @@ package com.soop.pages.mypage.controller;
 
 import com.soop.pages.mypage.model.dto.*;
 import com.soop.pages.mypage.model.service.MyPageService;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -102,6 +103,14 @@ public class MyPageController {
     public ResponseEntity<List<FinishedHoneypotDTO>> getFinishedHoneypot() {
         List<FinishedHoneypotDTO> finishedHoneypotList = myPageService.getFinishedHoneypot();
         return ResponseEntity.ok(finishedHoneypotList);
+    }
+
+    // 로그인 유저 리프레쉬 조회
+    @GetMapping("logincheck")
+    public ResponseEntity<List<RefreshDTO>> getUserRef() {
+        List<RefreshDTO> refreshInfo = myPageService.getUserRef();
+        System.out.println("컨트롤러" + refreshInfo);
+        return ResponseEntity.ok(refreshInfo);
     }
 
 

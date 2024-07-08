@@ -37,4 +37,6 @@ public interface MyPageMapper {
     void deleteUserInterests(Integer userCode);
 
     void insertUserInterests(Integer userCode, List<Integer> interests);
+
+    List<RefreshDTO> getUserRef();
 }

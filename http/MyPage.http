@@ -35,3 +35,6 @@ GET http://localhost:8081/mypage/myinquiry
 
 ### 진행완료된 허니팟 조회
 GET http://localhost:8081/mypage/finished
+
+### 리프레쉬 조회
+GET http://localhost:8081/mypage/logincheck

@@ -72,4 +72,7 @@ public class MyPageService {
         }
     }
 
+    public List<RefreshDTO> getUserRef() {
+        return myPageMapper.getUserRef();
+    }
 }
