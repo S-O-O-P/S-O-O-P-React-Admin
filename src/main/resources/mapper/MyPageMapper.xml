@@ -369,6 +369,13 @@
         LEFT JOIN REFRESHENTITY B ON B.SIGNUP_PLATFORM = A.SIGNUP_PLATFORM;
     </select>
 
+    <!-- 프로필 사진 수정 -->
+    <update id="updateProfilePic" parameterType="com.soop.pages.mypage.model.dto.ProfilePicUpdateDTO">
+        UPDATE LINKBEE_USER
+        SET PROFILE_PIC = #{profilePic}
+        WHERE USER_CODE = #{userCode}
+    </update>
+
 
 
 

@@ -39,4 +39,6 @@ public interface MyPageMapper {
     void insertUserInterests(Integer userCode, List<Integer> interests);
 
     List<RefreshDTO> getUserRef();
+
+    void updateProfilePic(ProfilePicUpdateDTO profilePicUpdateDTO);
 }

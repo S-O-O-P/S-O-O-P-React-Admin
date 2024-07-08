@@ -38,3 +38,14 @@ GET http://localhost:8081/mypage/finished
 
 ### 리프레쉬 조회
 GET http://localhost:8081/mypage/logincheck
+
+### 프로필 사진 수정
+PUT http://localhost:8081/mypage/1
+Content-Type: application/json
+
+{
+  "nickname": "새 닉네임",
+  "aboutme": "새 자기소개",
+  "profilePic": "koharu.PNG",
+  "interests": [1, 2, 3]
+}

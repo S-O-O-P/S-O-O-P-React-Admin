@@ -2,10 +2,10 @@ package com.soop.pages.mypage.controller;
 
 import com.soop.pages.mypage.model.dto.*;
 import com.soop.pages.mypage.model.service.MyPageService;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/mypage")
 public class MyPageController {
 
-    private MyPageService myPageService;
+    private final MyPageService myPageService;
 
     public MyPageController(MyPageService myPageService) {
         this.myPageService = myPageService;
@@ -76,7 +76,6 @@ public class MyPageController {
         }
     }
 
-
     // 관심사 항목 조회
     @GetMapping("/interest")
     public ResponseEntity<List<InterestDTO>> getInterest() {
@@ -111,6 +110,18 @@ public class MyPageController {
         List<RefreshDTO> refreshInfo = myPageService.getUserRef();
         System.out.println("컨트롤러" + refreshInfo);
         return ResponseEntity.ok(refreshInfo);
+    }
+
+    // 프로필 사진 수정
+    @PutMapping("/profile-pic/{userCode}")
+    public ResponseEntity<?> updateProfilePic(@PathVariable Integer userCode,
+                                              @RequestParam("file") MultipartFile file) {
+        try {
+            String profilePicUrl = myPageService.updateProfilePic(userCode, file);
+            return ResponseEntity.ok(profilePicUrl);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating profile picture");
+        }
     }
 
 
