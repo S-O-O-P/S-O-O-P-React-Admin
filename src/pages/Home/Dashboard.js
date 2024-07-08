@@ -25,7 +25,20 @@ const Dashboard = () => {
     fetchDashboardData()
       .then(data => {
         setMonthlyHoneyCount(data.monthlyHoneyCount);
-        setGenreHoneyCount(data.genreHoneyCount);
+        
+        // 중복 장르 합산 처리
+        const genreCountMap = new Map();
+        data.genreHoneyCount.forEach(item => {
+          if (genreCountMap.has(item.genre)) {
+            genreCountMap.set(item.genre, genreCountMap.get(item.genre) + item.honey_count);
+          } else {
+            genreCountMap.set(item.genre, item.honey_count);
+          }
+        });
+        
+        const combinedGenreHoneyCount = Array.from(genreCountMap, ([genre, honey_count]) => ({ genre, honey_count }));
+        setGenreHoneyCount(combinedGenreHoneyCount);
+
         setTodayMatchingCount(data.todayMatchingCount);
         setTotalMatchingCount(data.totalMatchingCount);
         setTodayInquiryCount(data.todayInquiryCount);
