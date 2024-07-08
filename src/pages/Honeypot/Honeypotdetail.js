@@ -56,7 +56,7 @@ function HoneypotDetail() {
 
         // 상태 변경 후 목록 페이지로 이동
         const from = location.state?.from || '/honeypot';
-        navigate(from, { state: { toggleStatus: { honeypotCode: parseInt(honeypotCode, 10), newStatus }, searchTerm: location.state?.searchTerm } });
+        navigate('/honeypot', { state: { toggleStatus: { honeypotCode: parseInt(honeypotCode, 10), newStatus }, searchTerm: location.state?.searchTerm } });
       })
       .catch(error => {
         console.error('There was an error updating the honeypot status!', error);
@@ -130,13 +130,13 @@ function HoneypotDetail() {
           <Button variant="outlined" className="cancel-button" onClick={handleBackClick}>
             취소
           </Button>
-          <Button variant="contained" className="honeypot-action-button-contained" onClick={handleClickOpen}>
+          <Button variant="outlined" className="honeypot-action-button-contained" onClick={handleClickOpen}>
             {row.visibilityStatus === '활성화' ? '비활성화' : '활성화'}
           </Button>
         </Box>
       </Box>
 
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} className='custom_dialog_box'>
         <DialogContent className="custom-dialog-content">
           <img src="/images/commons/icon_alert.png" alt="icon" className="dialog-icon" />
           <DialogContentText className="dialog-text">
@@ -144,10 +144,10 @@ function HoneypotDetail() {
           </DialogContentText>
         </DialogContent>
         <DialogActions className="custom-dialog-actions">
-          <Button onClick={handleClose} className="cancel-button">
+          <Button onClick={handleClose} className="custom-cancel-button two_button">
             취소
           </Button>
-          <Button onClick={handleToggleStatus} className="confirm-button" autoFocus>
+          <Button onClick={handleToggleStatus} className="custom-confirm-button two_button" autoFocus>
             확인
           </Button>
         </DialogActions>
