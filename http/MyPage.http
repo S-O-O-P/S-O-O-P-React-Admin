@@ -1,0 +1,37 @@
+### 평점 계산이 되어있는 유저평점 정보 조회
+GET http://localhost:8081/mypage/rating/11
+
+### 유저평가 항목 조회
+GET http://localhost:8081/mypage/rating
+
+### 평점 등록 테스트
+POST http://localhost:8081/mypage/userrating
+Content-Type: application/json
+
+{
+  "honeypotCode": 4,
+  "raterCode": 11,
+  "rateeCode": 8,
+  "ratingCode": 13
+}
+
+### 내가 만든 허니팟 조회
+GET http://localhost:8081/mypage/myhoneypots
+
+### 참여중인 허니팟 조회
+GET http://localhost:8081/mypage/participated
+
+### 유저 프로필 조회
+GET http://localhost:8081/mypage/11
+
+### 관심사 항목 조회
+GET http://localhost:8081/mypage/interest
+
+### 댓글 조회
+GET http://localhost:8081/mypage/mycomment
+
+### 문의 조회
+GET http://localhost:8081/mypage/myinquiry
+
+### 진행완료된 허니팟 조회
+GET http://localhost:8081/mypage/finished

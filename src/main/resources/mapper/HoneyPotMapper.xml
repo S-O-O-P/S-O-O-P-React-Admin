@@ -23,6 +23,16 @@
         <result property="seqNo" column="SEQ_NO"/>
     </resultMap>
 
+    <!-- 날짜 자동 업데이트 -->
+    <update id="updateClosureStatus" parameterType="com.soop.pages.honeypot.model.dto.HoneypotDTO">
+        <![CDATA[
+            UPDATE HONEYPOT
+            SET CLOSURE_STATUS = '진행완료'
+            WHERE EVENT_DATE < CURDATE()
+            AND CLOSURE_STATUS != '진행완료';
+        ]]>
+    </update>
+
     <resultMap id="honeypotAndInterestAndLinkBeeUserResultMap" type="com.soop.pages.honeypot.model.dto.HoneypotAndInterestAndLinkBeeUserDTO">
         <id property="honeypotCode" column="HONEYPOT_CODE"/>
         <result property="honeypotTitle" column="HONEYPOT_TITLE" />
@@ -363,7 +373,7 @@
                 A.CLOSURE_STATUS,
                 A.REPORT_COUNT,
                 A.SEQ_NO,
-                COUNT(B.APPLICATION_CODE) AS APPROVED_COUNT,
+                COUNT(CASE WHEN C.DECISION_STATUS = '승인' THEN 1 ELSE NULL END) AS APPROVED_COUNT,
                 D.NICKNAME,
                 D.PROFILE_PIC,
                 E.INTEREST_NAME

@@ -60,6 +60,9 @@ public interface HoneyPotMapper {
     void updateApplicationData(int honeypotCode, int applicationCode, ApprovalStatusDTO updateApprovalStatus);
 
     List<HoneypotAndApplicationAndApprovalStatusDTO> getHoneyPotApprovedList();
+
+    // 허니팟 Status 변경(모임날짜가 지났을 때 진행완료로 변경)
+    void updateClosureStatus();
 }
 
 
