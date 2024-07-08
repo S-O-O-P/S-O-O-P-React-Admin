@@ -71,6 +71,14 @@ function NoticeEdit() {
         setWriterModal(false);
     }
 
+    const goNotice = () => {
+        setModalOpen(false);
+        setWriterModal(false);
+        navigate("/notice");
+    }
+
+
+
     const handleCancel = () => {
         if (title === notice.title && content === notice.content && selected === notice.category) {
             navigate("/notice");
@@ -111,7 +119,7 @@ function NoticeEdit() {
             // console.log("img : ", postImg);
             setModalOpen(true);
 
-            axios.post('http://localhost:8080/notice/new', data)
+            axios.put(`http://localhost:8080/notice/${id}`, data)
                 .then(response => {
                     console.log("response", response);
                 })
@@ -165,9 +173,9 @@ function NoticeEdit() {
                         <div className={style.modal}>
                             <img src='/images/commons/icon_confirm.png' alt='확인' width={45} />
                             <p className={style.modalTitle}>공지사항이 수정되었습니다.</p>
-                            <a href="/notice">
-                                <button className={style.modalButton} onClick={closeBtn}>확인</button>
-                            </a>
+
+                            <button className={style.modalButton} onClick={goNotice}>확인</button>
+
                         </div>
                     </div>
                 )}
@@ -188,9 +196,9 @@ function NoticeEdit() {
                             <p className={style.modalContext}>작성 취소된 내용은 되돌릴 수 없습니다.</p>
                             <div className={style.modalButtonBox}>
                                 <button className={style.modalButton} onClick={() => setCheckModal(false)}>취소</button>
-                                <a href='/notice'>
-                                    <button className={style.modalButton}>확인</button>
-                                </a>
+
+                                <button className={style.modalButton} onClick={goNotice}>확인</button>
+
                             </div>
                         </div>
                     </div>
