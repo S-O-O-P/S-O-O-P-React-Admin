@@ -101,7 +101,6 @@ function CustomerDetail() {
           </Box>
         </Grid>
         <Grid item xs={12} className="button-container">
-          <Button variant="outlined" className="cancel-button" onClick={() => navigate(-1)}>취소</Button>
           <Button variant="outlined" className="confirm-button" onClick={handleConfirmClick}>확인</Button>
         </Grid>
       
