@@ -11,7 +11,7 @@ import java.util.Date;
 public class RefreshEntity {
 
     private Long userCode;
-
+    private int refreshCode;
     private String signupPlatform;
     private String refresh;
     private String expiration;

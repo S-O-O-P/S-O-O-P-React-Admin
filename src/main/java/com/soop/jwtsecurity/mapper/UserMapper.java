@@ -2,6 +2,7 @@ package com.soop.jwtsecurity.mapper;
 
 import com.soop.jwtsecurity.entityDTO.RefreshEntity;
 import com.soop.jwtsecurity.entityDTO.UserEntity;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
@@ -27,8 +28,5 @@ public interface UserMapper {
     String googleGender(String gender);
     void saveAboutMe(@Param("aboutme") String aboutme, @Param("signupPlatform") String signupPlatform,@Param("nickname") String nickname);
 
-    @Update("UPDATE users SET nickName = #{nickName}, aboutMe = #{aboutMe} WHERE username = #{username}")
-    void updateUserProfile(@Param("username") String username, @Param("nickName") String nickName, @Param("aboutMe") String aboutMe);
-
-//    void saveInterestCode(int interestCode, String interestName);
+    void saveUserInterest(@Param("userCode") int userCode, @Param("interestCode") int interestCode);
 }

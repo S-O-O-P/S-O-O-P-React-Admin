@@ -1,12 +1,13 @@
 package com.soop.jwtsecurity.controller;
 
-import com.soop.jwtsecurity.entityDTO.UserEntity;
+import com.soop.jwtsecurity.dto.UserSignUpDTO;
 import com.soop.jwtsecurity.jwt.JWTUtil;
 import com.soop.jwtsecurity.mapper.UserMapper;
-import com.soop.pages.honeypot.model.dto.InterestDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @ResponseBody
@@ -20,35 +21,22 @@ public class SignUpController {
     }
 
     @PostMapping("/signup")
-    public UserEntity signUp(@RequestBody UserEntity userSignUpDTO, String token, InterestDTO interestDTO) {
-
+    public ResponseEntity<String> signUp(@RequestBody UserSignUpDTO userSignUpDTO) {
         userMapper.saveAboutMe(userSignUpDTO.getAboutMe(), userSignUpDTO.getSignupPlatform(), userSignUpDTO.getNickName());
-        int userCode = (userMapper.findBySignupPlatform(userSignUpDTO.getSignupPlatform()).getUserCode());
-//        userMapper.saveInterestCode(interestDTO.getInterestCode(),interestDTO.getInterestName());
+        int userCode = userMapper.findBySignupPlatform(userSignUpDTO.getSignupPlatform()).getUserCode();
+
+        // Save interests
+        List<Integer> interestCodes = userSignUpDTO.getSelectedInterests();
+        for (Integer interestCode : interestCodes) {
+            userMapper.saveUserInterest(userCode, interestCode);
+        }
+
         System.out.println("userCode: "+ userCode);
         System.out.println("Received aboutMe: " + userSignUpDTO.getAboutMe());
         System.out.println("Received signupPlatform: " + userSignUpDTO.getSignupPlatform());
         System.out.println("Received nickName: " + userSignUpDTO.getNickName());
-//        System.out.println("Received selectedInterests: " + interestDTO.getInterestCode());
-//        System.out.println("Received selectedInterests: " + interestDTO.getInterestName());
+        System.out.println("Received selectedInterests: " + userSignUpDTO.getSelectedInterests());
 
-        return userSignUpDTO;
+        return ResponseEntity.ok("Sign up successful");
     }
-
-//    @GetMapping("/user")
-//    public UserEntity getUser(@RequestHeader("Authorization") String token) {
-//        String decodedToken = token.replace("Bearer ", "");
-//        String signupPlatform = jwtUtil.getSignupPlatformFromToken(decodedToken);
-//        System.out.println("Decoded signupPlatform from token: " + signupPlatform);  // 디버깅을 위해 추가
-//        return userMapper.findBySignupPlatform(signupPlatform);
-//    }
-
-
-
-
-//    @GetMapping("/getSignupPlatform")
-//    public String signupPlatform(UserEntity userSignUpDTO){
-//
-//        return "/signups";
-//    }
 }

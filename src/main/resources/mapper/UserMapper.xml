@@ -18,7 +18,8 @@
     </resultMap>
 
     <resultMap id="refresh" type="com.soop.jwtsecurity.entityDTO.RefreshEntity">
-        <id property="userCode" column="USER_CODE"/>
+        <id property="refreshCode" column="REFRESH_CODE"/>
+        <result property="userCode" column="USER_CODE"/>
         <result property="signupPlatform" column="SIGNUP_PLATFORM"/>
         <result property="refresh" column="REFRESH"/>
         <result property="expiration" column="EXPIRATION"/>
@@ -105,17 +106,23 @@
     </insert>
 
     <insert id="saveRefreshEntity" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">
-
-        INSERT INTO REFRESHENTITY (SIGNUP_PLATFORM, REFRESH, EXPIRATION)
-        VALUES
-            (
-            #{signupPlatform},
-            #{refresh},
-            #{expiration}
-            )
-            ON DUPLICATE KEY UPDATE
-            REFRESH = VALUES(refresh),
-        EXPIRATION = VALUES(expiration);
+        INSERT INTO REFRESHENTITY
+        (
+        USER_CODE,
+        SIGNUP_PLATFORM,
+        REFRESH,
+        EXPIRATION
+        )
+        SELECT
+        USER_CODE,
+        #{signupPlatform},
+        #{refresh},
+        #{expiration}
+        FROM LINKBEE_USER
+        WHERE SIGNUP_PLATFORM = #{signupPlatform}
+        ON DUPLICATE KEY UPDATE
+        REFRESH = VALUES(REFRESH),
+        EXPIRATION = VALUES(EXPIRATION)
     </insert>
 
     <select id="searchRefreshEntity" parameterType="com.soop.jwtsecurity.entityDTO.RefreshEntity">
@@ -153,30 +160,10 @@
         where SIGNUP_PLATFORM = #{signupPlatform}
     </select>
 
-<!--    <insert id="saveInterestCode" parameterMap="interest">-->
-<!--        insert into interest A-->
-<!--        (-->
-<!--            A.INTEREST_CODE-->
-<!--            ,A.INTEREST_NAME-->
-<!--            ,B.USER_CODE-->
-<!--        )-->
-<!--        VALUE-->
-<!--        (-->
-<!--            #{interestCode}-->
-<!--            ,#{interestName}-->
-<!--            ,#{userCode}-->
-<!--        )-->
-<!--        JOIN Interest_of_user B on A.INTEREST_CODE = B.INTEREST_CODE-->
-<!--    </insert>-->
+    <insert id="saveUserInterest">
+        INSERT INTO INTEREST_OF_USER (USER_CODE, INTEREST_CODE) VALUES (#{userCode}, #{interestCode})
+    </insert>
 
-<!--    <insert id="">-->
-<!--        -->
-<!--    </insert>-->
 
-<!--    <update id="saveNickName" parameterType="com.soop.jwtsecurity.entityDTO.UserEntity">-->
-<!--        update linkbee_user-->
-<!--        set NICKNAME = #{nickName}-->
-<!--        where SIGNUP_PLATFORM = #{signupPlatform};-->
-<!--    </update>-->
 
 </mapper>
