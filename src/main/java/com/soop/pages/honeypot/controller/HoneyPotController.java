@@ -123,6 +123,21 @@ public class HoneyPotController {
 
     }
 
+    // 상세페이지 삭제하기
+    @DeleteMapping("/delete/{honeypotCode}")
+    public ResponseEntity<HoneypotResponseMessage> deleteHoneypotByHoneypotCode(@PathVariable int honeypotCode) {
+        // 응답 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        // 응답 데이터 설정
+        honeyPotService.deleteHoneypotByHoneypotCode(honeypotCode);
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("message", "허니팟 삭제 성공");
+
+        return ResponseEntity.ok().headers(headers).body(new HoneypotResponseMessage(200, "허니팟 삭제 성공", responseMap));
+    }
+
 
     // 댓글 등록
     @PostMapping("/comment")

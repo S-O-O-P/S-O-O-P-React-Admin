@@ -150,6 +150,12 @@
          WHERE HONEYPOT_CODE = #{honeypotCode}
     </update>
 
+    <!-- 상세페이지 삭제 -->
+    <delete id="deleteHoneypotByHoneypotCode" parameterType="int">
+        DELETE FROM HONEYPOT
+        WHERE HONEYPOT_CODE = #{honeypotCode}
+    </delete>
+
     <!-- 댓글 관련 resultMap -->
     <resultMap id="commentResultMap" type="com.soop.pages.honeypot.model.dto.CommentDTO">
         <id property="commentCode" column="COMMENT_CODE"/>
