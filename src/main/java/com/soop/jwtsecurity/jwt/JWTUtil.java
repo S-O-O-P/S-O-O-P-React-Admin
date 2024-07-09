@@ -43,12 +43,12 @@ public class JWTUtil {
         return getClaims(token).get("category", String.class);
     }
 
-    public String createJwt(String category, String signupPlatform, String role,int usercode, Long expiredMs) {
+    public String createJwt(String category, String signupPlatform, String role,int userCode, Long expiredMs) {
         return Jwts.builder()
                 .claim("category", category)
                 .claim("signupPlatform", signupPlatform)
                 .claim("role", role)
-                .claim("usercode",usercode)
+                .claim("userCode",userCode)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiredMs))
                 .signWith(secretKey)

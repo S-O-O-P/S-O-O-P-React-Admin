@@ -36,26 +36,26 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();
         String username = customUserDetails.getUsername();
-        int usercode = userMapper.findBySignupPlatform(username).getUserCode();
+        int userCode = userMapper.findBySignupPlatform(username).getUserCode();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String access = jwtUtil.createJwt("access", username, role, usercode, 600L * 1000); // 10분 (600초)
+        String access = jwtUtil.createJwt("access", username, role, userCode, 600L * 1000); // 10분 (600초)
         String existingRefreshToken = userMapper.searchRefreshEntity(username);
 
         if (existingRefreshToken != null) {
             userMapper.deleteByRefresh(existingRefreshToken);
         }
 
-        String refresh = jwtUtil.createJwt("refresh", username, role, usercode, 86400L *1000); // 24시간 (86400000밀리초)
+        String refresh = jwtUtil.createJwt("refresh", username, role, userCode, 86400L *1000); // 24시간 (86400000밀리초)
         addRefreshEntity(username, refresh, 86400L*1000);
 
         System.out.println("access = " + access);
         System.out.println("refresh = " + refresh);
-        System.out.println("usercode = " + usercode);
+        System.out.println("userCode = " + userCode);
 
         // 리프레시 토큰을 HTTP-Only 쿠키로 저장
 //        createAndAddCookie(response, "refresh", refresh);
@@ -67,10 +67,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         //최초 가입 확인(aboutMe 유무에 따라 나누기)
         if(userMapper.findAboutMe(username) == null){
-
-            response.sendRedirect("http://localhost:3000/signup");
+            response.sendRedirect("http://localhost:3001/signup");
         }else {
-            response.sendRedirect("http://localhost:3000/login");
+            response.sendRedirect("http://localhost:3001/main");
         }
 
 

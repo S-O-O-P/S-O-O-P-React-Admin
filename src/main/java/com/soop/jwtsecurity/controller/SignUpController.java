@@ -23,9 +23,9 @@ public class SignUpController {
     public UserEntity signUp(@RequestBody UserEntity userSignUpDTO, String token, InterestDTO interestDTO) {
 
         userMapper.saveAboutMe(userSignUpDTO.getAboutMe(), userSignUpDTO.getSignupPlatform(), userSignUpDTO.getNickName());
-        String usercode = String.valueOf(userMapper.findBySignupPlatform(userSignUpDTO.getSignupPlatform()).getUserCode());
+        int userCode = (userMapper.findBySignupPlatform(userSignUpDTO.getSignupPlatform()).getUserCode());
 //        userMapper.saveInterestCode(interestDTO.getInterestCode(),interestDTO.getInterestName());
-        System.out.println("usercode: "+ usercode);
+        System.out.println("userCode: "+ userCode);
         System.out.println("Received aboutMe: " + userSignUpDTO.getAboutMe());
         System.out.println("Received signupPlatform: " + userSignUpDTO.getSignupPlatform());
         System.out.println("Received nickName: " + userSignUpDTO.getNickName());
