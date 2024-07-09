@@ -93,11 +93,11 @@ textarea {resize: none; outline: none; border: none;}
 .register_btn:hover { background-color: var(--point-color); border-color: var(--point-color);}
 
 .img_placeholder {color: #DCE5D7;}
-.custom-confirm-button.two_button, .custom-cancel-button.two_button {width: calc((100% - 60px) / 2); height: 48px; border-radius:48px; margin: 0!important;}
+.custom-confirm-button.two_button, .custom-cancel-button.two_button {width: calc((100% - 60px) / 2); height: 48px; border-radius:48px; margin-bottom: 10px !important;}
 .custom-confirm-button.two_button {margin-left: 20px!important;}
 
 /* 팝업창 custom */
-.custom_dialog_box .MuiPaper-root {min-width:300px!important; border-radius: 20px!important; }
+.custom_dialog_box .MuiPaper-root {min-width:360px!important; border-radius: 20px!important; height: 250px;}
 .MuiDialogContent-root {padding-bottom: 0!important;}
 .MuiDialogContentText-root {padding-top: 20px!important;}
 .MuiDialogActions-root {padding-bottom: 20px!important;}
