@@ -2,6 +2,22 @@
 POST http://localhost:8081/honeypot/regist
 Content-Type: application/json
 
+{
+  "closureStatus": "모집중",
+  "endDate" : "2024-07-18",
+  "eventDate" : "2024-07-19",
+  "honeypotContent" : "유유유유유유유유 매그내릭",
+  "honeypotTitle" : "인천시립교향악단 정기연주회 들으실분",
+  "hostCode" : 1,
+  "interestCode" : 2,
+  "poster" : "http://www.culture.go.kr/upload/rdf/24/06/show_2024062117492088266.jpg",
+  "regDate" : "2024-07-08T08:02:34.050Z",
+  "region" : "인천",
+  "seqNo" : "280439",
+  "totalMember" : 2,
+  "visibilityStatus" : "활성화"
+}
+
 ### 허니팟 전체 조회 테스트
 GET http://localhost:8081/honeypot/list
 

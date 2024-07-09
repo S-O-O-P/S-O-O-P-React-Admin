@@ -62,9 +62,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         //최초 가입 확인(aboutMe 유무에 따라 나누기)
         if(userMapper.findAboutMe(username) == null){
         //액세스 토큰을 쿼리 스트링으로 전달
-            response.sendRedirect("http://localhost:3000/signup?token=" + access +"&username=" + username);
+            response.sendRedirect("http://localhost:3001/signup?token=" + access +"&username=" + username);
         }else {
-            response.sendRedirect("http://localhost:3000/login?token=" + access);
+            response.sendRedirect("http://localhost:3001/login?token=" + access);
         }
 
     }

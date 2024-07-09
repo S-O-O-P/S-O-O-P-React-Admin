@@ -353,6 +353,29 @@
         </foreach>
     </insert>
 
+    <!-- 로그인 정보 확인용 테스트 -->
+    <resultMap id="loginResultMap" type="com.soop.pages.mypage.model.dto.RefreshDTO">
+        <id property="userCode" column="USER_CODE"/>
+        <result property="signupPlatform" column="SIGNUP_PLATFORM"/>
+        <result property="refresh" column="REFRESH"/>
+    </resultMap>
+
+    <select id="getUserRef" resultMap="loginResultMap">
+        SELECT
+            A.USER_CODE,
+            A.SIGNUP_PLATFORM,
+            B.REFRESH
+            FROM LINKBEE_USER A
+        LEFT JOIN REFRESHENTITY B ON B.SIGNUP_PLATFORM = A.SIGNUP_PLATFORM;
+    </select>
+
+    <!-- 프로필 사진 수정 -->
+    <update id="updateProfilePic" parameterType="com.soop.pages.mypage.model.dto.ProfilePicUpdateDTO">
+        UPDATE LINKBEE_USER
+        SET PROFILE_PIC = #{profilePic}
+        WHERE USER_CODE = #{userCode}
+    </update>
+
 
 
 

@@ -2,10 +2,19 @@ package com.soop.pages.mypage.model.service;
 
 import com.soop.pages.mypage.model.dao.MyPageMapper;
 import com.soop.pages.mypage.model.dto.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class MyPageService {
@@ -72,4 +81,29 @@ public class MyPageService {
         }
     }
 
+    public List<RefreshDTO> getUserRef() {
+        return myPageMapper.getUserRef();
+    }
+
+    @Value("${file.upload-dir}")
+    private String uploadDir;
+    public String updateProfilePic(Integer userCode, MultipartFile file) throws IOException {
+        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+
+        Path uploadPath = Paths.get(uploadDir);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        Path filePath = uploadPath.resolve(fileName);
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        String profilePicUrl = "/images/mypage/saveProfilePic/" + fileName;
+        ProfilePicUpdateDTO profileUpdateDTO = new ProfilePicUpdateDTO();
+        profileUpdateDTO.setUserCode(userCode);
+        profileUpdateDTO.setProfilePic(profilePicUrl);
+        myPageMapper.updateProfilePic(profileUpdateDTO);
+
+        return profilePicUrl;
+    }
 }

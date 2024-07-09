@@ -48,7 +48,7 @@ public class ReissueController {
         }
 
         if (refresh == null) {
-            response.sendRedirect("http://localhost:3000/login?error=refresh token null");
+            response.sendRedirect("http://localhost:3001/login?error=refresh token null");
             return;
         }
 
@@ -56,21 +56,21 @@ public class ReissueController {
         try {
             jwtUtil.isExpired(refresh);
         } catch (ExpiredJwtException e) {
-            response.sendRedirect("http://localhost:3000/login?error=refresh token expired");
+            response.sendRedirect("http://localhost:3001/login?error=refresh token expired");
             return;
         }
 
         // 리프레시 토큰인지 확인
         String category = jwtUtil.getCategory(refresh);
         if (!"refresh".equals(category)) {
-            response.sendRedirect("http://localhost:3000/login?error=invalid refresh token");
+            response.sendRedirect("http://localhost:3001/login?error=invalid refresh token");
             return;
         }
 
         // DB에 리프레시 토큰이 존재하는지 확인
         Boolean isExist = userMapper.existsByRefresh(refresh);
         if (!isExist) {
-            response.sendRedirect("http://localhost:3000/login?error=invalid refresh token");
+            response.sendRedirect("http://localhost:3001/login?error=invalid refresh token");
             return;
         }
 
