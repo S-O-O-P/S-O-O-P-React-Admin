@@ -39,5 +39,4 @@ public class NaverResponse implements OAuth2Response {
     public String getGender() {
         return attribute != null && attribute.containsKey("gender") ? attribute.get("gender").toString() : null;
     }
-
 }

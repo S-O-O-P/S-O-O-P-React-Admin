@@ -1,5 +1,5 @@
 ### 평점 계산이 되어있는 유저평점 정보 조회
-GET http://localhost:8081/mypage/rating/11
+GET http://localhost:8081/mypage/rating/2
 
 ### 유저평가 항목 조회
 GET http://localhost:8081/mypage/rating
@@ -22,7 +22,26 @@ GET http://localhost:8081/mypage/myhoneypots
 GET http://localhost:8081/mypage/participated
 
 ### 유저 프로필 조회
-GET http://localhost:8081/mypage/11
+GET http://localhost:8081/mypage/1
+
+### 유저 프로필 수정
+PUT http://localhost:8081/mypage/1
+Content-Type: application/json
+
+{
+  "nickname": "바뀌어라얍11",
+  "aboutme": "바뀌어라얍얍얍11",
+  "interests": [
+    {
+      "interestCode": 2,
+      "interestName": "공연"
+    },
+    {
+      "interestCode": 4,
+      "interestName": "전시회"
+    }
+  ]
+}
 
 ### 관심사 항목 조회
 GET http://localhost:8081/mypage/interest

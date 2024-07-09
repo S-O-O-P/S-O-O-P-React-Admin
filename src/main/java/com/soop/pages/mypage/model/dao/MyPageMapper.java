@@ -2,6 +2,7 @@ package com.soop.pages.mypage.model.dao;
 
 import com.soop.pages.mypage.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -36,9 +37,13 @@ public interface MyPageMapper {
 
     void deleteUserInterests(Integer userCode);
 
-    void insertUserInterests(Integer userCode, List<Integer> interests);
+
 
     List<RefreshDTO> getUserRef();
 
     void updateProfilePic(ProfilePicUpdateDTO profilePicUpdateDTO);
+
+    void updateProfile(UserProfileDTO updateProfile);
+
+    void insertUserInterests(@Param("userCode") Integer userCode, @Param("interestCodes") List<Integer> interestCodes);
 }

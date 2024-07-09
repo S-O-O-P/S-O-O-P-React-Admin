@@ -151,4 +151,9 @@ public class HoneyPotService {
     public void updateClosureStatus() {
         honeyPotMapper.updateClosureStatus();
     }
+
+    public void deleteHoneypotByHoneypotCode(int honeypotCode) {
+        honeyPotMapper.deleteHoneypotByHoneypotCode(honeypotCode);
+        System.out.println("서비스 삭제 됨?");
+    }
 }
