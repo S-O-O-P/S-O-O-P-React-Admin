@@ -1,4 +1,3 @@
-// InquiryAnswer.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { fetchInquiryDetails, postInquiryAnswer, updateInquiryStatus } from '../../apis/InquiryAnswerAPI'; // API 호출 함수 임포트
@@ -12,13 +11,15 @@ function InquiryAnswer() {
   const [inquiry, setInquiry] = useState({
     category: '',
     title: '',
-    content: ''
+    content: '',
+    answer: '' // Add the answer to the initial state
   });
 
   const [answer, setAnswer] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [writerModal, setWriterModal] = useState(false);
   const [checkModal, setCheckModal] = useState(false);
+  const [alreadyAnsweredModal, setAlreadyAnsweredModal] = useState(false);
 
   const currentPage = location.state?.page || 1;
   const searchTerm = location.state?.searchTerm || '';
@@ -38,12 +39,16 @@ function InquiryAnswer() {
 
   const handleSubmit = async () => {
     if (answer.trim() !== "") {
-      try {
-        await postInquiryAnswer(inquiryCode, answer);
-        setInquiry(prevInquiry => ({ ...prevInquiry, answer })); // Update inquiry state with the new answer and status
-        setModalOpen(true);
-      } catch (error) {
-        console.error("There was an error posting the answer!", error);
+      if (inquiry.answer && answer === inquiry.answer) {
+        setAlreadyAnsweredModal(true);
+      } else {
+        try {
+          await postInquiryAnswer(inquiryCode, answer);
+          setInquiry(prevInquiry => ({ ...prevInquiry, answer })); // Update inquiry state with the new answer and status
+          setModalOpen(true);
+        } catch (error) {
+          console.error("There was an error posting the answer!", error);
+        }
       }
     } else {
       setWriterModal(true);
@@ -53,7 +58,7 @@ function InquiryAnswer() {
   const confirmBtn = async () => {
     try {
       await updateInquiryStatus(inquiryCode, "답변완료");
-      navigate('/inquiry', { state: { page: currentPage, searchTerm, updatedInquiry: {answerStatus: "답변완료" } } });
+      navigate('/inquiry', { state: { page: currentPage, searchTerm, updatedInquiry: { answerStatus: "답변완료" } } });
     } catch (error) {
       console.error("There was an error updating the answer status!", error);
     }
@@ -62,13 +67,15 @@ function InquiryAnswer() {
   const closeBtn = () => {
     setModalOpen(false);
     setWriterModal(false);
+    setAlreadyAnsweredModal(false);
   }
 
   const handleCancel = () => {
-    if (answer.trim() !== "") {
+    const currentAnswer = inquiry.answer || ""; // Fallback to an empty string if inquiry.answer is null or undefined
+    if (answer.trim() === "" || currentAnswer.trim() === "") {
       setCheckModal(true);
     } else {
-      navigate(-1);
+      navigate('/inquiry', { state: { page: currentPage, searchTerm } }); // Navigate back to the list page with state
     }
   }
 
@@ -116,8 +123,17 @@ function InquiryAnswer() {
                 <p className={style.modalContext}>작성 취소된 내용은 되돌릴 수 없습니다.</p>
                 <div className={style.modalButtonBox}>
                   <button className={style.modalButton} onClick={() => setCheckModal(false)}>취소</button>
-                  <button className={style.modalButton} onClick={() => navigate(-1)}>확인</button>
+                  <button className={style.modalButton} onClick={() => navigate('/inquiry', { state: { page: currentPage, searchTerm } })}>확인</button>
                 </div>
+              </div>
+            </div>
+          )}
+          {alreadyAnsweredModal && (
+            <div className={style.back}>
+              <div className={style.modal}>
+                <img src='/images/commons/icon_alert.png' alt='경고' width={45} />
+                <p className={style.modalTitle}>이미 등록된 답변입니다.</p>
+                <button className={style.modalButton} onClick={closeBtn}>확인</button>
               </div>
             </div>
           )}

@@ -17,7 +17,6 @@
   border-radius: 15px;
   padding-left: 10px;
   padding-right: 10px;
-  
 }
 
 .dashboard-title {
@@ -72,6 +71,7 @@
   width: 50%;
   padding: 15px;
 }
+
 .info-content {
   display: flex;
   flex-direction: column;
@@ -95,8 +95,6 @@
   justify-content: space-between;
 }
 
-
-
 .horizontal-line {
   width: 100%;
   height: 1px;
@@ -116,7 +114,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position:relative;
+  position: relative;
   padding-right: 5%;
   padding-bottom: 10px;
 }
@@ -129,4 +127,18 @@
   right: -50px !important;
   border-bottom: 1px solid white;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
