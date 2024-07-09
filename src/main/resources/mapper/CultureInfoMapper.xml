@@ -35,8 +35,8 @@
         POSTER,
 <!--        SELLER,-->
 <!--        SELLER_LINK,-->
-<!--        REGULAR_PRICE,-->
-<!--        DISCOUNT_PRICE,-->
+        REGULAR_PRICE,
+        DISCOUNT_PRICE,
         SALE_START_DATE,
         SALE_END_DATE,
         USAGE_START_DATE,
