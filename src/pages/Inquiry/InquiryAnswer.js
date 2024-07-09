@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { fetchInquiryDetails, postInquiryAnswer, updateInquiryStatus } from '../../apis/InquiryAnswerAPI'; // API 호출 함수 임포트
 import style from "../Inquiry/InquiryAnswer.module.css";
-
+import { Box, Typography, Button, Grid, Dialog, DialogActions, DialogContent, DialogContentText, InputBase } from '@mui/material';
 function InquiryAnswer() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -84,7 +84,6 @@ function InquiryAnswer() {
       <div className={style.wrapper}>
         <div className={style.contentBox}>
           <p className={style.pageTitle}>1:1문의 답변</p>
-
           <p className={style.categoryBox}>{inquiry.category}</p>
           <p className={style.titleBox}>{inquiry.title}</p>
           <p className={style.contextBox}>{inquiry.content}</p>
@@ -121,10 +120,10 @@ function InquiryAnswer() {
                 <img src='/images/commons/icon_alert.png' alt='경고' width={45} />
                 <p className={style.modalTitle}>1:1문의 작성을 취소하시겠습니까?</p>
                 <p className={style.modalContext}>작성 취소된 내용은 되돌릴 수 없습니다.</p>
-                <div className={style.modalButtonBox}>
-                  <button className={style.modalButton} onClick={() => setCheckModal(false)}>취소</button>
-                  <button className={style.modalButton} onClick={() => navigate('/inquiry', { state: { page: currentPage, searchTerm } })}>확인</button>
-                </div>
+                <DialogActions className="custom-dialog-actions">
+                  <button className={style.cancelTwoButton} onClick={() => setCheckModal(false)}>취소</button>
+                  <button className={style.confirmTwoButton} onClick={() => navigate('/inquiry', { state: { page: currentPage, searchTerm } })}>확인</button>
+                </DialogActions>
               </div>
             </div>
           )}
