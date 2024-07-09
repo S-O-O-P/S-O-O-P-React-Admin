@@ -24,35 +24,34 @@
 
     <select id="getLoggedInUserRating" resultMap="userRatingResultMap">
         SELECT
-        A.USER_CODE,
-        A.NICKNAME,
-        A.PROFILE_PIC,
-        A.ABOUTME,
-        B.USER_RATING_CODE,
-        B.HONEYPOT_CODE,
-        B.RATEE_CODE,
-        D.NICKNAME AS RATEE_NICKNAME,
-        B.RATING_CODE,
-        C.RATING_NAME,
-        C.SCORE,
-        C.CONTENT,
-        AVG_C.AVERAGE_SCORE
+                A.USER_CODE,
+                A.NICKNAME,
+                A.PROFILE_PIC,
+                A.ABOUTME,
+                B.USER_RATING_CODE,
+                B.HONEYPOT_CODE,
+                B.RATER_CODE,
+                D.NICKNAME AS RATER_NICKNAME,
+                B.RATING_CODE,
+                C.RATING_NAME,
+                C.SCORE,
+                C.CONTENT,
+                AVG_C.AVERAGE_SCORE
         FROM LINKBEE_USER A
-        LEFT JOIN USER_RATING B ON A.USER_CODE = B.RATER_CODE
+        LEFT JOIN USER_RATING B ON A.USER_CODE = B.RATEE_CODE
         LEFT JOIN RATING C ON B.RATING_CODE = C.RATING_CODE
-        LEFT JOIN LINKBEE_USER D ON B.RATEE_CODE = D.USER_CODE
+        LEFT JOIN LINKBEE_USER D ON B.RATER_CODE = D.USER_CODE
         LEFT JOIN
         (SELECT
-        RATER_CODE,
+        RATEE_CODE,
         AVG(SCORE) AS AVERAGE_SCORE
         FROM
         USER_RATING
         LEFT JOIN
         RATING ON USER_RATING.RATING_CODE = RATING.RATING_CODE
         GROUP BY
-        RATER_CODE) AVG_C ON A.USER_CODE = AVG_C.RATER_CODE
-        WHERE A.USER_CODE = #{userCode}
-
+        RATEE_CODE) AVG_C ON A.USER_CODE = AVG_C.RATEE_CODE
+        WHERE A.USER_CODE = ${userCode}
     </select>
 
     <!-- 유저평가 항목 관련 ResultMap -->

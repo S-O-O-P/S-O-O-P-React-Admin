@@ -1,5 +1,5 @@
 ### 평점 계산이 되어있는 유저평점 정보 조회
-GET http://localhost:8081/mypage/rating/11
+GET http://localhost:8081/mypage/rating/2
 
 ### 유저평가 항목 조회
 GET http://localhost:8081/mypage/rating
