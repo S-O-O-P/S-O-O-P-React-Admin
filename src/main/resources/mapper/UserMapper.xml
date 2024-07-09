@@ -161,7 +161,16 @@
     </select>
 
     <insert id="saveUserInterest">
-        INSERT INTO INTEREST_OF_USER (USER_CODE, INTEREST_CODE) VALUES (#{userCode}, #{interestCode})
+        INSERT INTO INTEREST_OF_USER
+        (
+            USER_CODE,
+            INTEREST_CODE
+        )
+        VALUES
+        (
+            #{userCode}
+        ,   #{interestCode}
+        )
     </insert>
 
 
