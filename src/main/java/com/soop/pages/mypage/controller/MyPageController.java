@@ -1,13 +1,19 @@
 package com.soop.pages.mypage.controller;
 
+import com.soop.pages.honeypot.controller.HoneypotResponseMessage;
 import com.soop.pages.mypage.model.dto.*;
 import com.soop.pages.mypage.model.service.MyPageService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/mypage")
@@ -59,21 +65,39 @@ public class MyPageController {
     @GetMapping("/{userCode}")
     public ResponseEntity<UserProfileDTO> getUserProfile(@PathVariable Integer userCode) {
 //        try {
-            UserProfileDTO userProfile = myPageService.getUserProfile(userCode);
-            return ResponseEntity.ok(userProfile);
+        UserProfileDTO userProfile = myPageService.getUserProfile(userCode);
+        return ResponseEntity.ok(userProfile);
 //        } catch (Exception e) {
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 //        }
     }
     // 유저 프로필 수정(닉네임, 사진, 자기소개, 관심사)
     @PutMapping("/{userCode}")
-    public ResponseEntity<String> updateUserProfile(@PathVariable Integer userCode, @RequestBody UserProfileUpdateDTO dto) {
-        try {
-            myPageService.updateUserProfile(userCode, dto);
-            return ResponseEntity.ok("프로필이 업데이트되었습니다.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("프로필 업데이트에 실패했습니다.");
-        }
+//    public ResponseEntity<String> updateUserProfile(@PathVariable Integer userCode, @RequestBody UserProfileUpdateDTO dto) {
+//        try {
+//            myPageService.updateUserProfile(userCode, dto);
+//            return ResponseEntity.ok("프로필이 업데이트되었습니다.");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("프로필 업데이트에 실패했습니다.");
+//        }
+//    }
+    public ResponseEntity<HoneypotResponseMessage> updateProfile(@PathVariable Integer userCode, @RequestBody UserProfileDTO dto) {
+        // 응답 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        // 프로필 정보 수정
+        UserProfileDTO updateProfile = myPageService.updateProfile(userCode, dto);
+
+        // 응답 데이터 설정
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("updateProflie", updateProfile);
+
+        // ResponseEntity로 응답 반환
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .body(new HoneypotResponseMessage(200, "수정 성공", responseMap));
     }
 
     // 관심사 항목 조회
