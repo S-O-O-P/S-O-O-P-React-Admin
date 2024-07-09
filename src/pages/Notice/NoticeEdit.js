@@ -16,6 +16,8 @@ function NoticeEdit() {
     const { id } = useParams();
     const [inputCount, setInputCount] = useState(0);
 
+    const [file, setFile] = useState({});
+
     useEffect(() => {
         async function fetchNotice() {
             try {
@@ -24,7 +26,8 @@ function NoticeEdit() {
 
                 console.log(res)
                 setNotice(res.data.noticeDTO);
-                console.log(res.data.noticeDTO);
+                setFile(res.data.fileDTO);
+                console.log(res.data.fileDTO);
             } catch (error) {
                 console.error('공지사항 불러오기 실패.', error);
             }
@@ -151,7 +154,7 @@ function NoticeEdit() {
                     <ul className={style.preview_list}>
                         {postImg ?
                             (<li className={style.preview_img}>
-                                <img src={postImg} alt="preview image" />
+                                <img src={`http://localhost:8080/notice/image?name=${file.name}`} alt="preview image" />
                                 <span className={style.remove_preview_btn} onClick={clearImg} >×</span>
                             </li>) : (<li className={style.upload_img_btn}>
                                 <label className={style.file_upload_box} name="upload">
