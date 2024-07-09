@@ -41,7 +41,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             return null;
         }
 
-        String signupPlatform = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
+        String signupPlatform = oAuth2Response.getProvider() +":"+ oAuth2Response.getProviderId();
 //        System.out.println("signupPlatform = " + signupPlatform);
         UserEntity existData = userMapper.findBySignupPlatform(signupPlatform);
 

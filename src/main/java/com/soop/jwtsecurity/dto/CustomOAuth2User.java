@@ -51,4 +51,9 @@ public class CustomOAuth2User implements OAuth2User {
 
         return userDTO.getSignupPlatform();
     }
+
+    public int getUserCode() {
+
+        return userDTO.getUserCode();
+    }
 }

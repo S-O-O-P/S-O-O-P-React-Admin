@@ -1,4 +1,3 @@
-
 package com.soop.jwtsecurity.jwt;
 
 import io.jsonwebtoken.Claims;
@@ -33,7 +32,7 @@ public class JWTUtil {
     }
 
     public String getUserRole(String token) {
-        return getClaims(token).get("userRole", String.class);
+        return getClaims(token).get("role", String.class);
     }
 
     public Boolean isExpired(String token) {
@@ -44,11 +43,12 @@ public class JWTUtil {
         return getClaims(token).get("category", String.class);
     }
 
-    public String createJwt(String category, String signupPlatform, String role, Long expiredMs) {
+    public String createJwt(String category, String signupPlatform, String role,int usercode, Long expiredMs) {
         return Jwts.builder()
                 .claim("category", category)
                 .claim("signupPlatform", signupPlatform)
                 .claim("role", role)
+                .claim("usercode",usercode)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiredMs))
                 .signWith(secretKey)
@@ -69,22 +69,22 @@ public class JWTUtil {
     }
 
     public String getRoleFromRefreshToken(String token) {
-        return getClaims(token).get("userRole", String.class);
+        return getClaims(token).get("role", String.class);
     }
 
     public String generateAccessToken(String username, String role) {
         return Jwts.builder()
                 .setSubject(username)
-                .claim("userRole", role)
+                .claim("role", role)
                 .claim("category", "access")
                 .setExpiration(new Date(System.currentTimeMillis() + 10 * 60 * 1000)) // 10분 유효기간
                 .signWith(secretKey)
                 .compact();
     }
+
     public String getSignupPlatformFromToken(String token) {
         return getClaims(token).get("signupPlatform", String.class);
     }
-
 
     public boolean validateToken(String token) {
         try {
@@ -93,5 +93,9 @@ public class JWTUtil {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public int getuserCode(String refresh) {
+        return getClaims(refresh).get("usercode", int.class);
     }
 }

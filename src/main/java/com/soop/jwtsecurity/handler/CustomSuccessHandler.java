@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -35,37 +36,43 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();
         String username = customUserDetails.getUsername();
+        int usercode = userMapper.findBySignupPlatform(username).getUserCode();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String access = jwtUtil.createJwt("access", username, role, 600L * 1000); // 10분 (600초)
+        String access = jwtUtil.createJwt("access", username, role, usercode, 600L * 1000); // 10분 (600초)
         String existingRefreshToken = userMapper.searchRefreshEntity(username);
 
         if (existingRefreshToken != null) {
             userMapper.deleteByRefresh(existingRefreshToken);
         }
 
-        String refresh = jwtUtil.createJwt("refresh", username, role, 86400L *1000); // 24시간 (86400000밀리초)
+        String refresh = jwtUtil.createJwt("refresh", username, role, usercode, 86400L *1000); // 24시간 (86400000밀리초)
         addRefreshEntity(username, refresh, 86400L*1000);
 
         System.out.println("access = " + access);
         System.out.println("refresh = " + refresh);
+        System.out.println("usercode = " + usercode);
 
         // 리프레시 토큰을 HTTP-Only 쿠키로 저장
-        createAndAddCookie(response, "refresh", refresh);
+//        createAndAddCookie(response, "refresh", refresh);
+        // 엑세스 토큰을 쿠키로 저장
+        createAndAddCookie(response, "access", access);
+//        createAndAddCookie(response, "username", username);
 
         UserEntity userEntity = new UserEntity();
 
         //최초 가입 확인(aboutMe 유무에 따라 나누기)
         if(userMapper.findAboutMe(username) == null){
-        //액세스 토큰을 쿼리 스트링으로 전달
-            response.sendRedirect("http://localhost:3001/signup?token=" + access +"&username=" + username);
+
+            response.sendRedirect("http://localhost:3000/signup");
         }else {
-            response.sendRedirect("http://localhost:3001/login?token=" + access);
+            response.sendRedirect("http://localhost:3000/login");
         }
+
 
     }
 
@@ -81,18 +88,18 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private void createAndAddCookie(HttpServletResponse response, String key, String value) {
         Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(24 * 60 * 60); // 24시간
+        cookie.setMaxAge(10 * 60); // 10분
         cookie.setDomain("localhost");
-        cookie.setHttpOnly(true);
+        cookie.setHttpOnly(false); // JavaScript에서 접근 가능하도록 설정
         cookie.setPath("/");
         cookie.setSecure(false); // localhost 환경에서는 false, 실제 배포 시 true로 설정
 
         response.addCookie(cookie);
 
         // SameSite 설정 추가
-        response.setHeader("Set-Cookie",
-                String.format("%s=%s; Max-Age=%d; Domain=%s; Path=%s; HttpOnly; SameSite=Strict",
-                        key, value, 24 * 60 * 60, "localhost", "/"));
+//        response.setHeader("Set-Cookie",
+//                String.format("%s=%s; Max-Age=%d; Domain=%s; Path=%s; HttpOnly; SameSite=None; Secure",
+//                        key, value, 10 * 60, "localhost", "/"));
     }
 
 }

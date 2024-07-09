@@ -24,6 +24,21 @@
         <result property="expiration" column="EXPIRATION"/>
     </resultMap>
 
+<!--    <select id="findUserCode" parameterType="com.soop.jwtsecurity.entityDTO.UserEntity">-->
+<!--        select-->
+<!--            user_code-->
+<!--        from linkbee_user-->
+<!--        where SIGNUP_PLATFORM = #{signupPlatform}-->
+<!--    </select>-->
+
+<!--    <resultMap id="interest" type="com.soop.pages.honeypot.model.dto.InterestDTO">-->
+<!--        <id property="interestCode" column="INTEREST_CODE"/>-->
+<!--        <result property="interestName" column="INTEREST_NAME"/>-->
+<!--        <association property="interestCode" column="INTEREST_CODE">-->
+<!--            <id property="userCode" column="USER_CODE"/>-->
+<!--        </association>-->
+<!--    </resultMap>-->
+
     <select id="findBySignupPlatform" resultMap="user">
         select
             USER_CODE,
@@ -126,7 +141,8 @@
     <update id="saveAboutMe" parameterType="com.soop.jwtsecurity.entityDTO.UserEntity">
         update linkbee_user
         set ABOUTME = #{aboutme},
-            NICKNAME = #{nickname}
+            NICKNAME = #{nickname},
+            SIGNUP_PLATFORM = #{signupPlatform}
         where SIGNUP_PLATFORM = #{signupPlatform};
     </update>
 
@@ -136,6 +152,22 @@
         from LINKBEE_USER
         where SIGNUP_PLATFORM = #{signupPlatform}
     </select>
+
+<!--    <insert id="saveInterestCode" parameterMap="interest">-->
+<!--        insert into interest A-->
+<!--        (-->
+<!--            A.INTEREST_CODE-->
+<!--            ,A.INTEREST_NAME-->
+<!--            ,B.USER_CODE-->
+<!--        )-->
+<!--        VALUE-->
+<!--        (-->
+<!--            #{interestCode}-->
+<!--            ,#{interestName}-->
+<!--            ,#{userCode}-->
+<!--        )-->
+<!--        JOIN Interest_of_user B on A.INTEREST_CODE = B.INTEREST_CODE-->
+<!--    </insert>-->
 
 <!--    <insert id="">-->
 <!--        -->
