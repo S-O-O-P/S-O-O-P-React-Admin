@@ -23,8 +23,8 @@ function NoticeEdit() {
                 const res = await axios.get(`http://localhost:8080/notice/${id}`);
 
                 console.log(res)
-                setNotice(res.data.noticeFileDTO);
-                console.log(res.data.noticeFileDTO);
+                setNotice(res.data.noticeDTO);
+                console.log(res.data.noticeDTO);
             } catch (error) {
                 console.error('공지사항 불러오기 실패.', error);
             }

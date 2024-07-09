@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 function NoticeInfo() {
 
     const [notice, setNotice] = useState({});
+    const [file, setFile] = useState({});
     const navigate = useNavigate();
     const { id } = useParams();
     const [modalOpen, setModalOpen] = useState(false);
@@ -18,9 +19,10 @@ function NoticeInfo() {
 
                 const res = await axios.get(`http://localhost:8080/notice/${id}`);
 
-                console.log(res)
-                setNotice(res.data.noticeFileDTO);
-                console.log(res.data.noticeFileDTO);
+                // console.log(res);
+                setNotice(res.data.noticeDTO);
+                setFile(res.data.fileDTO);
+
             } catch (error) {
                 console.error('공지사항 불러오기 실패.', error);
             }
@@ -41,7 +43,7 @@ function NoticeInfo() {
     };
 
     const handleDelete = () => {
-        axios.delete(`http://localhost:8080/notice/${id}`);
+        axios.delete(`http://localhost:8080/notice/${id}`, { data: file.name });
         setCheckModal(false);
         setModalOpen(true);
     }
@@ -53,7 +55,7 @@ function NoticeInfo() {
                 <p className={style.categoryBox}>{notice.category}</p>
                 <p className={style.noticeTitle}>{notice.title}</p>
                 <p className={style.noticeContext}>{notice.content}</p>
-                <p>이미지 구현</p>
+                {/* <img src={`http://localhost:8080/notice/image/${file.name}`} alt='공지사항 이미지' /> */}
 
                 <div className={style.buttons}>
                     <button type="button" onClick={handleNotice} className={style.backBtn}>목록으로</button>
