@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import style from './NoticeRegist.module.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ function NoticeRegistPage() {
     const [content, setContent] = useState("");
     const [inputCount, setInputCount] = useState(0);
     const [postImg, setPostImg] = useState(null);
+    const [previewImg, setPreviewImg] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [writerModal, setWriterModal] = useState(false);
     const [checkModal, setCheckModal] = useState(false);
@@ -29,8 +30,9 @@ function NoticeRegistPage() {
     }
 
     const saveImgFile = (e) => {
-        setPostImg(URL.createObjectURL(e.target.files[0]));
-        console.log(postImg);
+        setPostImg(e.target.files[0]);
+        setPreviewImg(URL.createObjectURL(e.target.files[0]))
+
     }
 
     const clearImg = () => {
@@ -57,35 +59,32 @@ function NoticeRegistPage() {
     }
 
     const handleSubmit = () => {
-        const today = new Date();
+
+        const formData = new FormData();
 
         if (title !== "" && content !== "") {
-            const data = {
-                "category": selected,
-                "title": title,
-                "content": content,
-                "userCode": 7,
-                "regDate": today,
-                // "postImg": postImg
-            }
+            formData.append('category', selected);
+            formData.append('title', title);
+            formData.append('content', content);
+            formData.append('userCode', 7);
+            formData.append('file', postImg);
 
-            console.log("유형", selected);
-            console.log("제목:", title);
-            console.log("내용:", content);
-            console.log("날짜:", today);
 
-            // console.log("img : ", postImg);
-            setModalOpen(true);
-
-            axios.post('http://localhost:8080/notice/new', data)
+            axios.post('http://localhost:8080/notice/new', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
                 .then(response => {
                     console.log("response", response);
                 })
 
+            setModalOpen(true);
         } else {
             setWriterModal(true);
         }
     };
+
 
     return (
         <div className={style.wapper}>
@@ -109,7 +108,7 @@ function NoticeRegistPage() {
                     <ul className={style.preview_list}>
                         {postImg ?
                             (<li className={style.preview_img}>
-                                <img src={postImg} alt="preview image" />
+                                <img src={previewImg} alt="preview image" />
                                 <span className={style.remove_preview_btn} onClick={clearImg} >×</span>
                             </li>) : (<li className={style.upload_img_btn}>
                                 <label className={style.file_upload_box} name="upload">
