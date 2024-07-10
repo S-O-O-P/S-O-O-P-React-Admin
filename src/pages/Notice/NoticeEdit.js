@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import style from './NoticeRegist.module.css';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-
 function NoticeEdit() {
     const [notice, setNotice] = useState({});
     const [selected, setSelected] = useState("");
@@ -12,77 +11,101 @@ function NoticeEdit() {
     const [modalOpen, setModalOpen] = useState(false);
     const [writerModal, setWriterModal] = useState(false);
     const [checkModal, setCheckModal] = useState(false);
-    const [noChangesModal, setNoChangesModal] = useState(false); // Modal for no changes
     const navigate = useNavigate();
     const { id } = useParams();
     const [inputCount, setInputCount] = useState(0);
 
+    const [file, setFile] = useState({});
+
     useEffect(() => {
         async function fetchNotice() {
             try {
+
                 const res = await axios.get(`http://localhost:8080/notice/${id}`);
+
                 console.log(res)
-                setNotice(res.data.noticeFileDTO);
-                console.log(res.data.noticeFileDTO);
+                setNotice(res.data.noticeDTO);
+                setFile(res.data.fileDTO);
+                console.log(res.data.fileDTO);
             } catch (error) {
                 console.error('공지사항 불러오기 실패.', error);
             }
         }
         fetchNotice();
-    }, [id]);
+    }, []);
 
     useEffect(() => {
         setSelected(notice.category || '');
         setTitle(notice.title || '');
         setContent(notice.content || '');
     }, [notice]);
-
     useEffect(() => {
         if (notice && notice.content) {
             setInputCount(notice.content.length);
         }
     }, [notice]);
 
+
     const handleSelect = (e) => {
         setSelected(e.target.value);
     };
-
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
     };
-
     const handleCount = (e) => {
         setContent(e.target.value);
         setInputCount(e.target.value.length);
     }
 
     const saveImgFile = (e) => {
-        setPostImg(e.target.files[0]);
+        setPostImg(URL.createObjectURL(e.target.files[0]));
         console.log(postImg);
     }
 
     const clearImg = () => {
         setPostImg(null);
     }
-
     const closeBtn = () => {
         setModalOpen(false);
         setWriterModal(false);
-        setNoChangesModal(false); // Close no changes modal
     }
 
     const goNotice = () => {
         setModalOpen(false);
         setWriterModal(false);
-        setNoChangesModal(false); // Close no changes modal
         navigate("/notice");
     }
 
+
+
     const handleCancel = () => {
-        if (title === notice.title && content === notice.content && selected === notice.category && !postImg) {
+        if (title === notice.title && content === notice.content && selected === notice.category) {
             navigate("/notice");
         } else {
             setCheckModal(true);
+            console.log("유형", selected);
+            console.log("제목:", title);
+            console.log("내용:", content);
+            console.log("category", notice.category);
+            console.log("title:", notice.title);
+            console.log("content:", notice.content);
+        }
+    };
+
+
+    const handleSubmit = () => {
+        const today = new Date();
+
+        if (title === notice.title || content === notice.content || selected === notice.category) {
+            const data = {
+                "category": selected,
+                "title": title,
+                "content": content,
+                "userCode": 7,
+                "regDate": today,
+                // "postImg": postImg
+            }
+
             console.log("유형", selected);
             console.log("제목:", title);
             console.log("내용:", content);
@@ -90,39 +113,17 @@ function NoticeEdit() {
             console.log("category", notice.category);
             console.log("title:", notice.title);
             console.log("content:", notice.content);
-        }
-    };
 
-    const handleSubmit = async () => {
-        const today = new Date();
+            // console.log("img : ", postImg);
+            setModalOpen(true);
 
-        // Check if there are changes
-        if (title === notice.title && content === notice.content && selected === notice.category && !postImg) {
-            setNoChangesModal(true); // Show no changes modal
-            return;
-        }
+            axios.put(`http://localhost:8080/notice/${id}`, data)
+                .then(response => {
+                    console.log("response", response);
+                })
 
-        const formData = new FormData();
-        formData.append('category', selected);
-        formData.append('title', title);
-        formData.append('content', content);
-        formData.append('userCode', 7);
-        formData.append('regDate', today.toISOString());
-        if (postImg) {
-            formData.append('file', postImg);
-        }
-
-        setModalOpen(true);
-
-        try {
-            const response = await axios.put(`http://localhost:8080/notice/${id}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            console.log("response", response);
-        } catch (error) {
-            console.error('공지사항 수정 실패.', error);
+        } else {
+            setWriterModal(true);
         }
     };
 
@@ -130,15 +131,15 @@ function NoticeEdit() {
         <div className={style.wapper}>
             <div className={style.content}>
                 <p className={style.pageTitle}>공지사항 수정</p>
-                <select className={style.customSelect} onChange={handleSelect} value={selected}>
+                <select className={style.customSelect} onChange={handleSelect} defaultValue={notice.category}>
                     <option value="공지사항">공지사항</option>
                     <option value="이벤트">이벤트</option>
                 </select>
 
-                <input className={style.titleInput} onChange={handleTitleChange} placeholder='제목을 입력해주세요.' value={title}></input>
+                <input className={style.titleInput} onChange={handleTitleChange} placeholder='제목을 입력해주세요.' defaultValue={notice.title}></input>
 
                 <div className={style.contextInputBox}>
-                    <textarea className={style.contextInput} onChange={handleCount} placeholder='내용을 입력해주세요.' maxLength={500} value={content}></textarea>
+                    <textarea className={style.contextInput} onChange={handleCount} placeholder='내용을 입력해주세요.' maxLength={500} defaultValue={notice.content}></textarea>
                     <p className={style.inputCount} >{inputCount}/500</p>
                 </div>
 
@@ -148,7 +149,7 @@ function NoticeEdit() {
                     <ul className={style.preview_list}>
                         {postImg ?
                             (<li className={style.preview_img}>
-                                <img src={URL.createObjectURL(postImg)} alt="preview image" />
+                                <img src={`http://localhost:8080/notice/image?name=${file.name}`} alt="preview image" />
                                 <span className={style.remove_preview_btn} onClick={clearImg} >×</span>
                             </li>) : (<li className={style.upload_img_btn}>
                                 <label className={style.file_upload_box} name="upload">
@@ -160,9 +161,10 @@ function NoticeEdit() {
                     </ul>
                 </div>
                 <div className={style.buttons}>
-                    <button type='button' className={style.cancelButton} onClick={handleCancel}>목록으로</button>
-                    <button type='submit' className={style.submitButton} onClick={handleSubmit}>수정</button>
+                    <button type='button' className={style.cancelButton} onClick={() => { handleCancel() }}>목록으로</button>
+                    <button type='submit' className={style.submitButton} onClick={() => { handleSubmit() }}>수정</button>
                 </div>
+
 
                 {modalOpen && (
                     <div className={style.back}>
@@ -171,6 +173,7 @@ function NoticeEdit() {
                             <p className={style.modalTitle}>공지사항이 수정되었습니다.</p>
 
                             <button className={style.modalButton} onClick={goNotice}>확인</button>
+
                         </div>
                     </div>
                 )}
@@ -191,23 +194,18 @@ function NoticeEdit() {
                             <p className={style.modalContext}>작성 취소된 내용은 되돌릴 수 없습니다.</p>
                             <div className={style.modalButtonBox}>
                                 <button className={style.modalButton} onClick={() => setCheckModal(false)}>취소</button>
+
                                 <button className={style.modalButton} onClick={goNotice}>확인</button>
+
                             </div>
                         </div>
                     </div>
                 )}
-                {noChangesModal && (
-                    <div className={style.back}>
-                        <div className={style.modal}>
-                            <img src='/images/commons/icon_alert.png' alt='경고' width={45} />
-                            <p className={style.modalTitle}>변경된 사항이 없습니다.</p>
-                            <button className={style.modalButton} onClick={closeBtn}>확인</button>
-                        </div>
-                    </div>
-                )}
+
             </div>
         </div>
     )
+
 }
 
 export default NoticeEdit;
