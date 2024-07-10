@@ -95,7 +95,7 @@ public class JWTUtil {
         }
     }
 
-    public int getuserCode(String refresh) {
-        return getClaims(refresh).get("usercode", int.class);
+    public int getuserCode(String access) {
+        return getClaims(access).get("userCode", int.class);
     }
 }

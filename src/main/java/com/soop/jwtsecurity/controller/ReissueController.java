@@ -10,10 +10,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
-import java.util.Date;
+import java.util.Map;
 
 @Controller
 @ResponseBody
@@ -28,94 +29,77 @@ public class ReissueController {
     }
 
     @PostMapping("/reissue")
-    public void reissue(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // 클라이언트로부터 사용자 식별 정보를 가져옵니다. 보통은 엑세스 토큰이나 기타 정보를 사용합니다.
+    public void reissue(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws IOException {
         String accessToken = null;
+        Integer userCode = (Integer) requestBody.get("userCode");
 
+        // 쿠키에서 액세스 토큰 추출
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("access")) {
+                if ("access".equals(cookie.getName())) {
                     accessToken = cookie.getValue();
                     break;
                 }
             }
         }
 
+        // 액세스 토큰이 없으면 에러 처리
+        if (accessToken == null) {
+            response.sendRedirect("http://localhost:3001/login?error=access_token_missing");
+            return;
+        }
+
         String signupPlatform = null;
         try {
-            signupPlatform = jwtUtil.getSignupPlatform(accessToken);
+            signupPlatform = jwtUtil.getSignupPlatformFromToken(accessToken);
         } catch (ExpiredJwtException e) {
-            response.sendRedirect("http://localhost:3001/login?error=access token expired");
+            response.sendRedirect("http://localhost:3001/login?error=access_token_expired");
+            return;
+        } catch (Exception e) {
+            response.sendRedirect("http://localhost:3001/login?error=invalid_access_token");
             return;
         }
 
         if (signupPlatform == null) {
-            response.sendRedirect("http://localhost:3001/login?error=invalid access token");
+            response.sendRedirect("http://localhost:3001/login?error=invalid_signup_platform");
             return;
         }
 
-
-        // 서버 DB에서 해당 사용자의 리프레시 토큰을 조회합니다.
-        String refresh = userMapper.searchRefreshEntity(signupPlatform);
-
-        if (refresh == null) {
-            response.sendRedirect("http://localhost:3001/login?error=refresh token null");
+        // 서버 DB에서 해당 사용자의 리프레시 토큰 조회
+        String refreshToken = userMapper.searchRefreshEntity(signupPlatform);
+        if (refreshToken == null) {
+            response.sendRedirect("http://localhost:3001/login?error=refresh_token_missing");
             return;
         }
 
-        // 토큰 만료 확인
+        // 리프레시 토큰 유효성 검사
         try {
-            jwtUtil.isExpired(refresh);
+            if (jwtUtil.isExpired(refreshToken)) {
+                response.sendRedirect("http://localhost:3001/login?error=refresh_token_expired");
+                return;
+            }
         } catch (ExpiredJwtException e) {
-            response.sendRedirect("http://localhost:3001/login?error=refresh token expired");
+            response.sendRedirect("http://localhost:3001/login?error=refresh_token_expired");
             return;
-        }
-
-        // 리프레시 토큰인지 확인
-        String category = jwtUtil.getCategory(refresh);
-        if (!"refresh".equals(category)) {
-            response.sendRedirect("http://localhost:3001/login?error=invalid refresh token");
+        } catch (Exception e) {
+            response.sendRedirect("http://localhost:3001/login?error=invalid_refresh_token");
             return;
         }
 
         // 새로운 액세스 토큰 발급
-        String role = jwtUtil.getUserRole(refresh);
-        int userCode = jwtUtil.getuserCode(refresh);
-        String newAccess = jwtUtil.createJwt("access", signupPlatform, role, userCode, 1200L * 1000);
-//        String newRefresh = jwtUtil.createJwt("refresh", signupPlatform, role, userCode, 86400L * 1000);
+        String role = jwtUtil.getRoleFromRefreshToken(refreshToken);
+        String newAccessToken = jwtUtil.createJwt("access", signupPlatform, role, userCode, 300L * 1000);
 
-        if (accessToken == null) {
-            response.sendRedirect("http://localhost:3001/login?error=access token null");
-            return;
-        }
 
-        // DB에 리프레시 토큰 업데이트
-//        userMapper.deleteByRefresh(refresh);
-//        addRefreshEntity(signupPlatform, newRefresh, 86400L * 1000);
-
-        // 새 리프레시 토큰을 HTTP-Only 쿠키에 추가
-//        createAndAddCookie(response, "refresh", newRefresh);
-        // 새 액세스 토큰을 HTTP-Only 쿠키에 추가
-        createAndAddCookie(response, "access", newAccess);
+        createAndAddCookie(response, "access", newAccessToken);
 
         response.setStatus(HttpStatus.OK.value());
     }
 
-    private void addRefreshEntity(String signupPlatform, String refresh, Long expiredMs) {
-        Date date = new Date(System.currentTimeMillis() + expiredMs);
-
-        RefreshEntity refreshEntity = new RefreshEntity();
-        refreshEntity.setSignupPlatform(signupPlatform);
-        refreshEntity.setRefresh(refresh);
-        refreshEntity.setExpiration(date.toString());
-
-        userMapper.saveRefreshEntity(refreshEntity);
-    }
-
     private void createAndAddCookie(HttpServletResponse response, String key, String value) {
         Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(20 * 60); // 10분
+        cookie.setMaxAge(5 * 60); // 20 minutes
         cookie.setDomain("localhost");
         cookie.setHttpOnly(false); // JavaScript에서 접근 불가하도록 설정
         cookie.setPath("/");
