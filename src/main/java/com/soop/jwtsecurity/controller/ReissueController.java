@@ -31,6 +31,7 @@ public class ReissueController {
     public void reissue(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 클라이언트로부터 사용자 식별 정보를 가져옵니다. 보통은 엑세스 토큰이나 기타 정보를 사용합니다.
         String accessToken = null;
+
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -40,8 +41,6 @@ public class ReissueController {
                 }
             }
         }
-
-
 
         String signupPlatform = null;
         try {
@@ -83,8 +82,8 @@ public class ReissueController {
         // 새로운 액세스 토큰 발급
         String role = jwtUtil.getUserRole(refresh);
         int userCode = jwtUtil.getuserCode(refresh);
-        String newAccess = jwtUtil.createJwt("access", signupPlatform, role, userCode, 600L * 1000);
-        String newRefresh = jwtUtil.createJwt("refresh", signupPlatform, role, userCode, 86400L * 1000);
+        String newAccess = jwtUtil.createJwt("access", signupPlatform, role, userCode, 1200L * 1000);
+//        String newRefresh = jwtUtil.createJwt("refresh", signupPlatform, role, userCode, 86400L * 1000);
 
         if (accessToken == null) {
             response.sendRedirect("http://localhost:3001/login?error=access token null");
@@ -92,8 +91,8 @@ public class ReissueController {
         }
 
         // DB에 리프레시 토큰 업데이트
-        userMapper.deleteByRefresh(refresh);
-        addRefreshEntity(signupPlatform, newRefresh, 86400L * 1000);
+//        userMapper.deleteByRefresh(refresh);
+//        addRefreshEntity(signupPlatform, newRefresh, 86400L * 1000);
 
         // 새 리프레시 토큰을 HTTP-Only 쿠키에 추가
 //        createAndAddCookie(response, "refresh", newRefresh);
@@ -116,7 +115,7 @@ public class ReissueController {
 
     private void createAndAddCookie(HttpServletResponse response, String key, String value) {
         Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(10 * 60); // 10분
+        cookie.setMaxAge(20 * 60); // 10분
         cookie.setDomain("localhost");
         cookie.setHttpOnly(false); // JavaScript에서 접근 불가하도록 설정
         cookie.setPath("/");
