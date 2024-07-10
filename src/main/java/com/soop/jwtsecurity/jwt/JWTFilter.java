@@ -1,4 +1,5 @@
 
+
 package com.soop.jwtsecurity.jwt;
 
 import com.soop.jwtsecurity.dto.CustomOAuth2User;
@@ -81,4 +82,3 @@ public class JWTFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 }
-

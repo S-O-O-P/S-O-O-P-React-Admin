@@ -3,6 +3,7 @@ package com.soop.jwtsecurity.controller;
 import com.soop.jwtsecurity.entityDTO.UserEntity;
 import com.soop.jwtsecurity.jwt.JWTUtil;
 import com.soop.jwtsecurity.mapper.UserMapper;
+import com.soop.pages.honeypot.model.dto.InterestDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +20,18 @@ public class SignUpController {
     }
 
     @PostMapping("/signup")
-    public UserEntity signUp(@RequestBody UserEntity userSignUpDTO,String token) {
+    public UserEntity signUp(@RequestBody UserEntity userSignUpDTO, String token, InterestDTO interestDTO) {
 
         userMapper.saveAboutMe(userSignUpDTO.getAboutMe(), userSignUpDTO.getSignupPlatform(), userSignUpDTO.getNickName());
+        int userCode = (userMapper.findBySignupPlatform(userSignUpDTO.getSignupPlatform()).getUserCode());
+//        userMapper.saveInterestCode(interestDTO.getInterestCode(),interestDTO.getInterestName());
+        System.out.println("userCode: "+ userCode);
         System.out.println("Received aboutMe: " + userSignUpDTO.getAboutMe());
         System.out.println("Received signupPlatform: " + userSignUpDTO.getSignupPlatform());
         System.out.println("Received nickName: " + userSignUpDTO.getNickName());
-//        System.out.println("Received selectedInterests: " + userSignUpDTO.getSelectedInterests());
-        userMapper.saveAboutMe(userSignUpDTO.getAboutMe(), userSignUpDTO.getSignupPlatform(), userSignUpDTO.getNickName());
+//        System.out.println("Received selectedInterests: " + interestDTO.getInterestCode());
+//        System.out.println("Received selectedInterests: " + interestDTO.getInterestName());
+
         return userSignUpDTO;
     }
 

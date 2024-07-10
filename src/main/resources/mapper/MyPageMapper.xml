@@ -30,29 +30,28 @@
         A.ABOUTME,
         B.USER_RATING_CODE,
         B.HONEYPOT_CODE,
-        B.RATEE_CODE,
-        D.NICKNAME AS RATEE_NICKNAME,
+        B.RATER_CODE,
+        D.NICKNAME AS RATER_NICKNAME,
         B.RATING_CODE,
         C.RATING_NAME,
         C.SCORE,
         C.CONTENT,
         AVG_C.AVERAGE_SCORE
         FROM LINKBEE_USER A
-        LEFT JOIN USER_RATING B ON A.USER_CODE = B.RATER_CODE
+        LEFT JOIN USER_RATING B ON A.USER_CODE = B.RATEE_CODE
         LEFT JOIN RATING C ON B.RATING_CODE = C.RATING_CODE
-        LEFT JOIN LINKBEE_USER D ON B.RATEE_CODE = D.USER_CODE
+        LEFT JOIN LINKBEE_USER D ON B.RATER_CODE = D.USER_CODE
         LEFT JOIN
         (SELECT
-        RATER_CODE,
+        RATEE_CODE,
         AVG(SCORE) AS AVERAGE_SCORE
         FROM
         USER_RATING
         LEFT JOIN
         RATING ON USER_RATING.RATING_CODE = RATING.RATING_CODE
         GROUP BY
-        RATER_CODE) AVG_C ON A.USER_CODE = AVG_C.RATER_CODE
-        WHERE A.USER_CODE = #{userCode}
-
+        RATEE_CODE) AVG_C ON A.USER_CODE = AVG_C.RATEE_CODE
+        WHERE A.USER_CODE = ${userCode}
     </select>
 
     <!-- 유저평가 항목 관련 ResultMap -->
@@ -104,18 +103,18 @@
     <!-- 내가만든 허니팟 조회 -->
     <select id="getMyHoneypotList" resultMap="myHoneypotResultMap">
         SELECT
-                A.USER_CODE AS HOST_CODE,
-                A.NICKNAME,
-                B.INTEREST_CODE,
-                C.INTEREST_NAME,
-                B.HONEYPOT_CODE,
-                B.HONEYPOT_TITLE,
-                B.EVENT_DATE,
-                B.REGION,
-                COUNT(D.APPLICATION_CODE) AS APPROVED_COUNT,
-                B.TOTAL_MEMBER,
-                B.VISIBILITY_STATUS,
-                B.CLOSURE_STATUS
+        A.USER_CODE AS HOST_CODE,
+        A.NICKNAME,
+        B.INTEREST_CODE,
+        C.INTEREST_NAME,
+        B.HONEYPOT_CODE,
+        B.HONEYPOT_TITLE,
+        B.EVENT_DATE,
+        B.REGION,
+        COUNT(D.APPLICATION_CODE) AS APPROVED_COUNT,
+        B.TOTAL_MEMBER,
+        B.VISIBILITY_STATUS,
+        B.CLOSURE_STATUS
         FROM LINKBEE_USER A
         LEFT JOIN HONEYPOT B ON B.USER_CODE = A.USER_CODE
         LEFT JOIN INTEREST C ON C.INTEREST_CODE = B.INTEREST_CODE
@@ -165,28 +164,28 @@
         A.USER_CODE, C.TOTAL_MEMBER, D.NICKNAME, B.DECISION_STATUS, B.DECISION_DATE;
     </select>
 
-<!--    &lt;!&ndash; 유저 프로필 관련 ResultMap &ndash;&gt;-->
-<!--    <resultMap id="userProfileResultMap" type="com.soop.pages.mypage.model.dto.UserProfileDTO">-->
-<!--        <id property="userCode" column="USER_CODE"/>-->
-<!--        <result property="nickname" column="NICKNAME"/>-->
-<!--        <result property="profilePic" column="PROFILE_PIC"/>-->
-<!--        <result property="aboutme" column="ABOUTME"/>-->
-<!--        <result property="interestCode" column="INTEREST_CODE"/>-->
-<!--        <result property="interestName" column="INTEREST_NAME"/>-->
-<!--    </resultMap>-->
-<!--    &lt;!&ndash; 유저 프로필 조회 &ndash;&gt;-->
-<!--    <select id="getUserProfile" resultMap="userProfileResultMap">-->
-<!--        SELECT-->
-<!--        A.USER_CODE,-->
-<!--        A.NICKNAME,-->
-<!--        A.PROFILE_PIC,-->
-<!--        A.ABOUTME,-->
-<!--        B.INTEREST_CODE,-->
-<!--        C.INTEREST_NAME-->
-<!--        FROM LINKBEE_USER A-->
-<!--        LEFT JOIN INTEREST_OF_USER B ON B.USER_CODE = A.USER_CODE-->
-<!--        LEFT JOIN INTEREST C ON C.INTEREST_CODE = B.INTEREST_CODE;-->
-<!--    </select>-->
+    <!--    &lt;!&ndash; 유저 프로필 관련 ResultMap &ndash;&gt;-->
+    <!--    <resultMap id="userProfileResultMap" type="com.soop.pages.mypage.model.dto.UserProfileDTO">-->
+    <!--        <id property="userCode" column="USER_CODE"/>-->
+    <!--        <result property="nickname" column="NICKNAME"/>-->
+    <!--        <result property="profilePic" column="PROFILE_PIC"/>-->
+    <!--        <result property="aboutme" column="ABOUTME"/>-->
+    <!--        <result property="interestCode" column="INTEREST_CODE"/>-->
+    <!--        <result property="interestName" column="INTEREST_NAME"/>-->
+    <!--    </resultMap>-->
+    <!--    &lt;!&ndash; 유저 프로필 조회 &ndash;&gt;-->
+    <!--    <select id="getUserProfile" resultMap="userProfileResultMap">-->
+    <!--        SELECT-->
+    <!--        A.USER_CODE,-->
+    <!--        A.NICKNAME,-->
+    <!--        A.PROFILE_PIC,-->
+    <!--        A.ABOUTME,-->
+    <!--        B.INTEREST_CODE,-->
+    <!--        C.INTEREST_NAME-->
+    <!--        FROM LINKBEE_USER A-->
+    <!--        LEFT JOIN INTEREST_OF_USER B ON B.USER_CODE = A.USER_CODE-->
+    <!--        LEFT JOIN INTEREST C ON C.INTEREST_CODE = B.INTEREST_CODE;-->
+    <!--    </select>-->
 
     <!-- 관심사 관련 ResultMap -->
     <resultMap id="interestResultMap" type="com.soop.pages.mypage.model.dto.InterestDTO">
@@ -213,13 +212,13 @@
     <!-- 댓글 조회 -->
     <select id="getMyComments" resultMap="myCommentResultMap">
         SELECT
-            A.COMMENT_CODE,
-            A.HONEYPOT_CODE,
-            B.HONEYPOT_TITLE,
-            A.USER_CODE,
-            A.CONTENT,
-            A.WRITING_TIME,
-            A.UPDATE_TIME,
+        A.COMMENT_CODE,
+        A.HONEYPOT_CODE,
+        B.HONEYPOT_TITLE,
+        A.USER_CODE,
+        A.CONTENT,
+        A.WRITING_TIME,
+        A.UPDATE_TIME,
         CASE
         WHEN B.USER_CODE = A.USER_CODE THEN '호스트' ELSE '참여자' END AS USER_TYPE
         FROM `COMMENT` A
@@ -240,13 +239,13 @@
     <!-- 문의내역 조회 -->
     <select id="getMyInquiry" resultMap="myInquiryResultMap">
         SELECT
-            A.INQUIRY_CODE,
-            A.CATEGORY,
-            A.TITLE,
-            A.CONTENT,
-            A.USER_CODE,
-            A.INQUIRY_DATE,
-            A.ANSWER_STATUS
+        A.INQUIRY_CODE,
+        A.CATEGORY,
+        A.TITLE,
+        A.CONTENT,
+        A.USER_CODE,
+        A.INQUIRY_DATE,
+        A.ANSWER_STATUS
         FROM INQUIRY A;
     </select>
 
@@ -273,37 +272,37 @@
     <!-- 진행완료된 허니팟 조회 -->
     <select id="getFinishedHoneypot" resultMap="finishedHoneypotResultMap">
         SELECT
-                A.HONEYPOT_CODE,
-                G.NICKNAME AS HOST_NICKNAME,
-                G.PROFILE_PIC AS HOST_PROFILE_PIC,
-                B.INTEREST_NAME,
-                A.HONEYPOT_TITLE,
-                A.USER_CODE AS HOST_CODE,
-                A.POSTER,
-                A.TOTAL_MEMBER,
-                A.REG_DATE,
-                A.EVENT_DATE,
-                A.END_DATE,
-                A.CLOSURE_STATUS,
-                COALESCE(D.APPROVAL_COUNT, 0) AS APPROVAL_COUNT, -- 승인된 사람들 수
-                E.USER_CODE AS MEMBER_CODE,
-                E.NICKNAME AS MEMBER_NICKNAME,
-                E.PROFILE_PIC AS MEMBER_PROFILE_PIC
+        A.HONEYPOT_CODE,
+        G.NICKNAME AS HOST_NICKNAME,
+        G.PROFILE_PIC AS HOST_PROFILE_PIC,
+        B.INTEREST_NAME,
+        A.HONEYPOT_TITLE,
+        A.USER_CODE AS HOST_CODE,
+        A.POSTER,
+        A.TOTAL_MEMBER,
+        A.REG_DATE,
+        A.EVENT_DATE,
+        A.END_DATE,
+        A.CLOSURE_STATUS,
+        COALESCE(D.APPROVAL_COUNT, 0) AS APPROVAL_COUNT, -- 승인된 사람들 수
+        E.USER_CODE AS MEMBER_CODE,
+        E.NICKNAME AS MEMBER_NICKNAME,
+        E.PROFILE_PIC AS MEMBER_PROFILE_PIC
         FROM
         HONEYPOT A
         LEFT JOIN INTEREST B ON A.INTEREST_CODE = B.INTEREST_CODE
         LEFT JOIN LINKBEE_USER G ON A.USER_CODE = G.USER_CODE
         LEFT JOIN (
-                    SELECT C.HONEYPOT_CODE, COUNT(*) AS APPROVAL_COUNT
-                    FROM APPLICATION C
-                    LEFT JOIN APPROVAL_STATUS D ON C.APPLICATION_CODE = D.APPLICATION_CODE AND D.DECISION_STATUS = '승인'
-                    GROUP BY C.HONEYPOT_CODE
-                  ) D ON A.HONEYPOT_CODE = D.HONEYPOT_CODE
+        SELECT C.HONEYPOT_CODE, COUNT(*) AS APPROVAL_COUNT
+        FROM APPLICATION C
+        LEFT JOIN APPROVAL_STATUS D ON C.APPLICATION_CODE = D.APPLICATION_CODE AND D.DECISION_STATUS = '승인'
+        GROUP BY C.HONEYPOT_CODE
+        ) D ON A.HONEYPOT_CODE = D.HONEYPOT_CODE
         LEFT JOIN (
-                    SELECT C.HONEYPOT_CODE,E.USER_CODE, E.NICKNAME, E.PROFILE_PIC
-                    FROM APPLICATION C
-                    LEFT JOIN LINKBEE_USER E ON C.USER_CODE = E.USER_CODE
-                  ) E ON A.HONEYPOT_CODE = E.HONEYPOT_CODE
+        SELECT C.HONEYPOT_CODE,E.USER_CODE, E.NICKNAME, E.PROFILE_PIC
+        FROM APPLICATION C
+        LEFT JOIN LINKBEE_USER E ON C.USER_CODE = E.USER_CODE
+        ) E ON A.HONEYPOT_CODE = E.HONEYPOT_CODE
         WHERE A.CLOSURE_STATUS = '진행완료';
     </select>
 
@@ -320,19 +319,19 @@
 
     <select id="getUserProfile" resultMap="UserProfileResultMap">
         SELECT
-                u.USER_CODE,
-                u.NICKNAME,
-                u.PROFILE_PIC,
-                u.ABOUTME,
-                i.INTEREST_CODE,
-                i.INTEREST_NAME
+        u.USER_CODE,
+        u.NICKNAME,
+        u.PROFILE_PIC,
+        u.ABOUTME,
+        i.INTEREST_CODE,
+        i.INTEREST_NAME
         FROM LINKBEE_USER u
         LEFT JOIN INTEREST_OF_USER iou ON u.USER_CODE = iou.USER_CODE
         LEFT JOIN INTEREST i ON iou.INTEREST_CODE = i.INTEREST_CODE
         WHERE u.USER_CODE = #{userCode}
     </select>
 
-    <update id="updateUserProfile">
+    <update id="updateProfile">
         UPDATE LINKBEE_USER
         SET NICKNAME = #{nickname},
         ABOUTME = #{aboutme},
@@ -348,7 +347,7 @@
     <insert id="insertUserInterests">
         INSERT INTO INTEREST_OF_USER (USER_CODE, INTEREST_CODE)
         VALUES
-        <foreach collection="interests" item="interestCode" separator=",">
+        <foreach collection="interestCodes" item="interestCode" separator=",">
             (#{userCode}, #{interestCode})
         </foreach>
     </insert>
@@ -362,10 +361,10 @@
 
     <select id="getUserRef" resultMap="loginResultMap">
         SELECT
-            A.USER_CODE,
-            A.SIGNUP_PLATFORM,
-            B.REFRESH
-            FROM LINKBEE_USER A
+        A.USER_CODE,
+        A.SIGNUP_PLATFORM,
+        B.REFRESH
+        FROM LINKBEE_USER A
         LEFT JOIN REFRESHENTITY B ON B.SIGNUP_PLATFORM = A.SIGNUP_PLATFORM;
     </select>
 

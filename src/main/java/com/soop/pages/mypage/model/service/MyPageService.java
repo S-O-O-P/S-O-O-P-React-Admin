@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class MyPageService {
@@ -67,19 +68,19 @@ public class MyPageService {
         return myPageMapper.getUserProfile(userCode);
     }
 
-    @Transactional
-    public void updateUserProfile(Integer userCode, UserProfileUpdateDTO dto) {
-        // 사용자 정보 업데이트
-        myPageMapper.updateUserProfile(userCode, dto.getNickname(), dto.getAboutme(), dto.getProfilePic());
-
-        // 기존 관심사 삭제
-        myPageMapper.deleteUserInterests(userCode);
-
-        // 새 관심사 추가
-        if (dto.getInterests() != null && !dto.getInterests().isEmpty()) {
-            myPageMapper.insertUserInterests(userCode, dto.getInterests());
-        }
-    }
+//    @Transactional
+//    public void updateUserProfile(Integer userCode, UserProfileUpdateDTO dto) {
+//        // 사용자 정보 업데이트
+//        myPageMapper.updateUserProfile(userCode, dto.getNickname(), dto.getAboutme(), dto.getProfilePic());
+//
+//        // 기존 관심사 삭제
+//        myPageMapper.deleteUserInterests(userCode);
+//
+//        // 새 관심사 추가
+//        if (dto.getInterests() != null && !dto.getInterests().isEmpty()) {
+//            myPageMapper.insertUserInterests(userCode, dto.getInterests());
+//        }
+//    }
 
     public List<RefreshDTO> getUserRef() {
         return myPageMapper.getUserRef();
@@ -105,5 +106,42 @@ public class MyPageService {
         myPageMapper.updateProfilePic(profileUpdateDTO);
 
         return profilePicUrl;
+    }
+
+    @Transactional
+//    public void updateUserProfile(Integer userCode, UserProfileUpdateDTO dto) {
+//        // 사용자 정보 업데이트
+//        myPageMapper.updateUserProfile(userCode, dto.getNickname(), dto.getAboutme(), dto.getProfilePic());
+//
+//        // 기존 관심사 삭제
+//        myPageMapper.deleteUserInterests(userCode);
+//
+//        // 새 관심사 추가
+//        if (dto.getInterests() != null && !dto.getInterests().isEmpty()) {
+//            myPageMapper.insertUserInterests(userCode, dto.getInterests());
+//        }
+//    }
+    public UserProfileDTO updateProfile(Integer userCode, UserProfileDTO dto) {
+
+        // 기존 유저 프로필 정보 가져오기
+        UserProfileDTO updateProfile = myPageMapper.getUserProfile(userCode);
+
+        // 수정할 항목들
+        updateProfile.setNickname(dto.getNickname());
+        updateProfile.setAboutme(dto.getAboutme());
+        updateProfile.setInterests(dto.getInterests());
+
+        myPageMapper.updateProfile(updateProfile);
+
+        // 관심사 업데이트
+        myPageMapper.deleteUserInterests(userCode);
+        if (dto.getInterests() != null && !dto.getInterests().isEmpty()) {
+            List<Integer> interestCodes = dto.getInterests().stream()
+                    .map(InterestDTO::getInterestCode)
+                    .collect(Collectors.toList());
+            myPageMapper.insertUserInterests(userCode, interestCodes);
+        }
+
+        return myPageMapper.getUserProfile(userCode);
     }
 }
