@@ -20,5 +20,8 @@ public class MyInquiryDTO {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date inquiryDate;
     private String answerStatus;
+    private String answer;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date answerDate;
 
 }

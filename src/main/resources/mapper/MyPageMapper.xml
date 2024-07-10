@@ -234,19 +234,14 @@
         <result property="userCode" column="USER_CODE"/>
         <result property="inquiryDate" column="INQUIRY_DATE"/>
         <result property="answerStatus" column="ANSWER_STATUS"/>
+        <result property="answer" column="ANSWER"/>
+        <result property="answerDate" column="ANSWER_DATE"/>
     </resultMap>
 
     <!-- 문의내역 조회 -->
     <select id="getMyInquiry" resultMap="myInquiryResultMap">
-        SELECT
-        A.INQUIRY_CODE,
-        A.CATEGORY,
-        A.TITLE,
-        A.CONTENT,
-        A.USER_CODE,
-        A.INQUIRY_DATE,
-        A.ANSWER_STATUS
-        FROM INQUIRY A;
+        SELECT * FROM INQUIRY
+        WHERE USER_CODE = ${userCode}
     </select>
 
     <!-- 유저평가 관련 ResultMap -->

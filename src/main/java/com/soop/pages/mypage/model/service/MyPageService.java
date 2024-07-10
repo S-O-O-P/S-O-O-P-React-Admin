@@ -52,8 +52,8 @@ public class MyPageService {
         return myPageMapper.getMyComments();
     }
 
-    public List<MyInquiryDTO> getMyInquiry() {
-        return myPageMapper.getMyInquiry();
+    public List<MyInquiryDTO> getMyInquiry(int userCode) {
+        return myPageMapper.getMyInquiry(userCode);
     }
 
     public List<FinishedHoneypotDTO> getFinishedHoneypot() {

@@ -115,9 +115,9 @@ public class MyPageController {
     }
 
     // 문의 내역 조회
-    @GetMapping("/myinquiry")
-    public ResponseEntity<List<MyInquiryDTO>> getMyInquiry() {
-        List<MyInquiryDTO> myInquiryList = myPageService.getMyInquiry();
+    @GetMapping("/myinquiry/{userCode}")
+    public ResponseEntity<List<MyInquiryDTO>> getMyInquiry(@PathVariable int userCode) {
+        List<MyInquiryDTO> myInquiryList = myPageService.getMyInquiry(userCode);
         return ResponseEntity.ok(myInquiryList);
     }
 

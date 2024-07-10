@@ -25,7 +25,7 @@ public interface MyPageMapper {
 
     List<MyCommentDTO> getMyComments();
 
-    List<MyInquiryDTO> getMyInquiry();
+    List<MyInquiryDTO> getMyInquiry(int userCode);
 
     List<FinishedHoneypotDTO> getFinishedHoneypot();
 
