@@ -1,12 +1,12 @@
-
-
 package com.soop.jwtsecurity.jwt;
 
 import com.soop.jwtsecurity.dto.CustomOAuth2User;
 import com.soop.jwtsecurity.entityDTO.UserEntity;
+import com.soop.jwtsecurity.mapper.UserMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,35 +20,47 @@ import java.io.PrintWriter;
 public class JWTFilter extends OncePerRequestFilter {
 
     private final JWTUtil jwtUtil;
+    private final UserMapper userMapper;
 
-    public JWTFilter(JWTUtil jwtUtil) {
+    public JWTFilter(JWTUtil jwtUtil, UserMapper userMapper) {
         this.jwtUtil = jwtUtil;
+        this.userMapper = userMapper;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String accessToken = request.getHeader("Authorization");
-        String refreshToken = request.getHeader("Refresh-Token");
 
-        if (accessToken == null || !accessToken.startsWith("Bearer ")) {
+        String accessToken = null;
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("access".equals(cookie.getName())) {
+                    accessToken = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        if (accessToken == null) {
             filterChain.doFilter(request, response);
             return;
         }
-
-        accessToken = accessToken.substring(7);
 
         try {
             if (jwtUtil.isExpired(accessToken)) {
                 throw new ExpiredJwtException(null, null, "Access token is expired");
             }
         } catch (ExpiredJwtException e) {
+            String refreshToken = userMapper.searchRefreshEntity(jwtUtil.getSignupPlatformFromToken(accessToken));
             if (refreshToken != null && jwtUtil.validateRefreshToken(refreshToken)) {
                 String username = jwtUtil.getUsernameFromRefreshToken(refreshToken);
                 String role = jwtUtil.getRoleFromRefreshToken(refreshToken);
                 String newAccessToken = jwtUtil.generateAccessToken(username, role);
 
-                response.setHeader("Authorization", "Bearer " + newAccessToken);
-                response.setHeader("Access-Control-Expose-Headers", "Authorization");
+                Cookie newAccessTokenCookie = new Cookie("access", newAccessToken);
+                newAccessTokenCookie.setHttpOnly(false);
+                newAccessTokenCookie.setPath("/");
+                response.addCookie(newAccessTokenCookie);
+
                 filterChain.doFilter(request, response);
                 return;
             } else {
@@ -57,6 +69,7 @@ public class JWTFilter extends OncePerRequestFilter {
                 writer.print("Access token is expired");
                 return;
             }
+
         }
 
         String category = jwtUtil.getCategory(accessToken);
