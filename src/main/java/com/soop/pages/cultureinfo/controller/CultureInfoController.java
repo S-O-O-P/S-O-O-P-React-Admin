@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/cultureInfo")
+@RequestMapping("/cultureinfo")
 public class CultureInfoController {
   private final CultureInfoService cultureInfoService;
 
