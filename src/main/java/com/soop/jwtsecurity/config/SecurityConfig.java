@@ -4,6 +4,7 @@ package com.soop.jwtsecurity.config;
 import com.soop.jwtsecurity.handler.CustomSuccessHandler;
 import com.soop.jwtsecurity.jwt.JWTFilter;
 import com.soop.jwtsecurity.jwt.JWTUtil;
+import com.soop.jwtsecurity.mapper.UserMapper;
 import com.soop.jwtsecurity.service.CustomOAuth2UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
@@ -27,11 +28,13 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomSuccessHandler customSuccessHandler;
     private final JWTUtil jwtUtil;
+    private final UserMapper userMapper;
 
-    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, CustomSuccessHandler customSuccessHandler, JWTUtil jwtUtil) {
+    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, CustomSuccessHandler customSuccessHandler, JWTUtil jwtUtil,UserMapper userMapper) {
         this.customOAuth2UserService = customOAuth2UserService;
         this.customSuccessHandler = customSuccessHandler;
         this.jwtUtil = jwtUtil;
+        this.userMapper = userMapper;
     }
 
     @Bean
@@ -40,7 +43,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable());
         http.formLogin(form -> form.disable());
         http.httpBasic(basic -> basic.disable());
-        http.addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JWTFilter(jwtUtil,userMapper), UsernamePasswordAuthenticationFilter.class);
         http.oauth2Login(oauth2 -> oauth2
                 .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                         .userService(customOAuth2UserService))
