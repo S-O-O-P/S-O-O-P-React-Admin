@@ -66,7 +66,7 @@ function NoticeRegistPage() {
             formData.append('category', selected);
             formData.append('title', title);
             formData.append('content', content);
-            formData.append('userCode', 7);
+            formData.append('userCode', 1);
             formData.append('file', postImg);
 
 
