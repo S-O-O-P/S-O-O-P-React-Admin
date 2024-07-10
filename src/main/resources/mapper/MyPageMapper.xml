@@ -370,7 +370,13 @@
         WHERE USER_CODE = #{userCode}
     </update>
 
-
+    <!-- 프로필 사진 이름 불러오기 (삭제관련) -->
+    <select id="getProfilePicFileName" resultType="String">
+        SELECT
+                PROFILE_PIC
+        FROM LINKBEE_USER
+        WHERE USER_CODE = #{userCode}
+    </select>
 
 
 </mapper>

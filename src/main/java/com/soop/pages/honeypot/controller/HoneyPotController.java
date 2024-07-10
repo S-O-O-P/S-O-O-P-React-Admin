@@ -308,6 +308,20 @@ public class HoneyPotController {
         honeyPotService.updateClosureStatus();
     }
 
+    // 허니팟 신고 하기
+    @PutMapping("/report/{honeypotCode}")
+    public ResponseEntity<HoneypotResponseMessage> reportHoneypot(@PathVariable int honeypotCode) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        HoneypotDTO reportedHoneypot = honeyPotService.reportHoneypot(honeypotCode);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("reportCount", reportedHoneypot.getReportCount());
+
+        return ResponseEntity.ok().headers(headers).body(new HoneypotResponseMessage(200, "신고 성공", responseMap));
+    }
+
 
 
 

@@ -2,6 +2,8 @@ package com.soop.pages.mypage.model.service;
 
 import com.soop.pages.mypage.model.dao.MyPageMapper;
 import com.soop.pages.mypage.model.dto.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 public class MyPageService {
 
     private MyPageMapper myPageMapper;
+    private static final Logger logger = LoggerFactory.getLogger(MyPageService.class);
 
     public MyPageService(MyPageMapper myPageMapper) {
         this.myPageMapper = myPageMapper;
@@ -89,6 +92,11 @@ public class MyPageService {
     @Value("${file.upload-dir}")
     private String uploadDir;
     public String updateProfilePic(Integer userCode, MultipartFile file) throws IOException {
+
+        // 기존 프로필 사진 파일명 가져오기
+        String oldFileName = myPageMapper.getProfilePicFileName(userCode);
+        System.out.println("oldFileName = " + oldFileName);
+        logger.info("oldFileName = " + oldFileName);
         String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
 
         Path uploadPath = Paths.get(uploadDir);
@@ -96,6 +104,15 @@ public class MyPageService {
             Files.createDirectories(uploadPath);
         }
 
+        // 기존 파일 삭제
+        if (oldFileName != null && !oldFileName.isEmpty()) {
+            Path oldFilePath = uploadPath.resolve(oldFileName);
+            logger.info("Attempting to delete file: " + oldFilePath);
+            boolean deleted = Files.deleteIfExists(oldFilePath);
+            logger.info("File deletion result: " + (deleted ? "success" : "failed"));
+        }
+
+        // 새 파일 저장
         Path filePath = uploadPath.resolve(fileName);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 

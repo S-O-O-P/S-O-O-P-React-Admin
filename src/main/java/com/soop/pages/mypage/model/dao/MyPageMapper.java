@@ -46,4 +46,6 @@ public interface MyPageMapper {
     void updateProfile(UserProfileDTO updateProfile);
 
     void insertUserInterests(@Param("userCode") Integer userCode, @Param("interestCodes") List<Integer> interestCodes);
+
+    String getProfilePicFileName(Integer userCode);
 }

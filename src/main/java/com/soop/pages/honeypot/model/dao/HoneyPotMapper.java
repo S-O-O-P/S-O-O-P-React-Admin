@@ -65,6 +65,9 @@ public interface HoneyPotMapper {
     void updateClosureStatus();
 
     void deleteHoneypotByHoneypotCode(int honeypotCode);
+
+    // 허니팟 신고 기능
+    void reportHoneypot(int honeypotCode);
 }
 
 
