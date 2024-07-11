@@ -137,11 +137,23 @@ public class MyPageController {
     }
 
     // 프로필 사진 수정
+//    @PutMapping("/profile-pic/{userCode}")
+//    public ResponseEntity<?> updateProfilePic(@PathVariable Integer userCode,
+//                                              @RequestParam("file") MultipartFile file) {
+//
+//        try {
+//            String profilePicUrl = myPageService.updateProfilePic(userCode, file);
+//            return ResponseEntity.ok(profilePicUrl);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating profile picture");
+//        }
+//    }
     @PutMapping("/profile-pic/{userCode}")
     public ResponseEntity<?> updateProfilePic(@PathVariable Integer userCode,
-                                              @RequestParam("file") MultipartFile file) {
+                                              @RequestBody Map<String, String> payload) {
         try {
-            String profilePicUrl = myPageService.updateProfilePic(userCode, file);
+            String profilePicUrl = payload.get("profilePicUrl");
+            myPageService.updateProfilePicture(userCode, profilePicUrl);
             return ResponseEntity.ok(profilePicUrl);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating profile picture");

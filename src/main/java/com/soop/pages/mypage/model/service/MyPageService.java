@@ -93,23 +93,11 @@ public class MyPageService {
     private String uploadDir;
     public String updateProfilePic(Integer userCode, MultipartFile file) throws IOException {
 
-        // 기존 프로필 사진 파일명 가져오기
-        String oldFileName = myPageMapper.getProfilePicFileName(userCode);
-        System.out.println("oldFileName = " + oldFileName);
-        logger.info("oldFileName = " + oldFileName);
         String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
 
         Path uploadPath = Paths.get(uploadDir);
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
-        }
-
-        // 기존 파일 삭제
-        if (oldFileName != null && !oldFileName.isEmpty()) {
-            Path oldFilePath = uploadPath.resolve(oldFileName);
-            logger.info("Attempting to delete file: " + oldFilePath);
-            boolean deleted = Files.deleteIfExists(oldFilePath);
-            logger.info("File deletion result: " + (deleted ? "success" : "failed"));
         }
 
         // 새 파일 저장
@@ -160,5 +148,12 @@ public class MyPageService {
         }
 
         return myPageMapper.getUserProfile(userCode);
+    }
+
+    public void updateProfilePicture(Integer userCode, String profilePicUrl) {
+        ProfilePicUpdateDTO dto = new ProfilePicUpdateDTO();
+        dto.setUserCode(userCode);
+        dto.setProfilePic(profilePicUrl);
+        myPageMapper.updateProfilePic(dto);
     }
 }
