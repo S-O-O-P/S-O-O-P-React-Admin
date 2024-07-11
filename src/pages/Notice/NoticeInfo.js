@@ -18,6 +18,7 @@ function NoticeInfo() {
                 const res = await axios.get(`http://localhost:8080/notice/${id}`);
                 setNotice(res.data.noticeDTO);
                 setFile(res.data.fileDTO);
+                console.log(res.data.fileDTO);
             } catch (error) {
                 console.error('공지사항 불러오기 실패.', error);
             }

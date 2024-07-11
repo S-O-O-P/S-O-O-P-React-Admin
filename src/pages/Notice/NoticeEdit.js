@@ -10,35 +10,41 @@ function NoticeEdit() {
     const [postImg, setPostImg] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [writerModal, setWriterModal] = useState(false);
+    const [editModal, setEditModal] = useState(false);
     const [checkModal, setCheckModal] = useState(false);
     const navigate = useNavigate();
     const { id } = useParams();
     const [inputCount, setInputCount] = useState(0);
-
+    const [previewImg, setPreviewImg] = useState(false);
     const [file, setFile] = useState({});
+    const [img, setImg] = useState({});
+    const [initialFile, setInitialFile] = useState({});
 
     useEffect(() => {
         async function fetchNotice() {
             try {
-
                 const res = await axios.get(`http://localhost:8080/notice/${id}`);
-
-                console.log(res)
                 setNotice(res.data.noticeDTO);
                 setFile(res.data.fileDTO);
-                console.log(res.data.fileDTO);
+                setInitialFile(res.data.fileDTO)
+                if (res.data.fileDTO) {
+                    setImg(res.data.fileDTO.name);
+                    setPreviewImg(true);
+                }
+
             } catch (error) {
                 console.error('공지사항 불러오기 실패.', error);
             }
         }
         fetchNotice();
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         setSelected(notice.category || '');
         setTitle(notice.title || '');
         setContent(notice.content || '');
     }, [notice]);
+
     useEffect(() => {
         if (notice && notice.content) {
             setInputCount(notice.content.length);
@@ -49,25 +55,36 @@ function NoticeEdit() {
     const handleSelect = (e) => {
         setSelected(e.target.value);
     };
+
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
     };
+
     const handleCount = (e) => {
         setContent(e.target.value);
         setInputCount(e.target.value.length);
     }
 
     const saveImgFile = (e) => {
-        setPostImg(URL.createObjectURL(e.target.files[0]));
+
+        const uploadedFile = e.target.files[0];
+        setPostImg(URL.createObjectURL(uploadedFile));
+
         console.log(postImg);
-    }
+        setFile(uploadedFile);
+        setPreviewImg(true);
+    };
 
     const clearImg = () => {
         setPostImg(null);
+        setFile(null);
+        setPreviewImg(false);
     }
+
     const closeBtn = () => {
         setModalOpen(false);
         setWriterModal(false);
+        setEditModal(false);
     }
 
     const goNotice = () => {
@@ -76,52 +93,42 @@ function NoticeEdit() {
         navigate("/notice");
     }
 
-
-
     const handleCancel = () => {
         if (title === notice.title && content === notice.content && selected === notice.category) {
             navigate("/notice");
         } else {
             setCheckModal(true);
-            console.log("유형", selected);
-            console.log("제목:", title);
-            console.log("내용:", content);
-            console.log("category", notice.category);
-            console.log("title:", notice.title);
-            console.log("content:", notice.content);
         }
     };
 
-
     const handleSubmit = () => {
-        const today = new Date();
 
-        if (title === notice.title || content === notice.content || selected === notice.category) {
-            const data = {
-                "category": selected,
-                "title": title,
-                "content": content,
-                "userCode": 7,
-                "regDate": today,
-                // "postImg": postImg
-            }
+        const formData = new FormData();
 
-            console.log("유형", selected);
-            console.log("제목:", title);
-            console.log("내용:", content);
+        console.log(img);
+        // console.log(file);
 
-            console.log("category", notice.category);
-            console.log("title:", notice.title);
-            console.log("content:", notice.content);
+        if (title !== "" && content !== "") {
+            if (title !== notice.title || content !== notice.content || selected !== notice.category || file !== initialFile) {
+                formData.append('category', selected);
+                formData.append('title', title);
+                formData.append('content', content);
+                formData.append('userCode', 7);
+                formData.append('file', file);
 
-            // console.log("img : ", postImg);
-            setModalOpen(true);
-
-            axios.put(`http://localhost:8080/notice/${id}`, data)
-                .then(response => {
-                    console.log("response", response);
+                axios.put(`http://localhost:8080/notice/${id}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
                 })
+                    .then(response => {
+                        console.log("response", response);
+                    })
 
+                setModalOpen(true);
+            } else {
+                setEditModal(true);
+            }
         } else {
             setWriterModal(true);
         }
@@ -147,9 +154,11 @@ function NoticeEdit() {
                 <div className={style.preview_box}>
                     <p className={style.attached_file_count}>이미지 파일</p>
                     <ul className={style.preview_list}>
-                        {postImg ?
+                        {previewImg ?
                             (<li className={style.preview_img}>
-                                <img src={`http://localhost:8080/notice/image?name=${file.name}`} alt="preview image" />
+                                {postImg ?
+                                    (<img src={postImg} alt="preview image" />)
+                                    : (<img src={`http://localhost:8080/notice/image?name=${img}`} alt="preview image" />)}
                                 <span className={style.remove_preview_btn} onClick={clearImg} >×</span>
                             </li>) : (<li className={style.upload_img_btn}>
                                 <label className={style.file_upload_box} name="upload">
@@ -177,11 +186,11 @@ function NoticeEdit() {
                         </div>
                     </div>
                 )}
-                {writerModal && (
+                {editModal && (
                     <div className={style.back}>
                         <div className={style.modal}>
                             <img src='/images/commons/icon_alert.png' alt='경고' width={45} />
-                            <p className={style.modalTitle}>제목과 내용을 모두 작성해주세요.</p>
+                            <p className={style.modalTitle}>수정된 내용이 없습니다.</p>
                             <button className={style.modalButton} onClick={closeBtn}>확인</button>
                         </div>
                     </div>
@@ -198,6 +207,15 @@ function NoticeEdit() {
                                 <button className={style.modalButton} onClick={goNotice}>확인</button>
 
                             </div>
+                        </div>
+                    </div>
+                )}
+                {writerModal && (
+                    <div className={style.back}>
+                        <div className={style.modal}>
+                            <img src='/images/commons/icon_alert.png' alt='경고' width={45} />
+                            <p className={style.modalTitle}>제목과 내용을 모두 작성해주세요.</p>
+                            <button className={style.modalButton} onClick={closeBtn}>확인</button>
                         </div>
                     </div>
                 )}
