@@ -57,7 +57,7 @@ function Sidebar() {
         <Box className="sidebar-role-user">
           <Typography variant="body2" className="sidebar-role">관리자</Typography>
           <Typography variant="body1" className="sidebar-user">
-            {user && user.nickname && user.userRole === 'ADMIN' ? `${user.nickname}님` : '로딩 중...'}
+            {user && user.nickname && user.userRole === 'ROLE_ADMIN' ? `${user.nickname}님` : '로딩 중...'}
           </Typography>
         </Box>
         <Box className="sidebar-logout-container">
