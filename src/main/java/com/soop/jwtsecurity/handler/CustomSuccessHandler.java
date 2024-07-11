@@ -42,7 +42,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String access = jwtUtil.createJwt("access", username, role, userCode, 1200L * 3000); // 10분 (600초)
+
+        String access = jwtUtil.createJwt("access", username, role, userCode, 300L * 1000); // 10분 (600초)
+
         String existingRefreshToken = userMapper.searchRefreshEntity(username);
 
         if (existingRefreshToken != null) {
@@ -86,7 +88,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private void createAndAddCookie(HttpServletResponse response, String key, String value) {
         Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(60 * 60); // 10분
+        cookie.setMaxAge(5 * 60); // 10분
         cookie.setDomain("localhost");
         cookie.setHttpOnly(false); // JavaScript에서 접근 가능하도록 설정
         cookie.setPath("/");
