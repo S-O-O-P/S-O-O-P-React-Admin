@@ -87,8 +87,8 @@ function NoticeRegistPage() {
 
 
     return (
-        <div className={style.wapper}>
-            <div className={style.content}>
+        <div className={style.wrapper}>
+            <div className={style.contentBox}>
                 <p className={style.pageTitle}>공지사항 등록</p>
                 <select className={style.customSelect} onChange={handleSelect} value={selected}>
                     <option value="공지사항">공지사항</option>
