@@ -57,7 +57,6 @@ public class CustomerServiceController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
-
         NoticeMemberDTO mainNoticeList = customerServiceService.noticeDetail(code);
 
         Map<String, Object> result = new HashMap<>();
@@ -70,7 +69,6 @@ public class CustomerServiceController {
     @PostMapping("/inquiry")
     public ResponseEntity<?> inquiry(@RequestBody InquiryDTO newInquiry) {
 
-        System.out.println("newInquiry = " + newInquiry);
         customerServiceService.inquiry(newInquiry);
 
         return ResponseEntity

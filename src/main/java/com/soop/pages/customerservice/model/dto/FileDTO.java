@@ -2,8 +2,6 @@ package com.soop.pages.customerservice.model.dto;
 
 import lombok.*;
 
-import java.util.Date;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

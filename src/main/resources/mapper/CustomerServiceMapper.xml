@@ -35,18 +35,11 @@
 
     <select id="csMainNoticeListAll" resultMap="NoticeResultMap">
         SELECT
-               A.NOTICE_CODE,
-               A.CATEGORY,
-               A.TITLE,
-               A.CONTENT,
-               A.USER_CODE,
-               A.REG_DATE,
-               B.USER_CODE,
-               B.NICKNAME
-          FROM NOTICE A
-          LEFT JOIN LINKBEE_USER B ON A.USER_CODE = B.USER_CODE
-         ORDER BY REG_DATE
-         LIMIT 0, 5
+        NOTICE_CODE,
+        TITLE
+        FROM NOTICE
+        ORDER BY REG_DATE DESC
+        LIMIT 0,5;
     </select>
 
     <select id="noticeListAll" resultMap="NoticeResultMap">
@@ -61,7 +54,7 @@
                B.NICKNAME
           FROM NOTICE A
           LEFT JOIN LINKBEE_USER B ON A.USER_CODE = B.USER_CODE
-         ORDER BY REG_DATE
+         ORDER BY REG_DATE DESC;
     </select>
 
     <select id="noticeDetail" resultMap="NoticeResultMap" parameterType="String">
