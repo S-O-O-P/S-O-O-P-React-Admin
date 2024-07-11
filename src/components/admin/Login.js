@@ -35,7 +35,7 @@ function Login({ setUser }) {
 
       console.log(response.data); // 응답 데이터 확인
 
-      if (response.data.userRole === 'ADMIN') {
+      if (response.data.userRole === 'ROLE_ADMIN') {
         console.log('Admin login successful');
         const userData = {
           id: response.data.id,
