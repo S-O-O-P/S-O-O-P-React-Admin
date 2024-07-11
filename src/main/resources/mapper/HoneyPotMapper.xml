@@ -150,6 +150,13 @@
          WHERE HONEYPOT_CODE = #{honeypotCode}
     </update>
 
+    <!-- 허니팟 신고 -->
+    <update id="reportHoneypot" parameterType="com.soop.pages.honeypot.model.dto.HoneypotDTO">
+        UPDATE HONEYPOT
+        SET REPORT_COUNT = REPORT_COUNT + 1
+        WHERE HONEYPOT_CODE = #{honeypotCode}
+    </update>
+
     <!-- 상세페이지 삭제 -->
     <delete id="deleteHoneypotByHoneypotCode" parameterType="int">
         DELETE FROM HONEYPOT

@@ -22,7 +22,7 @@ Content-Type: application/json
 GET http://localhost:8081/honeypot/list
 
 ### 허니팟 상세 조회 테스트
-GET http://localhost:8081/honeypot/detail/4
+GET http://localhost:8081/honeypot/detail/20
 
 ### 허니팟 임시 조회 테스트
 GET http://localhost:8081/honeypot/detail/temporary/1
@@ -108,3 +108,10 @@ Content-Type: application/json
 
 ### 참가인원 카운터 테스트
 GET http://localhost:8081/honeypot/listandapproved
+
+### 얼리버드 정보 조회
+GET http://localhost:8081/cultureInfo/early
+
+### 허니팟 신고 기능
+PUT http://localhost:8081/honeypot/report/4
+Content-Type: application/json
