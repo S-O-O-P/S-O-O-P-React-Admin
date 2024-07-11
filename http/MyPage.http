@@ -69,3 +69,9 @@ Content-Type: application/json
   "interests": [1, 2, 3]
 }
 
+### 지혜님
+GET http://localhost:8081/cultureinfo/early
+
+### 테스트
+PUT http://localhost:8081/mypage/profile-pic/{{userCode}}
+http://localhost:3001/mypage/profile-pic/2
