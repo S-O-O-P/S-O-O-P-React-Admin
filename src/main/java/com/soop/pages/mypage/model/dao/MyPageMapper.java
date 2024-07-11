@@ -25,7 +25,7 @@ public interface MyPageMapper {
 
     List<MyCommentDTO> getMyComments();
 
-    List<MyInquiryDTO> getMyInquiry();
+    List<MyInquiryDTO> getMyInquiry(int userCode);
 
     List<FinishedHoneypotDTO> getFinishedHoneypot();
 
@@ -46,4 +46,6 @@ public interface MyPageMapper {
     void updateProfile(UserProfileDTO updateProfile);
 
     void insertUserInterests(@Param("userCode") Integer userCode, @Param("interestCodes") List<Integer> interestCodes);
+
+    String getProfilePicFileName(Integer userCode);
 }

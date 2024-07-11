@@ -156,4 +156,12 @@ public class HoneyPotService {
         honeyPotMapper.deleteHoneypotByHoneypotCode(honeypotCode);
         System.out.println("서비스 삭제 됨?");
     }
+
+    public HoneypotDTO reportHoneypot(int honeypotCode) {
+        // 신고 횟수 증가
+        honeyPotMapper.reportHoneypot(honeypotCode);
+
+        // 업데이트된 허니팟 정보 가져오기
+        return honeyPotMapper.temporaryFindByHoneypotCode(honeypotCode);
+    }
 }

@@ -50,7 +50,7 @@ GET http://localhost:8081/mypage/interest
 GET http://localhost:8081/mypage/mycomment
 
 ### 문의 조회
-GET http://localhost:8081/mypage/myinquiry
+GET http://localhost:8081/mypage/myinquiry/2
 
 ### 진행완료된 허니팟 조회
 GET http://localhost:8081/mypage/finished
@@ -68,3 +68,4 @@ Content-Type: application/json
   "profilePic": "koharu.PNG",
   "interests": [1, 2, 3]
 }
+
