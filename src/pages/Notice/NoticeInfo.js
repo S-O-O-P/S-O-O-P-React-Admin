@@ -1,10 +1,9 @@
-import axios from 'axios';
-import style from './NoticeInfo.module.css'
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { noticeInfoAPI, deleteNotice } from '../../apis/notice/NoticeInfoAPI';
+import style from './NoticeInfo.module.css';
 
 function NoticeInfo() {
-
     const [notice, setNotice] = useState({});
     const [file, setFile] = useState(null);
     const navigate = useNavigate();
@@ -15,10 +14,10 @@ function NoticeInfo() {
     useEffect(() => {
         async function fetchNotice() {
             try {
-                const res = await axios.get(`http://localhost:8080/notice/${id}`);
-                setNotice(res.data.noticeDTO);
-                setFile(res.data.fileDTO);
-                console.log(res.data.fileDTO);
+                const data = await noticeInfoAPI(id);
+                setNotice(data.noticeDTO);
+                setFile(data.fileDTO);
+                console.log(data.fileDTO);
             } catch (error) {
                 console.error('공지사항 불러오기 실패.', error);
             }
@@ -28,23 +27,25 @@ function NoticeInfo() {
 
     const handleDeleteBtn = () => {
         setCheckModal(true);
-    }
+    };
 
     const handleNotice = () => {
-        navigate("/notice");
-    }
+        navigate('/notice');
+    };
 
     const handleRegisterClick = (id, type) => {
         navigate(`/notice/${id}`, { state: { type } });
     };
 
-    const handleDelete = () => {
-        axios.delete(`http://localhost:8080/notice/${id}`, {
-            data: file ? { fileName: file.name } : { fileName: null }
-        })
-        setCheckModal(false);
-        setModalOpen(true);
-    }
+    const handleDelete = async () => {
+        try {
+            await deleteNotice(id, file ? file.name : null);
+            setCheckModal(false);
+            setModalOpen(true);
+        } catch (error) {
+            console.error('공지사항 삭제 실패.', error);
+        }
+    };
 
     return (
         <div className={style.wrapper}>
@@ -69,7 +70,7 @@ function NoticeInfo() {
                     <button type="button" onClick={handleNotice} className={style.backBtn}>목록으로</button>
                     <div>
                         <button type="button" onClick={handleDeleteBtn} className={style.backBtn}>삭제</button>
-                        <button type="button" className={style.editBtn} onClick={() => handleRegisterClick(notice.noticeCode, "edit")}>수정</button>
+                        <button type="button" className={style.editBtn} onClick={() => handleRegisterClick(notice.noticeCode, 'edit')}>수정</button>
                     </div>
                 </div>
 
@@ -96,10 +97,9 @@ function NoticeInfo() {
                         </div>
                     </div>
                 )}
-
             </div>
         </div>
-    )
+    );
 }
 
 export default NoticeInfo;
