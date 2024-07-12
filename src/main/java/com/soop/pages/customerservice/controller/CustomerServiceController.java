@@ -1,5 +1,6 @@
 package com.soop.pages.customerservice.controller;
 
+import com.soop.pages.customerservice.model.dto.FileDTO;
 import com.soop.pages.customerservice.model.dto.InquiryDTO;
 import com.soop.pages.customerservice.model.dto.NoticeMemberDTO;
 import com.soop.pages.customerservice.model.service.CustomerServiceService;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.nio.charset.Charset;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,10 +58,12 @@ public class CustomerServiceController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         NoticeMemberDTO mainNoticeList = customerServiceService.noticeDetail(code);
+        FileDTO noticeFile = customerServiceService.noticeFile(code);
 
         Map<String, Object> result = new HashMap<>();
 
         result.put("mainNoticeList", mainNoticeList);
+        result.put("noticeFile", noticeFile);
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }

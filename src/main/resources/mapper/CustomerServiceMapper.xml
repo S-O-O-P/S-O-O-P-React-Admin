@@ -33,6 +33,12 @@
         </association>
     </resultMap>
 
+    <resultMap id="noticeFileResultMap" type="com.soop.pages.customerservice.model.dto.FileDTO">
+        <id property="fileCode" column="FILE_CODE"/>
+        <result property="name" column="NAME"/>
+        <result property="noticeCode" column="NOTICE_CODE"/>
+    </resultMap>
+
     <select id="csMainNoticeListAll" resultMap="NoticeResultMap">
         SELECT
         NOTICE_CODE,
@@ -98,4 +104,12 @@
                null
         )
     </insert>
+
+    <select id="noticeFile" parameterType="_int" resultMap="noticeFileResultMap">
+        SELECT
+               FILE_CODE,
+               NAME
+          FROM ATTACHED_FILE
+         WHERE NOTICE_CODE = #{id}
+    </select>
 </mapper>
