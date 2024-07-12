@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import style from './NoticeRegist.module.css';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from '../../firebaseConfig';
+
 function NoticeEdit() {
     const [notice, setNotice] = useState({});
     const [selected, setSelected] = useState("");
@@ -101,31 +104,62 @@ function NoticeEdit() {
         }
     };
 
+
+
+
     const handleSubmit = () => {
-
         const formData = new FormData();
-
-        console.log(img);
-        // console.log(file);
 
         if (title !== "" && content !== "") {
             if (title !== notice.title || content !== notice.content || selected !== notice.category || file !== initialFile) {
-                formData.append('category', selected);
-                formData.append('title', title);
-                formData.append('content', content);
-                formData.append('userCode', 7);
-                formData.append('file', file);
 
-                axios.put(`http://localhost:8080/notice/${id}`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
-                    .then(response => {
-                        console.log("response", response);
+                if (file) {
+                    const storage = getStorage();
+                    const storageRef = ref(storage, `files/${file.name}`);
+
+                    uploadBytes(storageRef, file).then((snapshot) => {
+                        console.log('Uploaded a blob or file!');
+
+                        getDownloadURL(snapshot.ref).then((downloadURL) => {
+                            console.log('File available at', downloadURL);
+
+                            formData.append('category', selected);
+                            formData.append('title', title);
+                            formData.append('content', content);
+                            formData.append('userCode', 1);
+                            formData.append('fileURL', downloadURL);
+
+                            axios.put(`http://localhost:8080/notice/${id}`, formData, {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            })
+                                .then(response => {
+                                    console.log("response", response);
+                                });
+
+                            setModalOpen(true);
+                        });
+                    }).catch((error) => {
+                        console.error('Error uploading file:', error);
+                    });
+                } else {
+                    formData.append('category', selected);
+                    formData.append('title', title);
+                    formData.append('content', content);
+                    formData.append('userCode', 1);
+
+                    axios.put(`http://localhost:8080/notice/${id}`, formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
                     })
+                        .then(response => {
+                            console.log("response", response);
+                        });
 
-                setModalOpen(true);
+                    setModalOpen(true);
+                }
             } else {
                 setEditModal(true);
             }
@@ -133,6 +167,8 @@ function NoticeEdit() {
             setWriterModal(true);
         }
     };
+
+
 
     return (
         <div className={style.wrapper}>
@@ -158,7 +194,8 @@ function NoticeEdit() {
                             (<li className={style.preview_img}>
                                 {postImg ?
                                     (<img src={postImg} alt="preview image" />)
-                                    : (<img src={`http://localhost:8080/notice/image?name=${img}`} alt="preview image" />)}
+                                    : (<img src={`${file.name}`} alt="사진" />
+                                    )}
                                 <span className={style.remove_preview_btn} onClick={clearImg} >×</span>
                             </li>) : (<li className={style.upload_img_btn}>
                                 <label className={style.file_upload_box} name="upload">
