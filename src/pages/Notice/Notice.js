@@ -55,7 +55,7 @@ function Notice() {
 
   // 등록 버튼 클릭 핸들러
   const handleRegisterClick = (id, type) => {
-    navigate(`/notice/${id}`, { state: { type } });
+    navigate(`/notice/${id}`, { state: { type} });
   };
 
   const displayedNotices = Array.isArray(filteredNotices) ? filteredNotices.slice((page - 1) * rowsPerPage, page * rowsPerPage) : [];

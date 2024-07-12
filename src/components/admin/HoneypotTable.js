@@ -5,7 +5,7 @@ import '../admin/Table.css' ; // CSS 파일 임포트
 function HoneypotTable({ row, handleRowClick }) {
   return (
     <TableRow className="table-row">
-      <TableCell className="table-cell">{row.honeypotCode}</TableCell>
+      <TableCell className="table-cell">{row.displayOrder}</TableCell>
       <TableCell onClick={() => handleRowClick(row.honeypotCode)} style={{ cursor: 'pointer' }} className="table-cell">{row.honeypotTitle}</TableCell>
       <TableCell className="table-cell">{row.regDate}</TableCell>
       <TableCell className="table-cell">{row.reportCount}</TableCell>

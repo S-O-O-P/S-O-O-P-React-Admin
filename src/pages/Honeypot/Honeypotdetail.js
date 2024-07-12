@@ -1,11 +1,9 @@
-// HoneypotDetail.js
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Box, Typography, Button, Grid, Dialog, DialogActions, DialogContent, DialogContentText, InputBase } from '@mui/material';
-import { fetchHoneypotDetail, toggleHoneypotStatus } from '../../apis/HoneypotdetailAPI'; // API 호출 함수 임포트
-import './Honeypotdetail.css'; // CSS 파일 임포트
+import { fetchHoneypotDetail, toggleHoneypotStatus } from '../../apis/HoneypotdetailAPI';
+import './Honeypotdetail.css';
 
-// HoneypotDetail 컴포넌트
 function HoneypotDetail() {
   const { honeypotCode } = useParams();
   const navigate = useNavigate();
@@ -15,11 +13,11 @@ function HoneypotDetail() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(`honeypotCode: ${honeypotCode}`); // Add this line to debug honeypotCode
+    console.log(`honeypotCode: ${honeypotCode}`);
     fetchHoneypotDetail(honeypotCode)
       .then(data => {
         console.log('API Response:', data);
-        setRow(data); // Ensure the response data structure is correct
+        setRow(data);
         setLoading(false);
       })
       .catch(error => {
@@ -28,35 +26,42 @@ function HoneypotDetail() {
       });
   }, [honeypotCode]);
 
-  // 뒤로 가기 버튼 클릭 핸들러
   const handleBackClick = () => {
-    const from = location.state?.from || '/honeypot'; // 기본값을 '/honeypot'로 설정
-    navigate(from, { state: { searchTerm: location.state?.searchTerm } });
+    const from = location.state?.from || '/honeypot';
+    const page = location.state?.page || 1;
+    const displayOrder = location.state?.displayOrder || 0;
+    const searchTerm = location.state?.searchTerm || '';
+    navigate(from, { state: { searchTerm, page, displayOrder } });
   };
 
-  // Dialog 열기 핸들러
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  // Dialog 닫기 핸들러
   const handleClose = () => {
     setOpen(false);
   };
 
-  // 상태 토글 핸들러
   const handleToggleStatus = () => {
     setOpen(false);
     const newStatus = row.visibilityStatus === '활성화' ? '비활성화' : '활성화';
 
     toggleHoneypotStatus(honeypotCode, newStatus)
       .then(() => {
-        // 상태 변경이 성공하면 서버 응답에 따라 로컬 상태 업데이트
         setRow(prevRow => ({ ...prevRow, visibilityStatus: newStatus }));
 
-        // 상태 변경 후 목록 페이지로 이동
         const from = location.state?.from || '/honeypot';
-        navigate('/honeypot', { state: { toggleStatus: { honeypotCode: parseInt(honeypotCode, 10), newStatus }, searchTerm: location.state?.searchTerm } });
+        const page = location.state?.page || 1;
+        const displayOrder = location.state?.displayOrder || 0;
+        const searchTerm = location.state?.searchTerm || '';
+        navigate(from, {
+          state: {
+            toggleStatus: { honeypotCode: parseInt(honeypotCode, 10), newStatus },
+            searchTerm,
+            page,
+            displayOrder
+          }
+        });
       })
       .catch(error => {
         console.error('There was an error updating the honeypot status!', error);
@@ -65,7 +70,7 @@ function HoneypotDetail() {
 
   return (
     <Box className="honeypot-detail-container">
-      <Typography variant="h4" component="div" sx={{marginBottom:'30px'}}>
+      <Typography variant="h4" component="div" sx={{ marginBottom: '30px' }}>
         허니팟 상세 정보
       </Typography>
       <Grid container spacing={3} className="honeypot-detail-info">
@@ -107,8 +112,8 @@ function HoneypotDetail() {
         </Grid>
       </Grid>
 
-      <Typography className="detail-label" component="div" sx={{marginBottom:'25px'}}>
-        내용 
+      <Typography className="detail-label" component="div" sx={{ marginBottom: '25px' }}>
+        내용
       </Typography>
       <Box className="search-boxs">
         <InputBase
@@ -118,7 +123,7 @@ function HoneypotDetail() {
           defaultValue={row.honeypotContent}
           variant="outlined"
           fullWidth
-          readOnly // 읽기 전용 설정
+          readOnly
         />
       </Box>
 
