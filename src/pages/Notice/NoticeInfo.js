@@ -5,9 +5,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 function NoticeInfo() {
 
+    const navigate = useNavigate();
     const [notice, setNotice] = useState({});
     const [file, setFile] = useState(null);
-    const navigate = useNavigate();
     const { id } = useParams();
     const [modalOpen, setModalOpen] = useState(false);
     const [checkModal, setCheckModal] = useState(false);
@@ -59,7 +59,7 @@ function NoticeInfo() {
                         <p className={style.attached_file_count}>이미지 파일</p>
                         <ul className={style.preview_list}>
                             <li className={style.preview_img}>
-                                <img src={`http://localhost:8080/notice/image?name=${file.name}`} alt="preview image" />
+                                <img src={`${file.name}`} alt="사진" />
                             </li>
                         </ul>
                     </div>
