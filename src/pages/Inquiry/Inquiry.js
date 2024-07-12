@@ -90,9 +90,9 @@ function Inquiry() {
     handleSearch();
   };
 
-  const handleInquiryClick = (inquiry) => {
+  const handleInquiryClick = (inquiry, displayOrder) => {
     if (inquiry.answerStatus === '답변대기' || inquiry.answerStatus === '답변완료') {
-      navigate(`/inquiry/${inquiry.inquiryCode}`, { state: { inquiry, page, searchTerm } });
+      navigate(`/inquiry/${inquiry.inquiryCode}`, { state: { inquiry, page, searchTerm, displayOrder } });
     }
   };
 

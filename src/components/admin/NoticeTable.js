@@ -32,7 +32,7 @@ function NoticeTable({ notices }) {
         <TableBody>
           {notices.map((notice, index) => (
             <TableRow key={notice.noticeCode} className="table-row">
-              <TableCell className="table-cell">{index + 1}</TableCell>
+              <TableCell className="table-cell">{notice.displayOrder}</TableCell>
               <TableCell onClick={() => handleRowClick(notice.noticeCode, "detail")} className="table-cell">{notice.title}</TableCell>
               <TableCell className="table-cell">{notice.regDate}</TableCell>
               {/* <TableCell className="table-cell">{notice.views}</TableCell> */}

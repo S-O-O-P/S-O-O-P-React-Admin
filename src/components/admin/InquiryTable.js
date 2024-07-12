@@ -19,7 +19,7 @@ function InquiryTable({ inquiries, rowsPerPage, onInquiryClick }) {
         <TableBody>
           {inquiries.map((inquiry) => (
             <TableRow key={inquiry.inquiryCode}>
-              <TableCell className="table-cell">{inquiry.inquiryCode}</TableCell>
+              <TableCell className="table-cell">{inquiry.displayOrder}</TableCell>
               <TableCell className="table-cell" onClick={() => onInquiryClick(inquiry)} style={{ cursor: 'pointer' }}>{inquiry.title}</TableCell>
               <TableCell className="table-cell">{inquiry.category}</TableCell>
               <TableCell className="table-cell">{inquiry.inquiryDate}</TableCell>

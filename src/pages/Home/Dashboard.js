@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Grid, Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import DashboardChart from '../../components/admin/DashboardChart';
-import { fetchDashboardData } from '../../apis/DashboardAPI'; // 전체 데이터를 가져오는 함수 임포트
+import { fetchDashboardData } from '../../apis/DashboardAPI';
 import './Dashboard.css';
 import '../../components/admin/Table.css';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -107,6 +107,9 @@ const Dashboard = ({ page, searchTerm }) => {
     }
   };
 
+  // Sort reportData by registration date in descending order
+  const sortedReportData = [...reportData].sort((a, b) => new Date(b.regDate) - new Date(a.regDate));
+
   return (
     <Box className="dashboard-container">
       <Box className="dashboard-header">
@@ -190,7 +193,7 @@ const Dashboard = ({ page, searchTerm }) => {
                 <TableBody>
                   {inquiryData.slice(0, 5).map((row, index) => (
                     <TableRow key={row.id}>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.inquiryCode}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.displayOrder}</TableCell>
                       <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center" onClick={() => handleInquiryClick(row)} style={{ cursor: 'pointer' }}>{row.title}</TableCell>
                       <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === inquiryData.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{row.category}</TableCell>
                       <TableCell>
@@ -221,7 +224,7 @@ const Dashboard = ({ page, searchTerm }) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-  {reportData.filter(row => row.reportCount > 0).length === 0 ? (
+  {sortedReportData.filter(row => row.reportCount > 0).length === 0 ? (
     <TableRow>
       <TableCell sx={{height:'265px', fontSize:'16px'}} colSpan={4} align="center">
         현재 신고 접수내역이 존재하지 않습니다.
@@ -229,7 +232,7 @@ const Dashboard = ({ page, searchTerm }) => {
     </TableRow>
   ) : (
     <>
-      {reportData
+      {sortedReportData
         .filter(row => row.reportCount > 0)
         .slice(0, 5)
         .map((row, index) => (
@@ -241,7 +244,7 @@ const Dashboard = ({ page, searchTerm }) => {
               }}
               align="center"
             >
-              {row.honeypotCode}
+              {row.displayOrder}
             </TableCell>
             <TableCell
               sx={{
@@ -272,7 +275,7 @@ const Dashboard = ({ page, searchTerm }) => {
           </TableRow>
         ))}
       {Array.from({
-        length: Math.max(0, 5 - reportData.filter(row => row.reportCount > 0).length),
+        length: Math.max(0, 5 - sortedReportData.filter(row => row.reportCount > 0).length),
       }).map((_, index) => (
         <TableRow key={`empty-${index}`}>
           <TableCell
@@ -335,7 +338,7 @@ const Dashboard = ({ page, searchTerm }) => {
                 <TableBody>
                   {notices.slice(0, 5).map((notice, index) => (
                     <TableRow key={notice.id}>
-                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === notices.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.noticeCode}</TableCell>
+                      <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === notices.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.displayOrder}</TableCell>
                       <TableCell sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)', borderBottom: index === notices.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center" onClick={() => handleRowClick(notice.noticeCode, "detail")} style={{ cursor: 'pointer' }}>{notice.title}</TableCell>
                       <TableCell sx={{ borderBottom: index === notices.slice(0, 5).length - 1 ? 'none' : '1px solid rgba(224, 224, 224, 1)' }} align="center">{notice.regDate}</TableCell>
                     </TableRow>
