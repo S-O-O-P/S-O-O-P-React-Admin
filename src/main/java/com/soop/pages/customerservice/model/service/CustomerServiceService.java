@@ -1,6 +1,7 @@
 package com.soop.pages.customerservice.model.service;
 
 import com.soop.pages.customerservice.model.dao.CustomerServiceMapper;
+import com.soop.pages.customerservice.model.dto.FileDTO;
 import com.soop.pages.customerservice.model.dto.InquiryDTO;
 import com.soop.pages.customerservice.model.dto.NoticeMemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,11 @@ public class CustomerServiceService {
 
     public void inquiry(InquiryDTO newInquiry) {
         customerServiceMapper.inquiry(newInquiry);
+    }
+
+    public FileDTO noticeFile(String code) {
+
+        int id = Integer.parseInt(code);
+        return customerServiceMapper.noticeFile(id);
     }
 }
