@@ -32,6 +32,7 @@ public class ReissueController {
     public void reissue(@RequestBody Map<String, Object> requestBody, HttpServletRequest request, HttpServletResponse response) throws IOException {
         String accessToken = null;
         Integer userCode = (Integer) requestBody.get("userCode");
+        String profilePic = (String) requestBody.get("profilePic");
 
         // 쿠키에서 액세스 토큰 추출
         Cookie[] cookies = request.getCookies();
@@ -89,7 +90,7 @@ public class ReissueController {
 
         // 새로운 액세스 토큰 발급
         String role = jwtUtil.getRoleFromRefreshToken(refreshToken);
-        String newAccessToken = jwtUtil.createJwt("access", signupPlatform, role, userCode, 300L * 1000);
+        String newAccessToken = jwtUtil.createJwt("access", signupPlatform, role, userCode, profilePic, 300L * 1000);
 
 
         createAndAddCookie(response, "access", newAccessToken);

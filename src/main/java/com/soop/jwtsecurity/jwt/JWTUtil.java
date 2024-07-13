@@ -43,12 +43,15 @@ public class JWTUtil {
         return getClaims(token).get("category", String.class);
     }
 
-    public String createJwt(String category, String signupPlatform, String role,int userCode, Long expiredMs) {
+    public String getProfilePic(String token) { return getClaims(token).get("profilePic", String.class);}
+
+    public String createJwt(String category, String signupPlatform, String role,int userCode, String profilePic, Long expiredMs) {
         return Jwts.builder()
                 .claim("category", category)
                 .claim("signupPlatform", signupPlatform)
                 .claim("role", role)
                 .claim("userCode",userCode)
+                .claim("profilePic", profilePic)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiredMs))
                 .signWith(secretKey)
