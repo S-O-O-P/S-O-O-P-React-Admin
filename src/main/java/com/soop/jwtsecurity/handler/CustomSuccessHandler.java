@@ -36,6 +36,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();
         String username = customUserDetails.getUsername();
         int userCode = userMapper.findBySignupPlatform(username).getUserCode();
+        String profilePic = userMapper.findBySignupPlatform(username).getProfilePic();
+
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
@@ -43,7 +45,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String role = auth.getAuthority();
 
 
-        String access = jwtUtil.createJwt("access", username, role, userCode, 300L * 1000); // 10분 (600초)
+        String access = jwtUtil.createJwt("access", username, role, userCode, profilePic, 300L * 1000); // 10분 (600초)
 
         String existingRefreshToken = userMapper.searchRefreshEntity(username);
 
@@ -51,7 +53,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             userMapper.deleteByRefresh(existingRefreshToken);
         }
 
-        String refresh = jwtUtil.createJwt("refresh", username, role, userCode, 86400L *1000); // 24시간 (86400000밀리초)
+        String refresh = jwtUtil.createJwt("refresh", username, role, userCode, profilePic, 86400L *1000); // 24시간 (86400000밀리초)
         addRefreshEntity(username, refresh, 86400L*1000);
 
         System.out.println("access = " + access);
