@@ -16,8 +16,11 @@ import Layout from './layouts/Layout';
 import Login from './components/admin/Login';
 import NoticeDetail from './pages/Notice/NoticeDetail';
 import ScrollToTop from './components/admin/ScrolltoTop';
-import ErrorBoundary from './components/admin/ErrorBoundary';
-
+import ErrorBoundaryWithNavigate from './components/admin/ErrorBoundary';
+import Error404 from './pages/Error/Error404';
+import Error500 from './pages/Error/Error500';
+import Error400 from './pages/Error/Error400';
+import Error403 from './pages/Error/Error403';
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -27,7 +30,7 @@ export default function App() {
       <GlobalStyles />
       <Router>
         <ScrollToTop />
-        <ErrorBoundary>
+        <ErrorBoundaryWithNavigate>
           <Routes>
             <Route path="/" element={<Login setUser={setUser} />} />
             <Route
@@ -46,12 +49,17 @@ export default function App() {
                     <Route path="inquiry" element={<Inquiry />} />
                     <Route path="events" element={<Events />} />
                     <Route path="events/:id" element={<EventsDetail />} />
+                    <Route path="error/404" element={<Error404 />} />
+                    <Route path="error/500" element={<Error500 />} />
+                    <Route path="error/400" element={<Error400 />} />
+                    <Route path="error/403" element={<Error403 />} />
+                    <Route path="*" element={<Error404 />} />
                   </Routes>
                 </Layout>
               }
             />
           </Routes>
-        </ErrorBoundary>
+        </ErrorBoundaryWithNavigate>
       </Router>
     </>
   );
