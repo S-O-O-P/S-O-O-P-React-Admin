@@ -28,7 +28,7 @@ function Login({ setUser }) {
     }
 
     try {
-      const response = await axios.post('http://localhost:8080/', {
+      const response = await axios.post('http://localhost:8082/', {
         id,
         password,
       });

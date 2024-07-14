@@ -1,7 +1,7 @@
 // DashboardAPI.js
 import axios from 'axios';
 
-const baseURL = 'http://localhost:8080/dashboard';
+const baseURL = 'http://localhost:8082/dashboard';
 
 export const fetchMonthlyHoneyCount = async () => {
   const response = await axios.get(`${baseURL}/monthly-honey-count`);

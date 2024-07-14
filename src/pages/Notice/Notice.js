@@ -19,7 +19,7 @@ function Notice() {
 
   const fetchNotices = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/notice/');
+      const response = await axios.get('http://localhost:8082/notice/');
       if (Array.isArray(response.data.noticeInfo)) {
         setNotices(response.data.noticeInfo);
         setFilteredNotices(response.data.noticeInfo); // Initialize filtered notices

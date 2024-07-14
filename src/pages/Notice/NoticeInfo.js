@@ -15,7 +15,7 @@ function NoticeInfo() {
     useEffect(() => {
         async function fetchNotice() {
             try {
-                const res = await axios.get(`http://localhost:8080/notice/${id}`);
+                const res = await axios.get(`http://localhost:8082/notice/${id}`);
                 setNotice(res.data.noticeDTO);
                 setFile(res.data.fileDTO);
                 console.log(res.data.fileDTO);
@@ -39,7 +39,7 @@ function NoticeInfo() {
     };
 
     const handleDelete = () => {
-        axios.delete(`http://localhost:8080/notice/${id}`, {
+        axios.delete(`http://localhost:8082/notice/${id}`, {
             data: file ? { fileName: file.name } : { fileName: null }
         })
         setCheckModal(false);

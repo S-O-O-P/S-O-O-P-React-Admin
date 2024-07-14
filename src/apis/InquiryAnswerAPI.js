@@ -1,7 +1,7 @@
 // InquiryAnswerAPI.js
 import axios from 'axios';
 
-const baseURL = 'http://localhost:8080/inquiry/';
+const baseURL = 'http://localhost:8082/inquiry/';
 
 export const fetchInquiryDetails = async (inquiryCode) => {
   try {

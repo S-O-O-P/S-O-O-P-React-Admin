@@ -1,7 +1,7 @@
 // HoneypotDetailAPI.js
 import axios from 'axios';
 
-const baseURL = 'http://localhost:8080/honeypot/';
+const baseURL = 'http://localhost:8082/honeypot/';
 
 export const fetchHoneypotDetail = async (honeypotCode) => {
   try {

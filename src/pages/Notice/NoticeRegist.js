@@ -84,7 +84,7 @@ function NoticeRegistPage() {
                     formData.append('fileURL', downloadURL); // 다운로드 URL 추가
 
                     // 서버에 폼 데이터 전송
-                    axios.post(`http://localhost:8080/notice/new`, formData, {
+                    axios.post(`http://localhost:8082/notice/new`, formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }

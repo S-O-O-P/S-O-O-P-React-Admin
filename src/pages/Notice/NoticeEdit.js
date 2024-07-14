@@ -26,7 +26,7 @@ function NoticeEdit() {
     useEffect(() => {
         async function fetchNotice() {
             try {
-                const res = await axios.get(`http://localhost:8080/notice/${id}`);
+                const res = await axios.get(`http://localhost:8082/notice/${id}`);
                 setNotice(res.data.noticeDTO);
                 setFile(res.data.fileDTO);
                 setInitialFile(res.data.fileDTO)
@@ -129,7 +129,7 @@ function NoticeEdit() {
                             formData.append('userCode', 1);
                             formData.append('fileURL', downloadURL);
 
-                            axios.put(`http://localhost:8080/notice/${id}`, formData, {
+                            axios.put(`http://localhost:8082/notice/${id}`, formData, {
                                 headers: {
                                     'Content-Type': 'multipart/form-data'
                                 }
@@ -149,7 +149,7 @@ function NoticeEdit() {
                     formData.append('content', content);
                     formData.append('userCode', 1);
 
-                    axios.put(`http://localhost:8080/notice/${id}`, formData, {
+                    axios.put(`http://localhost:8082/notice/${id}`, formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }

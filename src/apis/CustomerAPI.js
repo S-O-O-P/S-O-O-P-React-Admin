@@ -1,7 +1,7 @@
 // CustomerAPI.js
 import axios from 'axios';
 
-const baseURL = 'http://localhost:8080/customer/';
+const baseURL = 'http://localhost:8082/customer/';
 
 export const fetchCustomers = async () => {
   try {
