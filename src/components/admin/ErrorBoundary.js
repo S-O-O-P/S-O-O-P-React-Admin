@@ -62,10 +62,7 @@ class ErrorBoundary extends Component {
 
     // Check if location.state.type is null specifically for NoticeDetail route
     const { location } = this.props;
-    if (location.pathname.startsWith('/notice/')) {
-      if (!location.state) {
-        return <Error400 />; // Change this to whichever error page you want for null state
-      }
+    if(location.pathname.startsWith('/notice/') || location.pathname.startsWith('/events/')) {
       if (location.state.type === null) {
         return <Error404 />; // Change this to whichever error page you want for null type
       }
