@@ -65,41 +65,58 @@ function NoticeRegistPage() {
 
         if (title !== "" && content !== "") {
 
-            // Firebase Storage에 파일 업로드
-            const storage = getStorage();
-            const storageRef = ref(storage, `files/${postImg.name}`);
+            if (postImg) {
+                // Firebase Storage에 파일 업로드
+                const storage = getStorage();
+                const storageRef = ref(storage, `files/${postImg.name}`);
 
-            uploadBytes(storageRef, postImg).then((snapshot) => {
-                console.log('Uploaded a blob or file!');
+                uploadBytes(storageRef, postImg).then((snapshot) => {
+                    console.log('Uploaded a blob or file!');
 
-                // 파일의 다운로드 URL 가져오기
-                getDownloadURL(snapshot.ref).then((downloadURL) => {
-                    console.log('File available at', downloadURL);
+                    // 파일의 다운로드 URL 가져오기
+                    getDownloadURL(snapshot.ref).then((downloadURL) => {
+                        console.log('File available at', downloadURL);
 
-                    // 폼 데이터에 다운로드 URL 포함
-                    formData.append('category', selected);
-                    formData.append('title', title);
-                    formData.append('content', content);
-                    formData.append('userCode', 1);
-                    formData.append('fileURL', downloadURL); // 다운로드 URL 추가
+                        // 폼 데이터에 다운로드 URL 포함
+                        formData.append('category', selected);
+                        formData.append('title', title);
+                        formData.append('content', content);
+                        formData.append('userCode', 1);
+                        formData.append('fileURL', downloadURL); // 다운로드 URL 추가
 
-                    // 서버에 폼 데이터 전송
-                    axios.post(`http://localhost:8082/notice/new`, formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-                        .then(response => {
-                            console.log("response", response);
-                        });
+                        // 서버에 폼 데이터 전송
+                        axios.post(`http://localhost:8080/notice/new`, formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                            .then(response => {
+                                console.log("response", response);
+                            });
 
-                    setModalOpen(true);
+                        setModalOpen(true);
+                    });
+                }).catch((error) => {
+                    console.error('Error uploading file:', error);
                 });
-            }).catch((error) => {
-                console.error('Error uploading file:', error);
-            });
-        } else {
+            } else {
+                formData.append('category', selected);
+                formData.append('title', title);
+                formData.append('content', content);
+                formData.append('userCode', 1);
 
+                axios.post(`http://localhost:8080/notice/new`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                    .then(response => {
+                        console.log("response", response);
+                    });
+
+                setModalOpen(true);
+            }
+        } else {
             setWriterModal(true);
         }
     };
