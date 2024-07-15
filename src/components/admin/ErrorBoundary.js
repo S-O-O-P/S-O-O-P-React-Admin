@@ -1,12 +1,15 @@
-// src/components/admin/ErrorBoundary.js
 import React, { Component } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import Error404 from '../../pages/Error/Error404';
+import Error500 from '../../pages/Error/Error500';
+import Error400 from '../../pages/Error/Error400';
+import Error403 from '../../pages/Error/Error403';
 
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, errorStatus: null };
   }
 
   static getDerivedStateFromError(error) {
@@ -14,25 +17,13 @@ class ErrorBoundary extends Component {
   }
 
   componentDidMount() {
-    const { navigate } = this.props;
-    
     // axios 인터셉터 설정
     axios.interceptors.response.use(
       response => response,
       error => {
         if (error.response) {
           const status = error.response.status;
-          if (status === 404) {
-            navigate('/error/404');
-          } else if (status === 500) {
-            navigate('/error/500');
-          } else if (status === 400) {
-            navigate('/error/400');
-          } else if (status === 403) {
-            navigate('/error/403');
-          } else {
-            navigate('/error/500');
-          }
+          this.setState({ hasError: true, errorStatus: status });
         }
         return Promise.reject(error);
       }
@@ -41,15 +32,43 @@ class ErrorBoundary extends Component {
 
   componentDidCatch(error, errorInfo) {
     console.error("ErrorBoundary caught an error", error, errorInfo);
-    const { navigate } = this.props;
-
-    // 여기서 에러 타입에 따라 다른 경로로 리디렉션할 수 있습니다.
-    navigate('/error/500');
+    if (error.message.includes("Not found")) {
+      this.setState({ hasError: true, errorStatus: 404 });
+    } else if (error.message.includes("Bad request")) {
+      this.setState({ hasError: true, errorStatus: 400 });
+    } else if (error.message.includes("Forbidden")) {
+      this.setState({ hasError: true, errorStatus: 403 });
+    } else {
+      this.setState({ hasError: true, errorStatus: 500 });
+    }
   }
 
   render() {
     if (this.state.hasError) {
-      return <h1>Something went wrong.</h1>;
+      const { errorStatus } = this.state;
+      switch (errorStatus) {
+        case 404:
+          return <Error404 />;
+        case 500:
+          return <Error500 />;
+        case 400:
+          return <Error400 />;
+        case 403:
+          return <Error403 />;
+        default:
+          return <Error500 />;
+      }
+    }
+
+    // Check if location.state.type is null specifically for NoticeDetail route
+    const { location } = this.props;
+    if (location.pathname.startsWith('/notice/')) {
+      if (!location.state) {
+        return <Error400 />; // Change this to whichever error page you want for null state
+      }
+      if (location.state.type === null) {
+        return <Error404 />; // Change this to whichever error page you want for null type
+      }
     }
 
     return this.props.children;
@@ -58,7 +77,9 @@ class ErrorBoundary extends Component {
 
 const ErrorBoundaryWithNavigate = (props) => {
   const navigate = useNavigate();
-  return <ErrorBoundary {...props} navigate={navigate} />;
+  const location = useLocation();
+
+  return <ErrorBoundary {...props} navigate={navigate} location={location} />;
 };
 
 export default ErrorBoundaryWithNavigate;

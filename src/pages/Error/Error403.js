@@ -7,7 +7,7 @@ const Error403 = () => {
   const navigate = useNavigate();
 
   const goBack = () => {
-    navigate(-2); // 이전 페이지로 이동합니다.
+    navigate(-1); // 이전 페이지로 이동합니다.
   };
 
   return (

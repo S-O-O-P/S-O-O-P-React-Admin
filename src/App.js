@@ -36,26 +36,24 @@ export default function App() {
             <Route
               path="/*"
               element={
-                <Layout user={user}>
-                  <Routes>
-                    <Route path="home" element={<Dashboard />} />
-                    <Route path="customer" element={<Customer />} />
-                    <Route path="customer/:userCode" element={<CustomerDetail />} />
-                    <Route path="honeypot" element={<Honeypot />} />
-                    <Route path="honeypot/:honeypotCode" element={<HoneypotDetail />} />
-                    <Route path="inquiry/:inquiryCode" element={<InquiryAnswer />} />
-                    <Route path="notice" element={<Notice />} />
-                    <Route path="notice/:id" element={<NoticeDetail />} />
-                    <Route path="inquiry" element={<Inquiry />} />
-                    <Route path="events" element={<Events />} />
-                    <Route path="events/:id" element={<EventsDetail />} />
-                    <Route path="error/404" element={<Error404 />} />
-                    <Route path="error/500" element={<Error500 />} />
-                    <Route path="error/400" element={<Error400 />} />
-                    <Route path="error/403" element={<Error403 />} />
-                    <Route path="*" element={<Error404 />} />
-                  </Routes>
-                </Layout>
+                <Routes>
+                  <Route path="home" element={<Layout user={user}><Dashboard /></Layout>} />
+                  <Route path="customer" element={<Layout user={user}><Customer /></Layout>} />
+                  <Route path="customer/:userCode" element={<Layout user={user}><CustomerDetail /></Layout>} />
+                  <Route path="honeypot" element={<Layout user={user}><Honeypot /></Layout>} />
+                  <Route path="honeypot/:honeypotCode" element={<Layout user={user}><HoneypotDetail /></Layout>} />
+                  <Route path="inquiry/:inquiryCode" element={<Layout user={user}><InquiryAnswer /></Layout>} />
+                  <Route path="notice" element={<Layout user={user}><Notice /></Layout>} />
+                  <Route path="notice/:id" element={<Layout user={user}><NoticeDetail /></Layout>} />
+                  <Route path="inquiry" element={<Layout user={user}><Inquiry /></Layout>} />
+                  <Route path="events" element={<Layout user={user}><Events /></Layout>} />
+                  <Route path="events/:id" element={<Layout user={user}><EventsDetail /></Layout>} />
+                  <Route path="error/404" element={<Error404 />} />
+                  <Route path="error/500" element={<Error500 />} />
+                  <Route path="error/400" element={<Error400 />} />
+                  <Route path="error/403" element={<Error403 />} />
+                  <Route path="*" element={<Error404 />} />
+                </Routes>
               }
             />
           </Routes>
