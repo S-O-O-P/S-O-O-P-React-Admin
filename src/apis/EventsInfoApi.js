@@ -4,7 +4,7 @@ export default function EventsInfoApi({setEvents}, apiName, earlyCode = null, ev
 
   // 얼리버드 공연/전시 정보 모두 호출
   const selectAllEventsInfo = () => {
-    axios.get('http://localhost:2/cultureinfo/early')
+    axios.get('http://localhost:8082/cultureinfo/early')
       .then(response => {
         console.log('API Response All:', response.data); // 디버깅을 위한 로그
         setEvents(response.data.earlyBirdList || []); // EventsInfo가 null일 경우 빈 배열로 설정
