@@ -43,6 +43,8 @@ function CustomerDetail() {
     navigate(from, { state: { searchTerm: location.state?.searchTerm } });
   };
 
+  const signupPlatformBeforeColon = member.signupPlatform ? member.signupPlatform.split(':')[0] : '';
+
   return (
     <Box className="customer-detail-container">
       <Typography className="nickname-info" variant="h4" component="div" sx={{ marginBottom: '30px' }}>
@@ -68,7 +70,7 @@ function CustomerDetail() {
           </div>
           <div className="detail-group">
             <Typography className="detail-label">가입플랫폼</Typography>
-            <Typography className="detail-value">{member.signupPlatform}</Typography>
+            <Typography className="detail-value">{signupPlatformBeforeColon}</Typography>
           </div>
         </Grid>
         <Grid item xs={12} sm={6} container direction="column" >

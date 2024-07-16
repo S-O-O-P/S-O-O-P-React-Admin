@@ -12,6 +12,7 @@ function NoticeInfo() {
     const [modalOpen, setModalOpen] = useState(false);
     const [checkModal, setCheckModal] = useState(false);
 
+    
     useEffect(() => {
         async function fetchNotice() {
             try {
