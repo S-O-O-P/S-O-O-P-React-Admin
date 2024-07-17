@@ -1,4 +1,3 @@
-// Inquiry.js
 import React, { useState, useEffect } from 'react';
 import { Box, Button, Typography, InputBase, Pagination } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -34,16 +33,13 @@ function Inquiry() {
 
   useEffect(() => {
     if (location.state?.updatedInquiry) {
-      setInquiries(prevInquiries => prevInquiries.map(inquiry =>
+      const updatedInquiries = inquiries.map(inquiry =>
         inquiry.inquiryCode === location.state.updatedInquiry.inquiryCode
           ? location.state.updatedInquiry
           : inquiry
-      ));
-      setFilteredInquiries(prevInquiries => prevInquiries.map(inquiry =>
-        inquiry.inquiryCode === location.state.updatedInquiry.inquiryCode
-          ? location.state.updatedInquiry
-          : inquiry
-      ));
+      );
+      setInquiries(updatedInquiries);
+      setFilteredInquiries(updatedInquiries);
     } else {
       if (location.state?.searchTerm) {
         handleSearch(location.state.searchTerm, inquiries);
@@ -52,7 +48,7 @@ function Inquiry() {
       }
     }
     setPage(currentPage);
-  }, [currentPage, location.state?.searchTerm, location.state?.updatedInquiry, inquiries]);
+  }, [currentPage, location.state?.searchTerm, location.state?.updatedInquiry]);
 
   const handlePageChange = (event, value) => {
     setPage(value);
