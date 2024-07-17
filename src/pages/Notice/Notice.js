@@ -22,7 +22,7 @@ function Notice() {
       const response = await axios.get('http://localhost:8082/notice/');
       if (Array.isArray(response.data.noticeInfo)) {
         setNotices(response.data.noticeInfo);
-        setFilteredNotices(response.data.noticeInfo); // Initialize filtered notices
+        setFilteredNotices(response.data.noticeInfo);
       } else {
         console.error('Data is not an array:', response.data);
       }
@@ -53,7 +53,6 @@ function Notice() {
     }
   };
 
-  // 등록 버튼 클릭 핸들러
   const handleRegisterClick = (id, type) => {
     navigate(`/notice/${id}`, { state: { type} });
   };
