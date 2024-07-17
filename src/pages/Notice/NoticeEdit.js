@@ -73,7 +73,6 @@ function NoticeEdit() {
         const uploadedFile = e.target.files[0];
         setPostImg(URL.createObjectURL(uploadedFile));
 
-        console.log(postImg);
         setFile(uploadedFile);
         setPreviewImg(true);
     };
@@ -118,10 +117,8 @@ function NoticeEdit() {
                     const storageRef = ref(storage, `files/${file.name}`);
 
                     uploadBytes(storageRef, file).then((snapshot) => {
-                        console.log('Uploaded a blob or file!');
 
                         getDownloadURL(snapshot.ref).then((downloadURL) => {
-                            console.log('File available at', downloadURL);
 
                             formData.append('category', selected);
                             formData.append('title', title);
