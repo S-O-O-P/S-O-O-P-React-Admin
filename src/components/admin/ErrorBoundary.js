@@ -17,7 +17,7 @@ class ErrorBoundary extends Component {
   }
 
   componentDidMount() {
-    // axios 인터셉터 설정
+    // axios interceptor 설정
     axios.interceptors.response.use(
       response => response,
       error => {
@@ -43,6 +43,36 @@ class ErrorBoundary extends Component {
     }
   }
 
+  async checkPageExists(url) {
+    try {
+      await axios.head(url);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  async componentDidUpdate(prevProps) {
+    const { location, navigate } = this.props;
+
+    if (
+      location !== prevProps.location &&
+      (location.pathname.startsWith('/notice/') || location.pathname.startsWith('/events/'))
+    ) {
+      if (!location.state || location.state.type === null) {
+        const pageExists = await this.checkPageExists(location.pathname);
+        if (!pageExists) {
+          if (!location.state || !location.state.redirected) {
+            navigate(location.pathname, { state: { redirected: true } });
+            this.setState({ hasError: true, errorStatus: 404 });
+          }
+        } else {
+          this.setState({ hasError: false, errorStatus: null });
+        }
+      }
+    }
+  }
+
   render() {
     if (this.state.hasError) {
       const { errorStatus } = this.state;
@@ -57,6 +87,17 @@ class ErrorBoundary extends Component {
           return <Error403 />;
         default:
           return <Error500 />;
+      }
+    }
+
+    const { location, navigate } = this.props;
+
+    if (location.pathname.startsWith('/notice/') || location.pathname.startsWith('/events/')) {
+      if (!location.state || location.state.type === null) {
+        if (!location.state || !location.state.redirected) {
+          navigate(location.pathname, { state: { redirected: true } });
+          return <Error404 />; // Change this to whichever error page you want for null type
+        }
       }
     }
 
