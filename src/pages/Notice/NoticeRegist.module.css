@@ -1,0 +1,313 @@
+.wrapper {
+    margin: 20px auto !important;
+    width: calc(100% - 85px) !important;
+
+}
+
+.contentBox {
+    width: 100%;
+    min-width: 800px;
+}
+
+.pageTitle {
+    font-size: 24px;
+    font-weight: var(--semiBold);
+
+    padding-bottom: 20px;
+}
+
+.customSelect {
+    width: 400px;
+    height: 53px;
+    border: 1px solid var(--main-color);
+    border-radius: 48px;
+    padding: 0 23px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: var(--regular);
+
+    -webkit-appearance: none;
+    background: #fff calc(100% - 10px) center no-repeat url('/public/images/commons/icon_arrow_bottom_main_color.png');
+    background-size: 25px;
+}
+
+.customSelect:focus {
+    border: 1px solid var(--point-color);
+    outline: none;
+}
+
+.titleInput {
+    width: 100%;
+    height: 53px;
+    border: 1px solid var(--main-color);
+    border-radius: 48px;
+
+    font-size: 16px;
+    font-weight: var(--regular);
+    padding-left: 16px;
+    margin-bottom: 20px;
+}
+
+.titleInput:focus {
+    border: 1px solid var(--point-color);
+}
+
+.contextInputBox {
+    width: 100%;
+    display: flex;
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.contextInput {
+    width: 100%;
+    height: 560px;
+    border: 1px solid var(--main-color);
+    border-radius: 12px;
+
+    font-size: 16px;
+    font-weight: var(--regular);
+    padding: 14px 16px;
+}
+
+.contextInput:focus {
+    border: 1px solid var(--point-color);
+}
+
+.inputCount {
+    font-size: 14px;
+    font-weight: var(--medium);
+    color: var(--main-color);
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+/* 이미지 */
+
+.file_upload_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.file_upload_box .file_upload_input {
+    width: 0;
+    padding: 0;
+    visibility: hidden;
+}
+
+.upload_btn {
+    width: 100px;
+    height: 48px;
+    border-radius: 12px;
+    background-color: var(--main-color);
+    color: #fff;
+    font-size: 16px;
+    font-weight: var(--medium);
+    text-align: center;
+    line-height: 48px;
+    cursor: pointer;
+    transition: background-color 200ms ease-in-out;
+}
+
+.upload_btn:hover {
+    background-color: var(--point-color);
+}
+
+.preview_box {
+    width: calc(100% -140px);
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #F4F4F9;
+}
+
+.preview_list {
+    padding-top: 20px;
+    display: flex;
+}
+
+.preview_list li {
+    width: calc(20% - 18px);
+    aspect-ratio: 1 / 1;
+    margin-right: 20px;
+}
+
+.preview_list li:nth-child(5) {
+    margin-right: 0;
+}
+
+.preview_img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.preview_img>img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+}
+
+.remove_preview_btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: var(--main-color);
+    color: #fff;
+    font-size: 18px;
+    font-weight: var(--semiBold);
+    text-align: center;
+    line-height: 24px;
+    cursor: pointer;
+    transition: background-color 200ms ease-in-out;
+}
+
+.remove_preview_btn:hover {
+    background-color: var(--point-color);
+}
+
+.attached_file_count {
+    padding: 16px;
+    background-color: var(--main-color);
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: var(--medium);
+    color: #ffffff;
+}
+
+.count_preview {
+    color: #ffffff;
+    font-weight: var(--bold);
+}
+
+.upload_img_btn.inactive {
+    display: none;
+}
+
+.file_upload_box {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    align-items: center;
+    height: 100%;
+    border-radius: 12px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.file_upload_box .upload_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background-color: #fff;
+    border: 1px dashed var(--main-color);
+    font-size: 24px;
+    font-weight: var(--bold);
+    color: var(--main-color);
+}
+
+/* 버튼 */
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+
+    padding-top: 20px;
+}
+
+.cancelButton {
+    width: 96px;
+    height: 48px;
+    background-color: #fff;
+    border: 1px solid var(--main-color);
+    border-radius: 48px;
+    font: var(--semiBold) 16px;
+    color: var(--main-color);
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.cancelButton:active {
+    border-color: var(--point-color);
+    transition: 50ms;
+}
+
+.submitButton {
+    width: 96px;
+    height: 48px;
+    background-color: var(--main-color);
+    border: 0px;
+    border-radius: 48px;
+    font: var(--semiBold) 16px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.submitButton:active {
+    background-color: var(--point-color);
+    transition: 50ms;
+}
+
+/* 모달창 */
+
+.back {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 600;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    width: 360px;
+    height: 250px;
+    background-color: #fff;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+}
+
+.modalTitle {
+    font-size: 18px;
+    font-weight: var(--regular);
+}
+
+.modalContext {
+    font-size: 14px;
+    font-weight: var(--regular);
+}
+
+.modalButton {
+    width: 140px;
+    height: 48px;
+    background-color: var(--main-color);
+    border: 0px;
+    border-radius: 48px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: var(--regular);
+    cursor: pointer;
+}
+
+.modalButtonBox {
+    width: 290px;
+    display: flex;
+    justify-content: space-between;
+}

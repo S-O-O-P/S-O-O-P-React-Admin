@@ -1,0 +1,35 @@
+/* src/pages/Error/ErrorPage.css */
+.container {
+    text-align: center;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .container img {
+    width: 200px;
+  }
+  
+
+  .container p {
+    color: #FFB755;
+    margin: 20px;
+    font-size: 20px;
+  }
+  
+  
+  .container button {
+    background-color: #FFB755;
+    color: white;
+    border: #FFB755;
+    border-radius: 20px;
+    width: 120px;
+    height: 48px;
+    font-size: 18px;
+    cursor: pointer;
+    margin: 20px;
+
+  }
+  

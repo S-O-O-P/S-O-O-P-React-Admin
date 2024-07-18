@@ -1,0 +1,207 @@
+.table-container {
+  margin: 20px auto !important;
+  width: calc(100% - 85px) !important;
+  
+  }
+
+
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(100% - 85px) !important;
+    margin: auto !important;
+  }
+
+  
+  
+  .table-head-cell, .table-cell {
+    border-right: 1px solid rgba(224, 224, 224, 1);
+    text-align: center !important;
+    line-height: 48px !important; 
+  
+  }
+  
+  .table-head-cell {
+    background-color: #FFB755;
+    font-weight: bold;
+    color: white !important;
+  }
+  
+  .table-row:hover {
+    background-color: rgba(255, 183, 85, 0.1);
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  
+  .pagination .MuiPaginationItem-root {
+    color: #FFB755 !important;
+  }
+  
+  .pagination .Mui-selected {
+    background-color: #FFB755 !important;
+    color: #fff !important;
+  }
+
+  .error-container {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+
+
+
+  .search-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  .search-field {
+    margin-left: auto;
+  }
+  
+
+  
+  .search-field .MuiInputBase-root input {
+    padding: 10px 15px;
+  }
+  
+  .search-field .MuiInputAdornment-root {
+    margin-left: 10px;
+  }
+  
+  .search-button img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .common-container {
+    padding-top: 20px;
+  }
+
+  .register-button {
+    display: block !important; 
+    width: 96px !important; 
+    height: 48px !important; 
+    padding: 0 20px !important; 
+    border-radius:48px !important; 
+    border:1px solid var(--main-color) !important; 
+    color: var(--main-color) !important;
+    line-height: 48px !important; 
+    font-size: 16px !important; 
+    font-weight: var(--semiBold) !important; 
+    text-align: center !important; 
+    transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out, color 200ms ease-in-out !important; 
+    background-color: var(--main-color) !important; 
+    color: #ffffff !important;
+  }
+  
+.search-box {
+    align-items: center;
+    border: 1px solid #FFB755;
+    display: block !important; 
+    border-radius:48px !important; 
+    line-height: 48px !important; 
+    font-size: 16px !important; 
+    font-weight: var(--semiBold) !important; 
+    padding: 0 20px !important; 
+  }
+
+  .actions-container {
+    display: flex;
+    gap: 10px;
+  }
+
+  .manage {
+    width: 96px !important; 
+    height: 48px !important; 
+    padding: 0 20px !important; 
+    border-radius:48px !important; 
+    border:1px solid var(--main-color) !important; 
+    color: var(--main-color) !important;
+    line-height: 48px !important; 
+    font-size: 16px !important; 
+    font-weight: var(--semiBold) !important; 
+    text-align: center !important; 
+    transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out, color 200ms ease-in-out !important; 
+    background-color: var(--main-color) !important; 
+    color: #ffffff !important;
+  }
+
+
+  .status-cell {
+    display: inline-block;
+    padding: 5px 15px;
+    border: 2px solid #FFB755 !important;
+    border-radius: 15px;
+    color: #FFB755 !important;
+    font-weight: bold !important;
+    text-align: center;
+
+
+  }
+  
+  .inactive-status {
+    display: inline-block !important; 
+    width: 96px !important; 
+    height: 48px !important; 
+    padding: 0 20px !important; 
+    border-radius:48px !important; 
+    border:1px solid var(--main-color) !important; 
+    color: var(--main-color) !important;
+    font-size: 15.4px !important; 
+    font-weight: var(--semiBold) !important; 
+    transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out, color 200ms ease-in-out !important; 
+    background-color: var(--main-color) !important; 
+    color: #ffffff !important;
+    
+  }
+
+  .answer {
+    line-height: 48px !important; 
+    font-size: 15.4px !important; 
+    font-weight: var(--semiBold) !important; 
+  }
+
+
+  .table-cells {
+    border-right: 1px solid rgba(224, 224, 224, 1);
+    text-align: center !important;
+    /* padding: 23px !important; */
+    line-height: 48px !important;
+  }
+
+
+  
+
+  .search-boxs {
+    display: flex !important;
+    align-items: center !important;
+    border: 1px solid #FFB755 !important;
+    border-radius: 20px !important;
+    padding: 8px !important;
+    padding-left: 20px !important;
+   
+  }
+  
+  .search-input {
+    margin-left: 8px;
+    flex: 1;
+  }
+
+  .answer-status {
+    color: #0CCE4E;
+  }
+
+  .notAnswer-status {
+    color: #D83030;
+  }
+

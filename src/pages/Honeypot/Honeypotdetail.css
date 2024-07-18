@@ -1,0 +1,105 @@
+.honeypot-detail-container {
+  padding-top: 24px;
+  flex-grow: 1;
+  width: calc(100% - 85px);
+  margin: 0 auto;
+  background-color: var(--background-default);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.honeypot-detail-info {
+  margin-bottom: 25px;
+}
+
+.detail-values {
+    font-size: 16px !important; 
+    font-weight: var(--medium) !important;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  border-bottom: 1px solid #FFB755;
+  margin-top: 40px;
+  align-items: center;
+}
+
+.detail-item .MuiTypography-body2 {
+  margin-left: 10px;
+}
+
+
+.honeypot-detail-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px !important;
+  padding-top: 20px;
+}
+
+.honeypot-right-buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.honeypot-action-button-outline {
+  color: #FFB755 !important;
+  border-color: #FFB755 !important;
+}
+
+.honeypot-action-button-contained {
+  display: block !important; 
+  width: 96px !important; 
+  height: 48px !important; 
+  padding: 0 20px !important; 
+  border-radius:48px !important; 
+  border:1px solid var(--main-color) !important; 
+  color: var(--main-color) !important;
+  line-height: 48px !important; 
+  font-size: 15.4px !important; 
+  font-weight: var(--semiBold) !important; 
+  text-align: center !important; 
+  transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out, color 200ms ease-in-out !important; 
+  background-color: var(--main-color) !important; 
+  color: #ffffff !important;
+}
+
+.honeypot-action-button-contained:hover {
+  background-color: #FFA726 !important;
+}
+
+.custom-dialog-content {
+  text-align: center !important;
+}
+
+.dialog-icon {
+  width: 40px !important;
+  height: 40px !important;
+  margin-bottom: 10px !important;
+}
+
+.dialog-text {
+  margin-bottom: 20px !important;
+  color: black !important;
+}
+
+.custom-dialog-actions {
+  justify-content: center !important;
+}
+
+.custom-cancel-button {
+  border: 1px solid #FFB755 !important;
+  color: #FFB755 !important;
+  margin-right: 10px !important;
+}
+
+.custom-confirm-button {
+  background-color: #FFB755 !important;
+  color: #fff !important;
+}

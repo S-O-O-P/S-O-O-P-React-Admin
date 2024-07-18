@@ -1,0 +1,134 @@
+
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.main-content {
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 140px; 
+}
+
+
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  width: 140px; 
+  height: 100%;
+  background-color: #FFF; 
+}
+
+
+
+.sidebar-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.sidebar-logo {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 38px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.sidebar-role-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.sidebar-role {
+  color: white;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  background-color: #FFB755;
+  border-radius: 16px;
+  padding: 4px 8px;
+  width: 111px;
+  height: 30px;
+  justify-content: center;
+  font-size: 0.875rem;
+  
+  
+}
+
+.sidebar-user {
+  padding-left: 5px;
+  font-size: 0.7rem;
+  margin-top: 10px !important;
+  
+}
+
+.sidebar-logout-container {
+  color: white;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  background-color: #FFB755;
+  border-radius: 16px;
+  padding: 4px 8px;
+  width: 111px;
+  height: 30px;
+  justify-content: center;
+}
+
+.sidebar-logout {
+  color: white;
+  text-transform: none;
+  border: none;
+  background: none;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+}
+
+.sidebar-logout img {
+  width: 16px;
+  margin-left: 8px;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar-menu .MuiListItem-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 13px;
+  width: 100%;
+  color: black;
+}
+
+.sidebar-menu .MuiListItem-root img {
+  margin-bottom: 8px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+
+.vertical-line {
+  position: fixed;
+  top: 0;
+  left: 140px;
+  width: 4px; /* Adjust width as needed */
+  height: 100vh; /* Full height */
+  background-color: #FFB755; /* Adjust color as needed */
+}
